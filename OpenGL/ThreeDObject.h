@@ -15,6 +15,16 @@
 class ThreeDObject
 {
 public:
+	struct Objreturn
+	{
+		GLfloat x;
+		GLfloat y;
+		GLfloat z;
+		GLfloat r;
+		GLfloat g;
+		GLfloat b;
+		GLfloat a;
+	};
 
 	ThreeDObject(Shader _shaderProgram, std::vector<GLuint> _indices, std::vector<GLfloat> _values);
 	~ThreeDObject();
@@ -27,8 +37,15 @@ public:
 	std::vector<GLuint> GetIndices();
 	std::vector<GLfloat> GetValues();
 
+	int GetIndicesLength();
+	int GetValuesLength();
+	int GetValuesNumber();
+
+	void RemoveIndice(int index);
+	void RemoveValue(int index);
+
 	GLuint GetIndice(int index);
-	GLfloat GetValue(int index);
+	Objreturn GetValue(int index);
 
 	void SetIndices(std::vector<GLuint> _indices);
 	void SetValues(std::vector<GLfloat> _values);
@@ -53,15 +70,28 @@ protected:
 };
 
 
-class ThreeDObjectTexture : ThreeDObject
+class ThreeDObjectTexture : public ThreeDObject
 {
 public:
+	struct Textreturn
+	{
+		GLfloat x;
+		GLfloat y;
+		GLfloat z;
+		GLfloat r;
+		GLfloat g;
+		GLfloat b;
+		GLfloat textX;
+		GLfloat textY;
+	};
+
 	ThreeDObjectTexture(Shader _shaderProgram, Texture _texture, std::vector<GLuint> _indices, std::vector<GLfloat> _values);
 
 	~ThreeDObjectTexture();
 
 	void SetMvt(float x, float y, float z);
-	
+	void SetRot(float Xangle, float Yangle, float Zangle); //Xangle : rotation around X
+
 	void Update();
 
 	void AddValue(GLfloat x, GLfloat y, GLfloat z, GLfloat r, GLfloat g, GLfloat b, GLfloat textX, GLfloat textY);
@@ -70,6 +100,9 @@ public:
 	
 	void Delete();
 
+	Textreturn GetValue(int index);
+	void RemoveValue(int index);
+	int GetValuesNumber();
 private:
 	Texture texture;
 };

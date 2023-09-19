@@ -95,14 +95,67 @@ std::vector<GLfloat> ThreeDObject::GetValues()
 	return vertices;
 }
 
+int ThreeDObject::GetIndicesLength()
+{
+	return indices.size();
+}
+
+int ThreeDObject::GetValuesLength()
+{
+	return vertices.size();
+}
+
+int ThreeDObject::GetValuesNumber()
+{
+	return vertices.size()/7;
+}
+
+void ThreeDObject::RemoveIndice(int index)
+{
+	if(index < indices.size())
+		indices.erase(indices.begin() + index);
+}
+
+void ThreeDObject::RemoveValue(int index)
+{
+	if (index < vertices.size() - 7)
+	{
+		vertices.erase(vertices.begin() + index);
+		vertices.erase(vertices.begin() + index+1);
+		vertices.erase(vertices.begin() + index+2);
+		vertices.erase(vertices.begin() + index+3);
+		vertices.erase(vertices.begin() + index+4);
+		vertices.erase(vertices.begin() + index+5);
+		vertices.erase(vertices.begin() + index+6);
+	}
+	
+}
+
 GLuint ThreeDObject::GetIndice(int index)
 {
+	if (index >= indices.size())
+		return NULL;
+
 	return indices.at(index);
 }
 
-GLfloat ThreeDObject::GetValue(int index)
+ThreeDObject::Objreturn ThreeDObject::GetValue(int index)
 {
-	return vertices.at(index);
+	Objreturn obj;
+	if (index < vertices.size() - 7)
+	{
+		obj.x = vertices.at(index);
+		obj.y = vertices.at(index+1);
+		obj.z = vertices.at(index+2);
+
+		obj.r = vertices.at(index+3);
+		obj.g = vertices.at(index+4);
+		obj.b = vertices.at(index+5);
+		obj.a = vertices.at(index+6);
+	}
+
+
+	return obj;
 }
 
 void ThreeDObject::SetIndices(std::vector<GLuint> _indices)
@@ -133,12 +186,14 @@ void ThreeDObject::AddValue(GLfloat x, GLfloat y, GLfloat z, GLfloat r, GLfloat 
 
 void ThreeDObject::SetIndice(int index, GLuint _indice)
 {
-	indices.at(index) = _indice;
+	if(index < indices.size())
+		indices.at(index) = _indice;
 }
 
 void ThreeDObject::SetValue(int index, GLfloat _value)
 {
-	vertices.at(index) = _value;
+	if(index < indices.size())
+		vertices.at(index) = _value;
 }
 
 void ThreeDObject::Draw(Camera camera)
@@ -154,6 +209,7 @@ void ThreeDObject::Draw(Camera camera)
 	glDrawElements(GL_TRIANGLES, sizeof(arr) / sizeof(int), GL_UNSIGNED_INT, 0);
 }
 
+
 void ThreeDObject::Delete()
 {
 	_VAO.Delete();
@@ -163,7 +219,12 @@ void ThreeDObject::Delete()
 	shaderProgram.Delete();
 }
 
+
+
+
 /* ____________________________________ */
+
+
 
 
 ThreeDObjectTexture::ThreeDObjectTexture(Shader _shaderProgram, Texture _texture, std::vector<GLuint> _indices, std::vector<GLfloat> _values) 
@@ -196,6 +257,7 @@ void ThreeDObjectTexture::Draw(Camera camera)
 	glDrawElements(GL_TRIANGLES, sizeof(arr) / sizeof(int), GL_UNSIGNED_INT, 0);
 }
 
+
 void ThreeDObjectTexture::AddValue(GLfloat x, GLfloat y, GLfloat z, GLfloat r, GLfloat g, GLfloat b, GLfloat textX, GLfloat textY)
 {
 	vertices.push_back(x);
@@ -219,6 +281,10 @@ void ThreeDObjectTexture::SetMvt(float x, float y, float z)
 
 		i = i + 8;
 	}
+}
+
+void ThreeDObjectTexture::SetRot(float Xangle, float Yangle, float Zangle)
+{
 }
 
 void ThreeDObjectTexture::Update()
@@ -265,4 +331,45 @@ void ThreeDObjectTexture::Delete()
 	texture.Delete();
 
 	shaderProgram.Delete();
+}
+
+ThreeDObjectTexture::Textreturn ThreeDObjectTexture::GetValue(int index)
+{
+	Textreturn obj;
+	if (index < vertices.size() - 8)
+	{
+		obj.x = vertices.at(index);
+		obj.y = vertices.at(index + 1);
+		obj.z = vertices.at(index + 2);
+
+		obj.r = vertices.at(index + 3);
+		obj.g = vertices.at(index + 4);
+		obj.b = vertices.at(index + 5);
+
+		obj.textX = vertices.at(index + 6);
+		obj.textY = vertices.at(index + 7);
+	}
+
+
+	return obj;
+}
+
+void ThreeDObjectTexture::RemoveValue(int index)
+{
+	if (index < vertices.size() - 8)
+	{
+		vertices.erase(vertices.begin() + index);
+		vertices.erase(vertices.begin() + index + 1);
+		vertices.erase(vertices.begin() + index + 2);
+		vertices.erase(vertices.begin() + index + 3);
+		vertices.erase(vertices.begin() + index + 4);
+		vertices.erase(vertices.begin() + index + 5);
+		vertices.erase(vertices.begin() + index + 6);
+		vertices.erase(vertices.begin() + index + 7);
+	}
+}
+
+int ThreeDObjectTexture::GetValuesNumber()
+{
+	return vertices.size()/8;
 }

@@ -11,24 +11,45 @@ Camera::Camera(int width, int height, glm::vec3 position)
 
 void Camera::Matrix(float FOVdeg, float nearPlane, float farPlane, Shader& shader, const char* uniform)
 {
-	// Initializes matrices since otherwise they will be the null matrix
-	glm::mat4 view = glm::mat4(1.0f);
-	glm::mat4 projection = glm::mat4(1.0f);
+	if (!DisplayTempOrientation)
+	{
+		// Initializes matrices since otherwise they will be the null matrix
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 projection = glm::mat4(1.0f);
 
-	// Makes camera look in the right direction from the right position
-	view = glm::lookAt(Position, Position + Orientation, Up);
-	// Adds perspective to the scene
-	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
+		// Makes camera look in the right direction from the right position
+		view = glm::lookAt(Position, Position + Orientation, Up);
+		// Adds perspective to the scene
+		projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
-	// Exports the camera matrix to the Vertex Shader
-	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(projection * view));
+		// Exports the camera matrix to the Vertex Shader
+		glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(projection * view));
+
+	}
+	else
+	{
+		// Initializes matrices since otherwise they will be the null matrix
+		glm::mat4 view = glm::mat4(1.0f);
+		glm::mat4 projection = glm::mat4(1.0f);
+
+		// Makes camera look in the right direction from the right position
+		view = glm::lookAt(Position, Position + TempOrientation, Up);
+		// Adds perspective to the scene
+		projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
+
+		// Exports the camera matrix to the Vertex Shader
+		glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(projection * view));
+	}
+	
+
+	
 }
 
 
 
 void Camera::Inputs(GLFWwindow* window)
 {
-	
+/*
 	// Handles key inputs
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
@@ -112,7 +133,7 @@ void Camera::Inputs(GLFWwindow* window)
 		// Makes sure the next time the camera looks around it doesn't jump
 		firstClick = true;
 	}
-
+	*/
 	
 }
 
@@ -129,13 +150,18 @@ void Camera::MoveRightCamera() { Position += speed * glm::normalize(glm::cross(O
 
 void Camera::RotateCamera(float _rotX, float _rotY) 
 {
-//	std::cout << "input : " << _rotX << " " << _rotY << std::endl;
-//	std::cout << "input : " << height << " " << width << std::endl;
+
+	if (_rotX < width * MoveCameraRatio || _rotX > width * (1 - MoveCameraRatio) || _rotY < height * MoveCameraRatio || _rotY > height * (1 - MoveCameraRatio))
+	{
+		if (DisplayTempOrientation)
+		{
+			Orientation = TempOrientation;
+		}
 
 		// Normalizes and shifts the coordinates of the cursor such that they begin in the middle of the screen
 		// and then "transforms" them into degrees 
-		float rotY = sensitivity * (float)(_rotY - (height / 2)) / height;
-		float rotX = sensitivity * (float)(_rotX - (width / 2)) / width;
+		float rotY = sensitivity/3 * (float)(_rotY - (height / 2)) / height;
+
 
 		// Calculates upcoming vertical change in the Orientation
 		glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotY), glm::normalize(glm::cross(Orientation, Up)));
@@ -147,10 +173,27 @@ void Camera::RotateCamera(float _rotX, float _rotY)
 		}
 
 		// Rotates the Orientation left and right
+		float rotX = sensitivity/3 * (float)(_rotX - (width / 2)) / width;
 		Orientation = glm::rotate(Orientation, glm::radians(-rotX), Up);
 
+		DisplayTempOrientation = false;
+	}
+	else
+	{
+		float rotY = sensitivity * 20 * (float)(_rotY - (height / 2)) / height;
 
+		glm::vec3 newOrientation = glm::rotate(Orientation, glm::radians(-rotY), glm::normalize(glm::cross(Orientation, Up)));
 
+		if (abs(glm::angle(newOrientation, Up) - glm::radians(90.0f)) <= glm::radians(85.0f))
+		{
+			TempOrientation = newOrientation;
+		}
+
+		float rotX = sensitivity * 20 * (float)(_rotX - (width / 2)) / width;
+		TempOrientation = glm::rotate(TempOrientation, glm::radians(-rotX), Up);
+
+		DisplayTempOrientation = true;
+	}
 
 
 
