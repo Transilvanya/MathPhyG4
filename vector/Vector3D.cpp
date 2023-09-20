@@ -72,3 +72,48 @@ array<float, 3> Vector3D::getUnitVector() {
     return {this->vector[0]/norm,this->vector[1]/norm,this->vector[2]/norm};
 
 }
+
+Vector3D Vector3D::operator+(Vector3D rightVector)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getX() + rightVector.getX());
+    nVector.setY(this->getY() + rightVector.getY());
+    nVector.setZ(this->getZ() + rightVector.getZ());
+    return nVector;
+}
+
+Vector3D Vector3D::operator-(Vector3D rightVector)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getX() - rightVector.getX());
+    nVector.setY(this->getY() - rightVector.getY());
+    nVector.setZ(this->getZ() - rightVector.getZ());
+    return nVector;
+}
+
+Vector3D Vector3D::operator*(int scalar)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getX() * scalar);
+    nVector.setY(this->getY() * scalar);
+    nVector.setZ(this->getZ() * scalar);
+    return nVector;
+}
+
+int Vector3D::operator&(Vector3D rightVector)
+{
+    int returnValue = 0;
+    returnValue += this->getX() + rightVector.getX();
+    returnValue += this->getY() + rightVector.getY();
+    returnValue += this->getZ() + rightVector.getZ();
+    return returnValue;
+}
+
+Vector3D Vector3D::operator*(Vector3D rightVector)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getY() * rightVector.getZ() - this->getZ() * rightVector.getY());
+    nVector.setY(this->getX() * rightVector.getZ() - this->getZ() * rightVector.getX());
+    nVector.setZ(this->getX() * rightVector.getY() - this->getY() * rightVector.getX());
+    return Vector3D();
+}

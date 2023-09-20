@@ -20,6 +20,10 @@ public :
     Vector3D(array<float,3> vector);
 
 
+    //Destructor
+    ~Vector3D();
+
+
     //setter
     void setX(float x);
     void setY(float y);
@@ -35,7 +39,11 @@ public :
     //method
     float getNorm();
     array<float,3> getUnitVector();
-
+    Vector3D operator+(Vector3D rightVector);
+    Vector3D operator-(Vector3D rightVector);
+    Vector3D operator*(int scalar);
+    int operator&(Vector3D rightVector);
+    Vector3D operator*(Vector3D rightVector);
 
 
 private :
