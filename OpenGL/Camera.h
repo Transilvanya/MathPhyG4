@@ -14,19 +14,24 @@
 class Camera
 {
 public:
+
+
 	// Stores the main vectors of the camera
 	glm::vec3 Position;
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
+	glm::vec3 TempOrientation = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	// Prevents the camera from jumping around when first clicking left click
 	bool firstClick = true;
+	bool DisplayTempOrientation = false;
 
 	// Stores the width and height of the window
 	int width;
 	int height;
 
 	// Adjust the speed of the camera and it's sensitivity when looking around
+	float MoveCameraRatio = 0.1f;
 	float speed = 0.1f;
 	float sensitivity = 3.0f;
 

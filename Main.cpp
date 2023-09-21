@@ -74,6 +74,29 @@ std::vector<GLfloat> verticevector2 =
 	 0.0f, 0.9f,  0.0f,     0.92f, 0.86f, 0.76f,	2.5f, 5.0f
 };
 
+
+std::vector<GLfloat> verticevector3 =
+{  //     COORDINATES     /        COLORS      /   TexCoord  //
+	 0.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f,	1.0f, 1.0f,
+	 0.0f, 0.0f,  1.0f,		0.83f, 0.70f, 0.44f,	1.0f, 0.0f,
+	 1.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+	 1.0f, 0.0f,  0.0f,     0.83f, 0.70f, 0.44f,	0.0f, 1.0f,
+
+	 1.0f, 0.0f,  0.0f,		0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+	 1.0f, 1.0f,  0.0f,		0.83f, 0.70f, 0.44f,	0.0f, 2.0f,
+	 1.0f, 1.0f,  1.0f,     0.83f, 0.70f, 0.44f,	2.0f, 2.0f,
+	 1.0f, 0.0f,  1.0f,     0.83f, 0.70f, 0.44f,	2.0f, 0.0f,
+};
+
+std::vector<GLuint> indicevector3 = {
+	0, 1, 2,
+	2, 3, 0,
+
+	4, 5, 6,
+	6, 7, 4,
+
+};
+
 std::vector<GLuint> indicevector2 = {
 	0, 1, 2,
 	0, 2, 3,
@@ -123,9 +146,18 @@ void cameraMoveDown()
 	camera.MoveDownCamera();
 }
 
-void cameraRotation(int _rotx, int _roty)
+void cameraRotation(int _xpos, int _ypos)
 {
-	camera.RotateCamera(_rotx, _roty);
+	if (_xpos < width / 10 || _xpos > width * 9 / 10)
+	{
+	//	camera.RotateCamera(_xpos, _ypos );
+	}
+	if (_ypos < height / 10 || _ypos > height * 9 / 10)
+	{
+		
+	}
+camera.RotateCamera(_xpos, _ypos);
+	
 }
 
 int main()
@@ -148,7 +180,7 @@ int main()
 	Shader shaderProgram2("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
 
 
-
+	
 	ThreeDObject Obj(shaderProgram, indicevector, verticevector);
 
 	//Obj.AddIndice(2);
@@ -177,8 +209,16 @@ int main()
 	ThreeDObjectTexture Obj2(shaderProgram2, brickTex, indicevector2, verticevector2);
 	Obj2.Update();
 
-	// ______________________________     ImGui Setup
 
+	Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
+	//Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
+
+	ThreeDObjectTexture Obj3(shaderProgram2, catTex, indicevector3, verticevector3);
+	Obj3.Update();
+
+
+	// ______________________________     ImGui Setup
+	
 
 	ImGuiIO& io = ImGuiSetup(window, glsl_version);
 	// Our state
@@ -202,14 +242,16 @@ int main()
 
 
 
+
 	float x = 0.5f;
 	float y = 0.5f;
 
 	while (!Manager::CloseMainWindow(window))
 	{
-		//Obj.SetMvt(0.01f, 0.0f, 0.0f);
-		//Obj.Update();
+		//Obj2.SetMvt(0.1f, 0.0f, 0.0f);
+		//Obj2.Update();
 
+		
 		// ____ imgui
 		NewFrame();
 
@@ -233,7 +275,7 @@ int main()
 
 		ImGui::VSliderFloat("##v", ImVec2(28, 160), &y, -1.0f, 1.0f, "%.1f");
 		//ImGui::PopID();
-		camera.SetRotation(glm::vec3(sin(x), y, cos(x)));
+		//camera.SetRotation(glm::vec3(sin(x), y, cos(x)));
 		// ---------
 
 
@@ -245,7 +287,7 @@ int main()
 
 
 		//Obj.Draw(camera);
-		Obj2.Draw(camera);
+		Obj3.Draw(camera);
 
 
 		RenderFrameData();
