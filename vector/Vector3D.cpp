@@ -19,6 +19,10 @@ Vector3D::Vector3D(float x, float y, float z) {
 
 }
 
+Vector3D::~Vector3D() {
+
+}
+
 array<float, 3> Vector3D::getVector() {
 
     return vector;
@@ -91,7 +95,7 @@ Vector3D Vector3D::operator-(Vector3D rightVector)
     return nVector;
 }
 
-Vector3D Vector3D::operator*(int scalar)
+Vector3D Vector3D::operator*(float scalar)
 {
     Vector3D nVector = Vector3D();
     nVector.setX(this->getX() * scalar);
@@ -100,9 +104,9 @@ Vector3D Vector3D::operator*(int scalar)
     return nVector;
 }
 
-int Vector3D::operator&(Vector3D rightVector)
+float Vector3D::operator&(Vector3D rightVector)
 {
-    int returnValue = 0;
+    float returnValue = 0;
     returnValue += this->getX() + rightVector.getX();
     returnValue += this->getY() + rightVector.getY();
     returnValue += this->getZ() + rightVector.getZ();
@@ -116,4 +120,17 @@ Vector3D Vector3D::operator*(Vector3D rightVector)
     nVector.setY(this->getX() * rightVector.getZ() - this->getZ() * rightVector.getX());
     nVector.setZ(this->getX() * rightVector.getY() - this->getY() * rightVector.getX());
     return Vector3D();
+}
+
+
+string Vector3D::toString() 
+{
+    string vector = "";
+    for (int i = 0; i < 3; i++)
+    {
+        vector += std::to_string(this->getVector()[i]);
+        vector += " ";
+    }
+    return vector;
+
 }

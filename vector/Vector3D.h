@@ -6,6 +6,7 @@
 #define MATHPHYG4_VECTOR3D_H
 
 #include <array>
+#include <string>
 
 using namespace std;
 
@@ -41,9 +42,10 @@ public :
     array<float,3> getUnitVector();
     Vector3D operator+(Vector3D rightVector);
     Vector3D operator-(Vector3D rightVector);
-    Vector3D operator*(int scalar);
-    int operator&(Vector3D rightVector);
+    Vector3D operator*(float scalar);
+    float operator&(Vector3D rightVector);
     Vector3D operator*(Vector3D rightVector);
+    string toString();
 
 
 private :

@@ -15,10 +15,13 @@ public:
 	//destructor
 	~Particules();
 	
+	//getter
+	float getMasse();
+	float getInverseMasse();
 
 	//setter
-	void setMasse(int newMasse);
-	void setInversseMasse(int newMasse);
+	void setMasse(float newMasse);
+	void setInverseMasse(float newMasse);
 	void setVectorAcceleration(Vector3D newAcceleration);
 
 
@@ -31,9 +34,10 @@ private:
 	Vector3D vectorPosition;
 	Vector3D vectorVitesse;
 	Vector3D vectorAcceleration;
+	Vector3D force;
 
-	int inverseMap;
-	int damping;
+	float inverseMasse;
+	float damping;
 };
 
 #endif //MATHPHYG4_PARTICULES_H
