@@ -1,6 +1,8 @@
 #include "../ImGui/imgui.h"
 #include <iostream>
 
+
+//List of function pointers for the key
 static void (*Afunc)();
 
 static void setAfunc(void (*_Afunc)())
@@ -44,7 +46,6 @@ static void setLeftCtrlfunc(void (*_LeftCtrlfunc)())
 }
 
 
-
 static void (*MouseDeltafunc)(int, int);
 
 static void setMouseDeltafunc(void (*_MouseDeltafunc)(int, int))
@@ -54,13 +55,27 @@ static void setMouseDeltafunc(void (*_MouseDeltafunc)(int, int))
 
 static void (*MousePosfunc)(int, int);
 
-static void setMouseMousePosfunc(void (*_MousePosfunc)(int, int))
+static void setMousePosfunc(void (*_MousePosfunc)(int, int))
 {
     MousePosfunc = _MousePosfunc;
 }
 
+static void (*MouseReleasefunc)();
+
+static void setMouseReleasefunc(void (*_MouseReleasefunc)())
+{
+    MouseReleasefunc = _MouseReleasefunc;
+}
+
+
+//Get inputs
 static void InputControler()
 {
+    if (ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+    {
+        MouseReleasefunc();
+    }
+
 
     if (ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsMousePosValid() && !ImGui::GetIO().WantCaptureMouse)
     {
@@ -130,13 +145,13 @@ static void InputControler()
         }
     }
 
+    /*
     for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
     {
         //apply on last frame
         if (!ImGui::IsKeyReleased(key)) continue;
-
-
     }
+    */
 
 
 }

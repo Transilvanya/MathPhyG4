@@ -27,6 +27,7 @@ ThreeDObject::~ThreeDObject()
 
 void ThreeDObject::SetMvt(float x, float y, float z)
 {
+	//move all vertices according to the inputs
 	int i = 0;
 	while (i < vertices.size())
 	{
@@ -67,15 +68,6 @@ void ThreeDObject::Update()
 	// size of the value for the data of each vertex (3 for coord and 3 for color + 2 for a total of 8) , and offset (0 because start a beginning of data)
 
 	// add color		; 1 because 2nd attrib, ,,, offset of 3 because there are 3 elements before the data of color (coord);
-
-	/*
-
-			VAO1.LinkAttrib(VBO1, 0, 3, GL_FLOAT, 8 * sizeof(float), (void*)0);
-			VAO1.LinkAttrib(VBO1, 1, 3, GL_FLOAT, 8 * sizeof(float), (void*)(3 * sizeof(float)));
-			VAO1.LinkAttrib(VBO1, 2, 2, GL_FLOAT, 8 * sizeof(float), (void*)(6 * sizeof(float)));
-
-	*/
-
 	_VAO.LinkAttrib(_VBO, 0, 3, GL_FLOAT, 7 * sizeof(float), (void*)0); //layout is location in shader
 	_VAO.LinkAttrib(_VBO, 1, 4, GL_FLOAT, 7 * sizeof(float), (void*)(3 * sizeof(float)));
 
@@ -198,15 +190,15 @@ void ThreeDObject::SetValue(int index, GLfloat _value)
 
 void ThreeDObject::Draw(Camera camera)
 {
-	shaderProgram.Activate();
+	shaderProgram.Activate(); //indicate what shader to draw
 
-	camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");
+	camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix"); //use the projection matrix of the camera to create perspective
 
-	_VAO.Bind();
+	_VAO.Bind();//tel OpenGL what to draw
 
 	GLuint arr[100];
 	std::copy(indices.begin(), indices.end(), arr);
-	glDrawElements(GL_TRIANGLES, sizeof(arr) / sizeof(int), GL_UNSIGNED_INT, 0);
+	glDrawElements(GL_TRIANGLES, sizeof(arr) / sizeof(int), GL_UNSIGNED_INT, 0); //draw the selected element
 }
 
 

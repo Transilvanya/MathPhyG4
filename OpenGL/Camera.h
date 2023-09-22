@@ -18,13 +18,14 @@ public:
 
 	// Stores the main vectors of the camera
 	glm::vec3 Position;
+	//Base Rotation of the Camera
 	glm::vec3 Orientation = glm::vec3(0.0f, 0.0f, -1.0f);
-	glm::vec3 TempOrientation = glm::vec3(0.0f, 0.0f, -1.0f);
+	//Used to keep the Camera static until it reach the border of the screen
+	glm::vec3 OrientationDrift = glm::vec3(0.0f, 0.0f, -1.0f);
 	glm::vec3 Up = glm::vec3(0.0f, 1.0f, 0.0f);
 
 	// Prevents the camera from jumping around when first clicking left click
 	bool firstClick = true;
-	bool DisplayTempOrientation = false;
 
 	// Stores the width and height of the window
 	int width;
@@ -33,7 +34,8 @@ public:
 	// Adjust the speed of the camera and it's sensitivity when looking around
 	float MoveCameraRatio = 0.1f;
 	float speed = 0.1f;
-	float sensitivity = 3.0f;
+	float sensitivity = 1.0f;
+	float Driftsensitivity = 100.0f;
 
 	// Camera constructor to set up initial values
 	Camera(int width, int height, glm::vec3 position);
@@ -49,6 +51,7 @@ public:
 	void SetRotation(glm::vec3 _rotation);
 
 	glm::vec3 GetRotation();
+	glm::vec3 GetRotationDrift();
 
 	void MoveUpCamera();
 	void MoveDownCamera();
@@ -58,6 +61,7 @@ public:
 	void MoveRightCamera();
 
 	void RotateCamera(float _rotX, float _rotY);
+	void SetCameraToDrift();
 	
 
 };

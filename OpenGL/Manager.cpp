@@ -3,6 +3,8 @@
 
 GLFWwindow* Manager::InitWindow(const unsigned int width, const unsigned int height)
 {
+	//initialise OpenGL
+
 
 	// Initialize GLFW
 	glfwInit();
