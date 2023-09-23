@@ -46,6 +46,7 @@ namespace fs = std::filesystem;
 #include "UI/ImGuiOpenGLManager.cpp"
 #include "UI/Windows/BasicWindows.cpp"
 #include "OpenGL/ThreeDObject.h"
+#include "OpenGL/ParticuleObject.h"
 
 
 
@@ -228,6 +229,11 @@ int main()
 	Obj3.Update();
 
 
+
+
+
+	ParticuleObject ptobj(0.0f, 0.0f ,0.0f ,0.9f, 0.0f, 0.5f, 1.0f, 0.1f);
+	
 	// ______________________________     ImGui Setup
 	
 
@@ -301,6 +307,10 @@ int main()
 
 		
 		Manager::ClearBGColor();
+
+		//Draw Objects
+
+		ptobj.Draw(camera);
 
 
 		//Obj.Draw(camera);

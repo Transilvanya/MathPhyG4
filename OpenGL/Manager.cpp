@@ -1,4 +1,5 @@
 #include "Manager.h"
+#include <iostream>
 
 
 GLFWwindow* Manager::InitWindow(const unsigned int width, const unsigned int height)
@@ -43,6 +44,11 @@ GLFWwindow* Manager::InitWindow(const unsigned int width, const unsigned int hei
 	//allow for tranparency and blend
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	glEnable(GL_BLEND);
+
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+	{
+		throw InitException();
+	}
 
 	// Enables the Depth Buffer. tell opengl to use depth
 	glEnable(GL_DEPTH_TEST);

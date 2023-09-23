@@ -130,6 +130,8 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -146,6 +148,8 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>
+      </AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -164,6 +168,7 @@
     <ClCompile Include="ImGui\imgui_tables.cpp" />
     <ClCompile Include="ImGui\imgui_widgets.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="OpenGL\ParticuleObject.cpp" />
     <ClCompile Include="OpenGL\ThreeDObject.cpp" />
     <ClCompile Include="OpenGL\Camera.cpp" />
     <ClCompile Include="OpenGL\EBO.cpp" />
@@ -189,6 +194,7 @@
     <ClInclude Include="ImGui\imstb_rectpack.h" />
     <ClInclude Include="ImGui\imstb_textedit.h" />
     <ClInclude Include="ImGui\imstb_truetype.h" />
+    <ClInclude Include="OpenGL\ParticuleObject.h" />
     <ClInclude Include="OpenGL\ThreeDObject.h" />
     <ClInclude Include="OpenGL\Camera.h" />
     <ClInclude Include="OpenGL\EBO.h" />
@@ -204,6 +210,7 @@
     <None Include="OpenGL\Shaders\default.vert" />
     <None Include="OpenGL\Shaders\simplecolor.frag" />
     <None Include="OpenGL\Shaders\simplecolor.vert" />
+    <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="ImGui\imgui.natvis" />

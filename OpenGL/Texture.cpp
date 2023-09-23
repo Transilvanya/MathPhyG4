@@ -12,6 +12,11 @@ Texture::Texture(const char* image, GLenum texType, GLenum slot, GLenum format, 
 	// Reads the image from a file and stores it in bytes
 	unsigned char* bytes = stbi_load(image, &widthImg, &heightImg, &numColCh, 0);
 
+	if(!bytes)
+	{
+		std::cout << "Failed to load texture" << std::endl;
+	}
+
 	// Generates an OpenGL texture object
 	glGenTextures(1, &ID);
 	// Assigns the texture to a Texture Unit
