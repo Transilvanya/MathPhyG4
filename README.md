@@ -11,3 +11,5 @@
  Libraries : 
 	glfw3.lib;
 	opengl32.lib;
+
+The file should be compile under the configuration x64
