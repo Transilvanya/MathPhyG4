@@ -399,7 +399,7 @@ int main()
 			ImGui::SeparatorText("ABOUT THIS DEMO:");
 			ImGui::BulletText("Camera controls : ZQSD (qwerty), WASD (azerty),\n crtl to go down, space to go up, mouse left click to orient the camera.");
 			ImGui::BulletText("The rotation of the camera will be fixed at the center\n of the screen but will keep rotation we the mouse reach the edges.");
-
+			ImGui::BulletText("The blue shape indicape the forces applied to the particule");
 		}
 
 		if (ImGui::Button("Reset"))
