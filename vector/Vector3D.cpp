@@ -19,6 +19,10 @@ Vector3D::Vector3D(float x, float y, float z) {
 
 }
 
+Vector3D::~Vector3D() {
+
+}
+
 array<float, 3> Vector3D::getVector() {
 
     return vector;
@@ -70,5 +74,63 @@ array<float, 3> Vector3D::getUnitVector() {
 
     float norm = getNorm();
     return {this->vector[0]/norm,this->vector[1]/norm,this->vector[2]/norm};
+
+}
+
+Vector3D Vector3D::operator+(Vector3D rightVector)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getX() + rightVector.getX());
+    nVector.setY(this->getY() + rightVector.getY());
+    nVector.setZ(this->getZ() + rightVector.getZ());
+    return nVector;
+}
+
+Vector3D Vector3D::operator-(Vector3D rightVector)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getX() - rightVector.getX());
+    nVector.setY(this->getY() - rightVector.getY());
+    nVector.setZ(this->getZ() - rightVector.getZ());
+    return nVector;
+}
+
+Vector3D Vector3D::operator*(float scalar)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getX() * scalar);
+    nVector.setY(this->getY() * scalar);
+    nVector.setZ(this->getZ() * scalar);
+    return nVector;
+}
+
+float Vector3D::operator&(Vector3D rightVector)
+{
+    float returnValue = 0;
+    returnValue += this->getX() + rightVector.getX();
+    returnValue += this->getY() + rightVector.getY();
+    returnValue += this->getZ() + rightVector.getZ();
+    return returnValue;
+}
+
+Vector3D Vector3D::operator*(Vector3D rightVector)
+{
+    Vector3D nVector = Vector3D();
+    nVector.setX(this->getY() * rightVector.getZ() - this->getZ() * rightVector.getY());
+    nVector.setY(this->getX() * rightVector.getZ() - this->getZ() * rightVector.getX());
+    nVector.setZ(this->getX() * rightVector.getY() - this->getY() * rightVector.getX());
+    return Vector3D();
+}
+
+
+string Vector3D::toString() 
+{
+    string vector = "";
+    for (int i = 0; i < 3; i++)
+    {
+        vector += std::to_string(this->getVector()[i]);
+        vector += " ";
+    }
+    return vector;
 
 }
