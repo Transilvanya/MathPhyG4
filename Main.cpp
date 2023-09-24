@@ -425,6 +425,21 @@ int main()
 		ImGui::Checkbox("UserForce enabled", &UserForceEnabled);
 		ImGui::Checkbox("Pause", &Paused);
 
+
+		struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+		ImGuiKey start_key = (ImGuiKey)0;
+		ImGui::Text("Keys down:");
+		for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
+		{
+			if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue; ImGui::SameLine();
+			ImGui::Text((key < ImGuiKey_NamedKey_BEGIN) ? "\"%s\"" : "\"%s\" %d", ImGui::GetKeyName(key), key);
+
+			if (key == ImGuiKey_W)
+			{
+				std::cout << "w" << std::endl;
+				//func();
+			}
+		}
 		//render Imgui
 		RenderFrame();
 
