@@ -1,4 +1,6 @@
-#pragma once
+#ifndef THREEDOBJECT_CLASS_H
+#define THREEDOBJECT_CLASS_H
+
 #include "shaderClass.h"
 #include "VAO.h"
 #include "VBO.h"
@@ -7,11 +9,8 @@
 #include "Camera.h"
 #include "Texture.h"
 
-// keep rotation
-//get center
-//rotation do object
-//comments
 
+//Class to define a 3Dobject 
 class ThreeDObject
 {
 public:
@@ -29,11 +28,15 @@ public:
 	ThreeDObject(Shader _shaderProgram, std::vector<GLuint> _indices, std::vector<GLfloat> _values);
 	~ThreeDObject();
 
+	//Move and rotate the camera
 	void SetMvt(float x, float y, float z);
 	void SetRot(float Xangle, float Yangle, float Zangle); //Xangle : rotation around X
 	
+	//update the value of the 3D object
 	void Update();
 	
+
+	//function to get and set Indicies vector and Vertex vector
 	std::vector<GLuint> GetIndices();
 	std::vector<GLfloat> GetValues();
 
@@ -45,17 +48,24 @@ public:
 	void RemoveValue(int index);
 
 	GLuint GetIndice(int index);
+	
+	//return a vertice with all the parameters
 	Objreturn GetValue(int index);
 
 	void SetIndices(std::vector<GLuint> _indices);
 	void SetValues(std::vector<GLfloat> _values);
 
 	void AddIndice(GLuint _indice);
+
+	//add a vertice with all the parameters
 	void AddValue(GLfloat x, GLfloat y, GLfloat z, GLfloat r, GLfloat g, GLfloat b, GLfloat a);
 
 	void SetIndice(int index, GLuint _indice);
 	void SetValue(int index, GLfloat _value);
 
+
+
+	//draw the object
 	void Draw(Camera camera);
 
 	void Delete();
@@ -69,6 +79,7 @@ protected:
 	std::vector<GLfloat> vertices;
 };
 
+// a 3D object with a Texture
 
 class ThreeDObjectTexture : public ThreeDObject
 {
@@ -107,3 +118,4 @@ private:
 	Texture texture;
 };
 
+#endif

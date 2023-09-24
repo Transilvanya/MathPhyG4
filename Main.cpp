@@ -46,6 +46,7 @@ namespace fs = std::filesystem;
 #include "UI/ImGuiOpenGLManager.cpp"
 #include "UI/Windows/BasicWindows.cpp"
 #include "OpenGL/ThreeDObject.h"
+#include "OpenGL/ParticuleObject.h"
 
 
 
@@ -120,6 +121,7 @@ std::vector<GLuint> indicevector =
 Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
 
 
+//function to bind to the InputControler
 
 void cameraMoveLeft()
 {
@@ -160,8 +162,14 @@ camera.RotateCamera(_xpos, _ypos);
 	
 }
 
+void cameraSettoDrift()
+{
+	camera.SetCameraToDrift();
+}
+
 int main()
 {
+	//Setup OpeGL
 
 	const char* glsl_version = "#version 130";
 	GLFWwindow* window;
@@ -180,7 +188,7 @@ int main()
 	Shader shaderProgram2("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
 
 
-	
+	//create a 3D object to display
 	ThreeDObject Obj(shaderProgram, indicevector, verticevector);
 
 	//Obj.AddIndice(2);
@@ -200,16 +208,20 @@ int main()
 
 	// Texture ______________________________________
 
+	//Create the path to a texture
 	std::string parentDir = fs::current_path().string();
 	//std::string parentDir = (fs::current_path().fs::path::parent_path()).string();
 	std::string texPath = "/Resources/BasicGraphicEngine/";
-	// Texture
+	
+	// Create a texture
 	Texture brickTex((parentDir + texPath + "brick.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
+	//Create a 3Dobject with a texture
 	ThreeDObjectTexture Obj2(shaderProgram2, brickTex, indicevector2, verticevector2);
 	Obj2.Update();
 
 
+	
 	Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	//Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
 
@@ -217,6 +229,11 @@ int main()
 	Obj3.Update();
 
 
+
+
+
+	ParticuleObject ptobj(0.0f, 0.0f ,0.0f ,0.9f, 0.0f, 0.5f, 1.0f, 0.1f);
+	
 	// ______________________________     ImGui Setup
 	
 
@@ -237,10 +254,10 @@ int main()
 	setSpacefunc(cameraMoveUp);
 	setLeftCtrlfunc(cameraMoveDown);
 
-	setMouseMousePosfunc(cameraRotation);
+	setMousePosfunc(cameraRotation);
 
 
-
+	setMouseReleasefunc(cameraSettoDrift);
 
 
 	float x = 0.5f;
@@ -253,23 +270,27 @@ int main()
 
 		
 		// ____ imgui
+		 
+		//Create a new frame
 		NewFrame();
 
+		//Collect inputs
 		InputControler();
 
+		//create a ImGui window
 		BasicWindowsDisplay(show_demo_window, show_another_window, clear_color, io);
 
 
 
 		
 
-		// show camera rotation
-		x = acos(camera.GetRotation().z);
-		if (asin(camera.GetRotation().x) < 0)
+		// show camera rotation with a debug window
+		x = acos(camera.GetRotationDrift().z);
+		if (asin(camera.GetRotationDrift().x) < 0)
 			x = x * -1;
 		if (!(x >= -3.2f && x <= 3.2f))
 			x = 0.0f;
-		y = camera.GetRotation().y;
+		y = camera.GetRotationDrift().y;
 
 		ImGui::SliderFloat("slider float", &x, -3.14f, 3.14f, "%.2f");
 
@@ -279,24 +300,26 @@ int main()
 		// ---------
 
 
+
+		//render Imgui
 		RenderFrame();
 
 
-
+		
 		Manager::ClearBGColor();
+
+		//Draw Objects
+
+		ptobj.Draw(camera);
 
 
 		//Obj.Draw(camera);
 		Obj3.Draw(camera);
 
-
+		//Render the 3D objects
 		RenderFrameData();
 
-
 		Manager::CleanElements(window);
-
-
-
 	}
 
 

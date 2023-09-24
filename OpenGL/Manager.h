@@ -1,3 +1,6 @@
+#ifndef MANAGER_CLASS_H
+#define MANAGER_CLASS_H
+
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include "VBO.h"
@@ -29,3 +32,5 @@ private:
 
 
 };
+
+#endif
