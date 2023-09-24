@@ -370,7 +370,7 @@ int main()
 			}
 			else
 			{
-				particule1.setForce(UserForce + gravity);
+				particule1.setForce(UserForce + gravity * particule1.getMasse());
 			}
 		}
 		//std::cout << particule1.getPostion().getX() << "\t" << particule1.getPostion().getY() << "\t" << particule1.getPostion().getZ() << "\n";
@@ -389,11 +389,26 @@ int main()
 		InputControler();
 
 		//create a ImGui window
-		BasicWindowsDisplay(show_demo_window, show_another_window, clear_color, io);
+		//BasicWindowsDisplay(show_demo_window, show_another_window, clear_color, io);
 
 
 
-		
+		ImGui::Begin("Debug");
+		if (ImGui::CollapsingHeader("Help"))
+		{
+			ImGui::SeparatorText("ABOUT THIS DEMO:");
+			ImGui::BulletText("Camera controls : ZQSD (qwerty), WASD (azerty),\n crtl to go down, space to go up, mouse left click to orient the camera.");
+			ImGui::BulletText("The rotation of the camera will be fixed at the center\n of the screen but will keep rotation we the mouse reach the edges.");
+			ImGui::BulletText("The blue shape indicape the forces applied to the particule");
+		}
+
+		if (ImGui::Button("Reset"))
+		{
+			particule1 = Particules(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(5.0f, 20.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
+
+			particule1.setForce(gravity * particule1.getMasse());
+		}
+
 
 		// show camera rotation with a debug window
 		x = acos(camera.GetRotationDrift().z);
@@ -403,19 +418,33 @@ int main()
 			x = 0.0f;
 		y = camera.GetRotationDrift().y;
 
-		ImGui::SliderFloat("slider float", &x, -3.14f, 3.14f, "%.2f");
+		ImGui::SliderFloat(" ", &x, -3.14f, 3.14f, "%.2f");
+		ImGui::SetItemTooltip("Horizontal Camera Orientation");
 
 		ImGui::VSliderFloat("##v", ImVec2(28, 160), &y, -1.0f, 1.0f, "%.1f");
+		ImGui::SetItemTooltip("Vertical Camera Orientation");
 		//ImGui::PopID();
 		//camera.SetRotation(glm::vec3(sin(x), y, cos(x)));
 		// ---------
 
+
+		ImGui::Text("position     = %.1f \t%.1f \t%.1f", particule1.getPostion().getX(), particule1.getPostion().getY(), particule1.getPostion().getZ());
+		ImGui::Text("vitesse      = %.1f \t%.1f \t%.1f", particule1.getVitesse().getX(), particule1.getVitesse().getY(), particule1.getVitesse().getZ());
+		ImGui::Text("acceleration = %.1f \t%.1f \t%.1f", particule1.getAcceleration().getX(), particule1.getAcceleration().getY(), particule1.getAcceleration().getZ());
+
+		ImGui::SeparatorText("User defined force");
+
 		static float f1 = 0.001f;
 		ImGui::InputFloat("input x", &f1, 0.01f, 1.0f, "%.3f");
+		ImGui::SetItemTooltip("X Component of the force applied to the particule");
+
 		static float f2 = 0.001f;
 		ImGui::InputFloat("input y", &f2, 0.01f, 1.0f, "%.3f");
+		ImGui::SetItemTooltip("Y Component of the force applied to the particule");
+		
 		static float f3 = 0.001f;
 		ImGui::InputFloat("input z", &f3, 0.01f, 1.0f, "%.3f");
+		ImGui::SetItemTooltip("Z Component of the force applied to the particule");
 
 		if (UserForceEnabled)
 			UserForce = Vector3D(f1, f2, f3);
@@ -423,8 +452,30 @@ int main()
 			UserForce = Vector3D(0, 0, 0);
 
 		ImGui::Checkbox("UserForce enabled", &UserForceEnabled);
+		ImGui::SetItemTooltip("Apply the force defined above to the particule");
 		ImGui::Checkbox("Pause", &Paused);
+		ImGui::SetItemTooltip("Pause the simulation");
 
+		/*
+		struct funcs { static bool IsLegacyNativeDupe(ImGuiKey key) { return key < 512 && ImGui::GetIO().KeyMap[key] != -1; } }; // Hide Native<>ImGuiKey duplicates when both exists in the array
+		ImGuiKey start_key = (ImGuiKey)0;
+		ImGui::Text("Keys down:");
+		for (ImGuiKey key = start_key; key < ImGuiKey_NamedKey_END; key = (ImGuiKey)(key + 1))
+		{
+			if (funcs::IsLegacyNativeDupe(key) || !ImGui::IsKeyDown(key)) continue; ImGui::SameLine();
+			ImGui::Text((key < ImGuiKey_NamedKey_BEGIN) ? "\"%s\"" : "\"%s\" %d", ImGui::GetKeyName(key), key);
+
+			if (key == ImGuiKey_W)
+			{
+				std::cout << "w" << std::endl;
+				//func();
+			}
+		}
+		*/
+		
+		ImGui::End();
+		
+		
 		//render Imgui
 		RenderFrame();
 
