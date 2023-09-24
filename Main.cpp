@@ -315,7 +315,7 @@ int main()
 			float tempy = particule1.getVitesse().getY();
 			float tempz = particule1.getVitesse().getZ();
 			
-			particule1.setForce(Vector3D(0, - 10 * tempy * abs(tempy), 0));
+			particule1.setForce(Vector3D(-10 * tempx * abs(tempx), - 10 * tempy * abs(tempy), -10 * tempz * abs(tempz)));
 			
 		}
 		else 
