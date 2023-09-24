@@ -179,10 +179,12 @@
     <ClCompile Include="OpenGL\Texture.cpp" />
     <ClCompile Include="OpenGL\VAO.cpp" />
     <ClCompile Include="OpenGL\VBO.cpp" />
+    <ClCompile Include="Particules\Particules.cpp" />
     <ClCompile Include="UI\ImGuiOpenGLManager.cpp" />
     <ClCompile Include="UI\imgui_perso.cpp" />
     <ClCompile Include="UI\InputControler.cpp" />
     <ClCompile Include="UI\Windows\BasicWindows.cpp" />
+    <ClCompile Include="vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ImGui\imconfig.h" />
@@ -203,6 +205,8 @@
     <ClInclude Include="OpenGL\Texture.h" />
     <ClInclude Include="OpenGL\VAO.h" />
     <ClInclude Include="OpenGL\VBO.h" />
+    <ClInclude Include="Particules\Particules.h" />
+    <ClInclude Include="vector\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ImGui\imgui.natstepfilter" />
@@ -216,6 +220,7 @@
     <Natvis Include="ImGui\imgui.natvis" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="DevJournal.txt" />
     <Text Include="ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>

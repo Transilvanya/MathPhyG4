@@ -236,6 +236,7 @@ ThreeDObjectTexture::~ThreeDObjectTexture()
 
 void ThreeDObjectTexture::Draw(Camera camera)
 {
+
 	shaderProgram.Activate();
 
 	camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix");

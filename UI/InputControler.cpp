@@ -79,10 +79,10 @@ static void InputControler()
 
     if (ImGui::IsMouseDown(ImGuiMouseButton_Left) && ImGui::IsMousePosValid() && !ImGui::GetIO().WantCaptureMouse)
     {
-        std::cout << "Mouse pos:" << (int)ImGui::GetIO().MousePos.x << " , " << (int)ImGui::GetIO().MousePos.y << std::endl;
+      //  std::cout << "Mouse pos:" << (int)ImGui::GetIO().MousePos.x << " , " << (int)ImGui::GetIO().MousePos.y << std::endl;
 
 
-        std::cout << "Mouse delta: " << (int)ImGui::GetIO().MouseDelta.x<< " , "<< (int)ImGui::GetIO().MouseDelta.y << std::endl;
+     //   std::cout << "Mouse delta: " << (int)ImGui::GetIO().MouseDelta.x<< " , "<< (int)ImGui::GetIO().MouseDelta.y << std::endl;
 
         MousePosfunc((int)ImGui::GetIO().MousePos.x, (int)ImGui::GetIO().MousePos.y);
 
@@ -115,32 +115,32 @@ static void InputControler()
 
         if (key == ImGuiKey_A)
         {
-            std::cout << "A" << std::endl;
+          //  std::cout << "A" << std::endl;
             Afunc();
         }
         if (key == ImGuiKey_D)
         {
-            std::cout << "D" << std::endl;
+          //  std::cout << "D" << std::endl;
             Dfunc();
         }
         if (key == ImGuiKey_S)
         {
-            std::cout << "S" << std::endl;
+          //  std::cout << "S" << std::endl;
             Sfunc();
         }
         if (key == ImGuiKey_W)
         {
-            std::cout << "W" << std::endl;
+          //  std::cout << "W" << std::endl;
             Wfunc();
         }
         if (key == ImGuiKey_Space)
         {
-            std::cout << "Space" << std::endl;
+          //  std::cout << "Space" << std::endl;
             Spacefunc();
         }
         if (key == ImGuiKey_LeftCtrl)
         {
-            std::cout << "LeftCtrl" << std::endl;
+          //  std::cout << "LeftCtrl" << std::endl;
             LeftCtrlfunc();
         }
     }
