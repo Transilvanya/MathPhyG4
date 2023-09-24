@@ -409,6 +409,7 @@ int main()
 			particule1.setForce(gravity * particule1.getMasse());
 		}
 
+
 		// show camera rotation with a debug window
 		x = acos(camera.GetRotationDrift().z);
 		if (asin(camera.GetRotationDrift().x) < 0)
