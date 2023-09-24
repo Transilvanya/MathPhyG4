@@ -133,10 +133,10 @@ std::vector<GLuint> backgroundindice =
 
 std::vector<GLfloat> groundvertice =
 {  //     COORDINATES     /        COLORS      /   TexCoord  //
-	-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	20.0f, 20.0f,
-	-20.0f, 0.0f,  20.0f,	0.83f, 0.70f, 0.44f,	20.0f, 0.0f,
-	 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-	 20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.0f, 20.0f,
+	-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.7f,
+	-20.0f, 0.0f,  20.0f,	0.83f, 0.70f, 0.44f,	0.7f,
+	 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	0.7f, 
+	 20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.7f, 
 };
 std::vector<GLuint> groundindice =
 {
@@ -144,7 +144,28 @@ std::vector<GLuint> groundindice =
 	0, 2, 3,
 };
 
-Camera camera(width, height, glm::vec3(0.0f, 5.0f, 2.0f));
+std::vector<GLfloat> Forcevertice =
+{  //     COORDINATES     /        COLORS      /   Alpha  //
+	-0.1f,		0.0f,	0.0f,     0.13f, 0.10f, 0.94f,	1.0f,
+	0.1f,		0.0f,	0.0f,		0.13f, 0.10f, 0.94f,	1.0f,
+	0.0f,		-0.1f,	0.0f,		0.13f, 0.10f, 0.94f,	1.0f,
+	0.0f,		0.1f,	0.0f,		0.13f, 0.10f, 0.94f,	1.0f,
+	0.0f,		0.0f,	-0.1f,		0.13f, 0.10f, 0.94f,	1.0f,
+	0.0f,		0.0f,	0.1f,		0.13f, 0.10f, 0.94f,	1.0f,
+};
+std::vector<GLuint> Forceindice =
+{
+	3,1,5,
+	1,2,5,
+	0,2,5,
+	0,3,5,
+	3,1,4,
+	1,2,4,
+	0,2,4,
+	0,3,4
+};
+
+Camera camera(width, height, glm::vec3(0.0f, 1.0f, 20.0f));
 
 
 //function to bind to the InputControler
@@ -208,27 +229,15 @@ int main()
 	}
 
 	// Generates Shader object using shaders default.vert and default.frag
-	//Shader shaderProgramColor("OpenGL/Shaders/simplecolor.vert", "OpenGL/Shaders/simplecolor.frag");
+	Shader shaderProgramColor("OpenGL/Shaders/simplecolor.vert", "OpenGL/Shaders/simplecolor.frag");
 	Shader shaderProgramTextureBG("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
 	Shader shaderProgramTextureGround("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
 
-	/*
+	
 	//create a 3D object to display
-	ThreeDObject Obj(shaderProgram, indicevector, verticevector);
+	ThreeDObject ForceObj(shaderProgramColor, Forceindice, Forcevertice);
 
-	//Obj.AddIndice(2);
-	//Obj.AddIndice(3);
-	//Obj.AddIndice(6);
-
-	//Obj.Update();
-
-
-	Obj.SetIndice(9, 1);
-	Obj.SetIndice(10, 2);
-	Obj.SetIndice(11, 5);
-
-	Obj.Update();
-	*/
+	
 
 
 	// Texture ______________________________________
@@ -242,7 +251,7 @@ int main()
 	Texture brickTex((parentDir + texPath + "brick.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
 	//Create a 3Dobject with a texture
-	ThreeDObjectTexture GroundObj(shaderProgramTextureGround, brickTex, groundindice, groundvertice);
+	ThreeDObject GroundObj(shaderProgramColor, groundindice, groundvertice);
 	
 	Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	//Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
@@ -297,32 +306,73 @@ int main()
 	float prevy = particule1.getPostion().getY();
 	float prevz = particule1.getPostion().getZ();
 
+
+	Vector3D UserForce(0, 0, 0);
+	
+	static bool Paused = false;
+	static bool UserForceEnabled = true;
+
 	while (!Manager::CloseMainWindow(window) )
 	{
-		particule1.intergrade(FrameRate);
-
-
-		ParticuleObject.SetMvt(particule1.getPostion().getX() - prevx, particule1.getPostion().getY() - prevy, particule1.getPostion().getZ() - prevz);
-		ParticuleObject.Update();
-
-		prevx = particule1.getPostion().getX();
-		prevy = particule1.getPostion().getY();
-		prevz = particule1.getPostion().getZ();
-
-		if (particule1.getPostion().getY() <= 0.01f)
+		if (!Paused)
 		{
-			float tempx = particule1.getVitesse().getX();
-			float tempy = particule1.getVitesse().getY();
-			float tempz = particule1.getVitesse().getZ();
-			
-			particule1.setForce(Vector3D(-10 * tempx * abs(tempx), - 10 * tempy * abs(tempy), -10 * tempz * abs(tempz)));
-			
-		}
-		else 
-		{
-			particule1.setForce(gravity);
-		}
 
+			particule1.intergrade(FrameRate);
+
+
+			if ((particule1.getForce()+ UserForce).getX() < 0)
+			{
+				ForceObj.SetValue(0, (particule1.getForce() + UserForce).getX());
+				ForceObj.SetValue(7, 0.1f);
+			}
+			else
+			{
+				ForceObj.SetValue(0, -0.1f);
+				ForceObj.SetValue(7, (particule1.getForce() + UserForce).getX());
+			}
+			if (particule1.getForce().getY() < 0)
+			{
+				ForceObj.SetValue(1+14, (particule1.getForce() + UserForce).getY());
+				ForceObj.SetValue(1+21, 0.1f);
+			}
+			else
+			{
+				ForceObj.SetValue(1+14, -0.1f);
+				ForceObj.SetValue(1+21, (particule1.getForce() + UserForce).getY());
+			}
+			if (particule1.getForce().getZ() < 0)
+			{
+				ForceObj.SetValue(2+28, (particule1.getForce() + UserForce).getZ());
+				ForceObj.SetValue(2+35, 0.1f);
+			}
+			else
+			{
+				ForceObj.SetValue(2+28, -0.1f);
+				ForceObj.SetValue(2+35, (particule1.getForce() + UserForce).getZ());
+			}
+			ForceObj.Update();
+
+			ParticuleObject.SetMvt(particule1.getPostion().getX() - prevx, particule1.getPostion().getY() - prevy, particule1.getPostion().getZ() - prevz);
+			ParticuleObject.Update();
+
+			prevx = particule1.getPostion().getX();
+			prevy = particule1.getPostion().getY();
+			prevz = particule1.getPostion().getZ();
+
+			if (particule1.getPostion().getY() <= 0.01f)
+			{
+				float tempx = particule1.getVitesse().getX();
+				float tempy = particule1.getVitesse().getY();
+				float tempz = particule1.getVitesse().getZ();
+
+				particule1.setForce(UserForce + Vector3D(-tempx * abs(tempx), -tempy * abs(tempy), -tempz * abs(tempz)));
+
+			}
+			else
+			{
+				particule1.setForce(UserForce + gravity);
+			}
+		}
 		//std::cout << particule1.getPostion().getX() << "\t" << particule1.getPostion().getY() << "\t" << particule1.getPostion().getZ() << "\n";
 		
 		
@@ -360,7 +410,20 @@ int main()
 		//camera.SetRotation(glm::vec3(sin(x), y, cos(x)));
 		// ---------
 
+		static float f1 = 0.001f;
+		ImGui::InputFloat("input x", &f1, 0.01f, 1.0f, "%.3f");
+		static float f2 = 0.001f;
+		ImGui::InputFloat("input y", &f2, 0.01f, 1.0f, "%.3f");
+		static float f3 = 0.001f;
+		ImGui::InputFloat("input z", &f3, 0.01f, 1.0f, "%.3f");
 
+		if (UserForceEnabled)
+			UserForce = Vector3D(f1, f2, f3);
+		else
+			UserForce = Vector3D(0, 0, 0);
+
+		ImGui::Checkbox("UserForce enabled", &UserForceEnabled);
+		ImGui::Checkbox("Pause", &Paused);
 
 		//render Imgui
 		RenderFrame();
@@ -373,6 +436,7 @@ int main()
 
 		ParticuleObject.Draw(camera);
 
+		ForceObj.Draw(camera);
 
 		//Obj.Draw(camera);
 		GroundObj.Draw(camera);
