@@ -151,9 +151,9 @@ void ParticuleObject::SetMvt(float _x, float _y, float _z)
 	int i = 0;
 	while (i < vertices.size())
 	{
-		vertices.at(i) = vertices.at(i) + x;
-		vertices.at(i+1) = vertices.at(i+1) + y;
-		vertices.at(i+2) = vertices.at(i+2) + z;
+		vertices.at(i) = vertices.at(i) + _x;
+		vertices.at(i+1) = vertices.at(i+1) + _y;
+		vertices.at(i+2) = vertices.at(i+2) + _z;
 
 		i = i + 7;
 	}

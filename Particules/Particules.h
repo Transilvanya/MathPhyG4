@@ -18,15 +18,20 @@ public:
 	//getter
 	float getMasse();
 	float getInverseMasse();
+	Vector3D getForce();
+	Vector3D getPostion();
+	Vector3D getVitesse();
+	Vector3D getAcceleration();
 
 	//setter
 	void setMasse(float newMasse);
 	void setInverseMasse(float newMasse);
 	void setVectorAcceleration(Vector3D newAcceleration);
-
+	void setForce(Vector3D newforce);
 
 	//method
-	void intergrade();
+	void intergrade(float DT);
+
 
 
 
@@ -36,8 +41,8 @@ private:
 	Vector3D vectorAcceleration;
 	Vector3D force;
 
-	float inverseMasse;
-	float damping;
+	float inverseMasse = 1.0f;
+	float damping = 0.99f;
 };
 
 #endif //MATHPHYG4_PARTICULES_H

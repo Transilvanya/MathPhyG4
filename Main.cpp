@@ -47,13 +47,14 @@ namespace fs = std::filesystem;
 #include "UI/Windows/BasicWindows.cpp"
 #include "OpenGL/ThreeDObject.h"
 #include "OpenGL/ParticuleObject.h"
+#include "Particules/Particules.h"
 
 
 
 const unsigned int width = 1600;
 const unsigned int height = 800;
 
-
+/*
 
 std::vector<GLfloat> verticevector =
 { //     COORDINATES     /        COLORS      /   Alpha  //
@@ -115,10 +116,35 @@ std::vector<GLuint> indicevector =
 	3, 0, 4
 };
 
+*/
 
+std::vector<GLfloat> backgroundvertice =
+{  //     COORDINATES     /        COLORS      /   TexCoord  //
+	-20.0f,  0.0f,  -20.0f,   0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+	-20.0f, 20.0f,  -20.0f,	 0.83f, 0.70f, 0.44f,	0.0f, 1.0f,
+	 20.0f, 20.0f,  -20.0f,   0.83f, 0.70f, 0.44f,	1.0f, 1.0f,
+	 20.0f,  0.0f,  -20.0f,   0.83f, 0.70f, 0.44f,	1.0f, 0.0f,
+};
+std::vector<GLuint> backgroundindice =
+{
+	0, 1, 2,
+	0, 2, 3,
+};
 
+std::vector<GLfloat> groundvertice =
+{  //     COORDINATES     /        COLORS      /   TexCoord  //
+	-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	20.0f, 20.0f,
+	-20.0f, 0.0f,  20.0f,	0.83f, 0.70f, 0.44f,	20.0f, 0.0f,
+	 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
+	 20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.0f, 20.0f,
+};
+std::vector<GLuint> groundindice =
+{
+	0, 1, 2,
+	0, 2, 3,
+};
 
-Camera camera(width, height, glm::vec3(0.0f, 0.0f, 2.0f));
+Camera camera(width, height, glm::vec3(0.0f, 5.0f, 2.0f));
 
 
 //function to bind to the InputControler
@@ -147,7 +173,6 @@ void cameraMoveDown()
 {
 	camera.MoveDownCamera();
 }
-
 void cameraRotation(int _xpos, int _ypos)
 {
 	if (_xpos < width / 10 || _xpos > width * 9 / 10)
@@ -161,7 +186,6 @@ void cameraRotation(int _xpos, int _ypos)
 camera.RotateCamera(_xpos, _ypos);
 	
 }
-
 void cameraSettoDrift()
 {
 	camera.SetCameraToDrift();
@@ -184,10 +208,11 @@ int main()
 	}
 
 	// Generates Shader object using shaders default.vert and default.frag
-	Shader shaderProgram("OpenGL/Shaders/simplecolor.vert", "OpenGL/Shaders/simplecolor.frag");
-	Shader shaderProgram2("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
+	//Shader shaderProgramColor("OpenGL/Shaders/simplecolor.vert", "OpenGL/Shaders/simplecolor.frag");
+	Shader shaderProgramTextureBG("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
+	Shader shaderProgramTextureGround("OpenGL/Shaders/default.vert", "OpenGL/Shaders/default.frag");
 
-
+	/*
 	//create a 3D object to display
 	ThreeDObject Obj(shaderProgram, indicevector, verticevector);
 
@@ -203,7 +228,7 @@ int main()
 	Obj.SetIndice(11, 5);
 
 	Obj.Update();
-
+	*/
 
 
 	// Texture ______________________________________
@@ -217,22 +242,16 @@ int main()
 	Texture brickTex((parentDir + texPath + "brick.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 
 	//Create a 3Dobject with a texture
-	ThreeDObjectTexture Obj2(shaderProgram2, brickTex, indicevector2, verticevector2);
-	Obj2.Update();
-
-
+	ThreeDObjectTexture GroundObj(shaderProgramTextureGround, brickTex, groundindice, groundvertice);
 	
 	Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGBA, GL_UNSIGNED_BYTE);
 	//Texture catTex((parentDir + texPath + "pop_cat.png").c_str(), GL_TEXTURE_2D, GL_TEXTURE1, GL_RGBA, GL_UNSIGNED_BYTE);
 
-	ThreeDObjectTexture Obj3(shaderProgram2, catTex, indicevector3, verticevector3);
-	Obj3.Update();
+	ThreeDObjectTexture BGObj(shaderProgramTextureBG, catTex, backgroundindice, backgroundvertice);
 
 
 
-
-
-	ParticuleObject ptobj(0.0f, 0.0f ,0.0f ,0.9f, 0.0f, 0.5f, 1.0f, 0.1f);
+	ParticuleObject ParticuleObject(0.0f, 0.0f , -18.0f ,0.9f, 0.0f, 0.5f, 1.0f, 1.0f);
 	
 	// ______________________________     ImGui Setup
 	
@@ -263,8 +282,50 @@ int main()
 	float x = 0.5f;
 	float y = 0.5f;
 
-	while (!Manager::CloseMainWindow(window))
+	Particules particule1(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(5.0f, 20.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
+
+	Vector3D gravity(0.0f, -9.8f, 0.0f);
+	Vector3D NoForce(0.0f, 0.0f, 0.0f);
+
+	particule1.setForce(gravity * particule1.getMasse());
+
+	float FrameRate = 1.0f / 60.0f;
+
+	bool ParticuleContact = false;
+
+	float prevx = particule1.getPostion().getX();
+	float prevy = particule1.getPostion().getY();
+	float prevz = particule1.getPostion().getZ();
+
+	while (!Manager::CloseMainWindow(window) )
 	{
+		particule1.intergrade(FrameRate);
+
+
+		ParticuleObject.SetMvt(particule1.getPostion().getX() - prevx, particule1.getPostion().getY() - prevy, particule1.getPostion().getZ() - prevz);
+		ParticuleObject.Update();
+
+		prevx = particule1.getPostion().getX();
+		prevy = particule1.getPostion().getY();
+		prevz = particule1.getPostion().getZ();
+
+		if (particule1.getPostion().getY() <= 0.01f)
+		{
+			float tempx = particule1.getVitesse().getX();
+			float tempy = particule1.getVitesse().getY();
+			float tempz = particule1.getVitesse().getZ();
+			
+			particule1.setForce(Vector3D(0, - 10 * tempy * abs(tempy), 0));
+			
+		}
+		else 
+		{
+			particule1.setForce(gravity);
+		}
+
+		//std::cout << particule1.getPostion().getX() << "\t" << particule1.getPostion().getY() << "\t" << particule1.getPostion().getZ() << "\n";
+		
+		
 		//Obj2.SetMvt(0.1f, 0.0f, 0.0f);
 		//Obj2.Update();
 
@@ -310,16 +371,18 @@ int main()
 
 		//Draw Objects
 
-		ptobj.Draw(camera);
+		ParticuleObject.Draw(camera);
 
 
 		//Obj.Draw(camera);
-		Obj3.Draw(camera);
+		GroundObj.Draw(camera);
+		//BGObj.Draw(camera);
 
 		//Render the 3D objects
 		RenderFrameData();
 
 		Manager::CleanElements(window);
+		
 	}
 
 
@@ -332,11 +395,15 @@ int main()
 	//VBO1.Delete();
 	//EBO1.Delete();
 
+	GroundObj.Delete();
+	BGObj.Delete();
+	ParticuleObject.Delete();
 
+	catTex.Delete();
 	brickTex.Delete();
 
-	shaderProgram.Delete();
-	shaderProgram2.Delete();
+	shaderProgramTextureBG.Delete();
+	shaderProgramTextureGround.Delete();
 
 
 	Manager::DeleteWindow(window);

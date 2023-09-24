@@ -1,0 +1,31 @@
+Journal de développement
+
+Hadrien Wilbert
+Engin graphique et UI :
+Le code est basé sur les deux dépôts suivants :
+Pour ImGui : https://github.com/ocornut/imgui/tree/master/examples/example_glfw_opengl3
+Pour OpenGL : https://github.com/VictorGordan/opengl-tutorials
+Qui fournissent un code avec les fonctions basiques pour OpenGL et ImGui. Le code a ensuite été étendu pour fournir les fonctions dont nous avions besoin.
+
+Camera :
+Initialement, la caméra était contrôlée par le moteur graphique. 
+Afin de découpler l’engin graphique de l’input controler, la caméra a une liste de fonction de déplacement et de rotation. 
+L’input controler contient des pointeurs de fonction associé aux différentes keys. 
+Lors de l’initialisation, on passe les fonctions de la camera dans les pointeurs des différentes keys. 
+
+Ça a l’avantage de découpler la camera de l’engin graphique ainsi que de nous permettre la possibilité de créer un système de keybinding plus tard. 
+
+
+
+Un autre problème avec la caméra était la difficulté de contrôle avec le système initial ; 
+la camera avait une seule orientation qui suivait la souris si le bouton gauche était enfoncé. 
+L’orientation est déplacée à l’aide de la différence de position entre la souris et le centre de l’écran, 
+ce système faisait que la camera était erratique et qu’elle bougeait constamment lors du changement d’orientation. 
+
+Afin de remédier à ça, la caméra a deux orientations, une temporaire et une permanente. 
+Quand on change l’orientation de la caméra, l’orientation temporaire est mise à jour mais pas l’orientation permanente. 
+Comme l’orientation temporaire est calculé depuis l’orientation permanente et la position de la souris, cela fait que l’orientation temporaire reste stable. 
+Si la souris atteint les bords de l’écran, on change l’orientation permanente, ce qui tourne la caméra entière. 
+
+Quand le bouton de la souris est relâché, l’orientation permanente prend la valeur de l’orientation temporaire.
+
