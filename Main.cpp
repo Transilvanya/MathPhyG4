@@ -40,6 +40,7 @@ namespace fs = std::filesystem;
 #ifdef __EMSCRIPTEN__
 #include "../libs/emscripten/emscripten_mainloop_stub.h"
 #endif
+
 #include "UI/imgui_perso.cpp"
 #include "UI/InputControler.cpp"
 #include "OpenGL/Manager.h"
@@ -48,7 +49,20 @@ namespace fs = std::filesystem;
 #include "OpenGL/ThreeDObject.h"
 #include "OpenGL/ParticuleObject.h"
 #include "Particules/Particules.h"
+#include "MainManager/MainManager.h"
+#include "PhysicEngine/PhysicEngine.h"
+#include "GraphicEngine/GraphicEngine.h"
 
+
+
+
+/* -- static init -- */
+
+MainManager* MainManager::_mainmanagerptr = NULL;
+PhysicEngine* PhysicEngine::_physicengineptr = NULL;
+GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
+
+/* -- ----------- -- */
 
 
 const unsigned int width = 1600;
@@ -214,6 +228,7 @@ void cameraSettoDrift()
 
 int main()
 {
+
 	//Setup OpeGL
 
 	const char* glsl_version = "#version 130";
@@ -259,8 +274,9 @@ int main()
 	ThreeDObjectTexture BGObj(shaderProgramTextureBG, catTex, backgroundindice, backgroundvertice);
 
 
-
+	ParticuleObject ParticuleObject2(0.0f, 0.0f, -18.0f, 0.9f, 0.0f, 0.5f, 1.0f, 1.0f);
 	ParticuleObject ParticuleObject(0.0f, 0.0f , -18.0f ,0.9f, 0.0f, 0.5f, 1.0f, 1.0f);
+
 	
 	// ______________________________     ImGui Setup
 	
@@ -292,11 +308,13 @@ int main()
 	float y = 0.5f;
 
 	Particules particule1(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(5.0f, 20.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
+	Particules particule2(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(3.0f, 40.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
 
 	Vector3D gravity(0.0f, -9.8f, 0.0f);
 	Vector3D NoForce(0.0f, 0.0f, 0.0f);
 
 	particule1.setForce(gravity * particule1.getMasse());
+	particule2.setForce(gravity * particule2.getMasse());
 
 	float FrameRate = 1.0f / 60.0f;
 
@@ -306,18 +324,55 @@ int main()
 	float prevy = particule1.getPostion().getY();
 	float prevz = particule1.getPostion().getZ();
 
+	float prevx2 = particule2.getPostion().getX();
+	float prevy2 = particule2.getPostion().getY();
+	float prevz2 = particule2.getPostion().getZ();
 
 	Vector3D UserForce(0, 0, 0);
 	
 	static bool Paused = false;
 	static bool UserForceEnabled = true;
 
+
+
+	MainManager::GetInstance()->Init();
+	MainManager::GetInstance()->Update();
+	TimeSystem* ts = (TimeSystem*) MainManager::GetInstance()->GetSystem("timesystem");
+
+
+
+	Entity* e = new Entity(new PhysicObject(), new GraphicObject(), "name");
+	e->SetName("name");
+
+	MainManager::GetInstance()->AddEntity(e);
+
+	//MainManager::GetInstance()->RemoveSystem("timesystem");
+	MainManager::GetInstance()->RemoveEntity("name");
+
+	if (MainManager::GetInstance()->GetEntity("name") != nullptr)
+	{
+		std::cout << "success\n";
+	}
+	else
+	{
+		std::cout << "failed\n";
+	}
+	
+
+	
 	while (!Manager::CloseMainWindow(window) )
 	{
+		MainManager::GetInstance()->Update();
+		//std::cout << ts->GetDeltaT() << std::endl;
+
+
 		if (!Paused)
 		{
+			//ImGui::GetIO().DeltaTime;
+			FrameRate = io.DeltaTime;
 
 			particule1.intergrade(FrameRate);
+			particule2.intergrade(FrameRate);
 
 
 			if ((particule1.getForce()+ UserForce).getX() < 0)
@@ -355,9 +410,18 @@ int main()
 			ParticuleObject.SetMvt(particule1.getPostion().getX() - prevx, particule1.getPostion().getY() - prevy, particule1.getPostion().getZ() - prevz);
 			ParticuleObject.Update();
 
+			ParticuleObject2.SetMvt(particule2.getPostion().getX() - prevx2, particule2.getPostion().getY() - prevy2, particule2.getPostion().getZ() - prevz2);
+			ParticuleObject2.Update();
+
 			prevx = particule1.getPostion().getX();
 			prevy = particule1.getPostion().getY();
 			prevz = particule1.getPostion().getZ();
+
+			prevx2 = particule2.getPostion().getX();
+			prevy2 = particule2.getPostion().getY();
+			prevz2 = particule2.getPostion().getZ();
+
+
 
 			if (particule1.getPostion().getY() <= 0.01f)
 			{
@@ -405,8 +469,10 @@ int main()
 		if (ImGui::Button("Reset"))
 		{
 			particule1 = Particules(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(5.0f, 20.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
-
 			particule1.setForce(gravity * particule1.getMasse());
+
+			particule2 = Particules(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(3.0f, 40.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
+			particule2.setForce(gravity* particule2.getMasse());
 		}
 
 
@@ -473,6 +539,10 @@ int main()
 		}
 		*/
 		
+
+		ImGui::Text("Application average %.3f ms/frame (%.1f FPS)  %.1f", 1000.0f / io.Framerate, io.Framerate, io.DeltaTime * 1000);
+		//ImGui::Text("Delta T : %d", ts->GetDeltaT());
+
 		ImGui::End();
 		
 		
@@ -486,6 +556,7 @@ int main()
 		//Draw Objects
 
 		ParticuleObject.Draw(camera);
+		ParticuleObject2.Draw(camera);
 
 		ForceObj.Draw(camera);
 
