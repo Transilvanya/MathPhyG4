@@ -52,6 +52,7 @@ namespace fs = std::filesystem;
 #include "MainManager/MainManager.h"
 #include "PhysicEngine/PhysicEngine.h"
 #include "GraphicEngine/GraphicEngine.h"
+#include "PhysicEngine/ForcesManager.h"
 
 
 
@@ -228,7 +229,6 @@ void cameraSettoDrift()
 
 int main()
 {
-
 	//Setup OpeGL
 
 	const char* glsl_version = "#version 130";
@@ -303,41 +303,18 @@ int main()
 
 	setMouseReleasefunc(cameraSettoDrift);
 
+	TimeSystem* ts = (TimeSystem*)MainManager::GetInstance()->GetSystem("timesystem");
 
-	float x = 0.5f;
-	float y = 0.5f;
+	ForcesManager* forcesManager = new ForcesManager();
+	forcesManager->forcesLoop(ts->GetDeltaT());
 
-	Particules particule1(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(5.0f, 20.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
-	Particules particule2(Vector3D(0.0f, 0.0f, -18.0f), Vector3D(3.0f, 40.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f));
 
-	Vector3D gravity(0.0f, -9.8f, 0.0f);
-	Vector3D NoForce(0.0f, 0.0f, 0.0f);
-
-	particule1.setForce(gravity * particule1.getMasse());
-	particule2.setForce(gravity * particule2.getMasse());
-
-	float FrameRate = 1.0f / 60.0f;
-
-	bool ParticuleContact = false;
-
-	float prevx = particule1.getPostion().getX();
-	float prevy = particule1.getPostion().getY();
-	float prevz = particule1.getPostion().getZ();
-
-	float prevx2 = particule2.getPostion().getX();
-	float prevy2 = particule2.getPostion().getY();
-	float prevz2 = particule2.getPostion().getZ();
-
-	Vector3D UserForce(0, 0, 0);
-	
 	static bool Paused = false;
 	static bool UserForceEnabled = true;
 
-
-
 	MainManager::GetInstance()->Init();
 	MainManager::GetInstance()->Update();
-	TimeSystem* ts = (TimeSystem*) MainManager::GetInstance()->GetSystem("timesystem");
+	
 
 
 
