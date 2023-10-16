@@ -70,7 +70,7 @@ void Particules::setForce(Vector3D newforce)
 	force = newforce;
 }
 
-void Particules::intergrade(float DT){
+void Particules::integrade(float DT){
 	this->vectorPosition = this->vectorPosition + (this->vectorVitesse * DT);
 	this->vectorAcceleration = force * this->getInverseMasse();
 	this->vectorVitesse = this->vectorVitesse * damping + (this->vectorAcceleration * DT);

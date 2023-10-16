@@ -30,7 +30,7 @@ public:
 	void setForce(Vector3D newforce);
 
 	//method
-	void intergrade(float DT);
+	void integrade(float DT);
 
 
 

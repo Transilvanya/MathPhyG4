@@ -104,6 +104,7 @@ Vector3D Vector3D::operator*(float scalar)
     return nVector;
 }
 
+//produit scalaire
 float Vector3D::operator&(Vector3D rightVector)
 {
     float returnValue = 0;
