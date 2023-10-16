@@ -190,6 +190,8 @@
     <ClCompile Include="vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collisions\CollisionSytem.h" />
+    <ClInclude Include="Collisions\ContactSolver.h" />
     <ClInclude Include="MainManager\TimeSystem.h" />
     <ClInclude Include="MainManager\Entity.h" />
     <ClInclude Include="GraphicEngine\GraphicEngine.h" />
