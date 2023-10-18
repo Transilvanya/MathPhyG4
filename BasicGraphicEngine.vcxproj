@@ -160,6 +160,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GraphicEngine\GraphicEngine.cpp" />
+    <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
     <ClCompile Include="MainManager\Entity.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />

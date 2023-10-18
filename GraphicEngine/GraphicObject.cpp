@@ -1,21 +1,22 @@
-#include "ParticuleObject.h"
+#include "GraphicObject.h"
 
-ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a, GLfloat _size)
+
+GraphicObject::GraphicObject(GLfloat x, GLfloat y, GLfloat z, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat size)
 {
-	x = _x;
-	y = _y;
-	z = _z;
-	r = _r;
-	g = _g;
-	b = _b;
-	a = _a;
+	vect.setX(x);
+	vect.setY(y);
+	vect.setZ(z);
+	this->r = r;
+	this->g = g;
+	this->b = b;
+	this->a = a;
 
 
-	std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << a << "\n";
+	//std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << a << "\n";
 
 	// Point 1
 
-	vertices.push_back(x + _size);
+	vertices.push_back(x + size);
 	vertices.push_back(y);
 	vertices.push_back(z);
 
@@ -28,7 +29,7 @@ ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r,
 	// Point 2
 
 	vertices.push_back(x);
-	vertices.push_back(y + _size);
+	vertices.push_back(y + size);
 	vertices.push_back(z);
 
 	vertices.push_back(r);
@@ -39,7 +40,7 @@ ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r,
 
 	// Point 3
 
-	vertices.push_back(x - _size);
+	vertices.push_back(x - size);
 	vertices.push_back(y);
 	vertices.push_back(z);
 
@@ -52,7 +53,7 @@ ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r,
 	// Point 4
 
 	vertices.push_back(x);
-	vertices.push_back(y - _size);
+	vertices.push_back(y - size);
 	vertices.push_back(z);
 
 	vertices.push_back(r);
@@ -65,7 +66,7 @@ ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r,
 
 	vertices.push_back(x);
 	vertices.push_back(y);
-	vertices.push_back(z + _size);
+	vertices.push_back(z + size);
 
 	vertices.push_back(r);
 	vertices.push_back(g);
@@ -77,7 +78,7 @@ ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r,
 
 	vertices.push_back(x);
 	vertices.push_back(y);
-	vertices.push_back(z - _size);
+	vertices.push_back(z - size);
 
 	vertices.push_back(r);
 	vertices.push_back(g);
@@ -137,29 +138,169 @@ ParticuleObject::ParticuleObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r,
 	Update();
 }
 
-ParticuleObject::~ParticuleObject()
+GraphicObject::GraphicObject() {
+
+}
+
+GraphicObject::GraphicObject(Vector3D vect, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat size)
+{
+	this->vect = Vector3D(vect.getX(), vect.getY(), vect.getZ());
+	this->r = r;
+	this->g = g;
+	this->b = b;
+	this->a = a;
+
+
+	//std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << a << "\n";
+
+	// Point 1
+
+	vertices.push_back(this->vect.getX() + size);
+	vertices.push_back(this->vect.getY());
+	vertices.push_back(this->vect.getZ());
+
+	vertices.push_back(r);
+	vertices.push_back(g);
+	vertices.push_back(b);
+
+	vertices.push_back(a);
+
+	// Point 2
+
+	vertices.push_back(this->vect.getX());
+	vertices.push_back(this->vect.getY() + size);
+	vertices.push_back(this->vect.getZ());
+
+	vertices.push_back(r);
+	vertices.push_back(g);
+	vertices.push_back(b);
+
+	vertices.push_back(a);
+
+	// Point 3
+
+
+	vertices.push_back(this->vect.getX() - size);
+	vertices.push_back(this->vect.getY());
+	vertices.push_back(this->vect.getZ());
+
+	vertices.push_back(r);
+	vertices.push_back(g);
+	vertices.push_back(b);
+
+	vertices.push_back(a);
+
+	// Point 4
+	vertices.push_back(this->vect.getX());
+	vertices.push_back(this->vect.getY() - size);
+	vertices.push_back(this->vect.getZ());
+
+	vertices.push_back(r);
+	vertices.push_back(g);
+	vertices.push_back(b);
+
+	vertices.push_back(a);
+
+	// Point 5
+
+	vertices.push_back(this->vect.getX());
+	vertices.push_back(this->vect.getY());
+	vertices.push_back(this->vect.getZ() + size);
+
+	vertices.push_back(r);
+	vertices.push_back(g);
+	vertices.push_back(b);
+
+	vertices.push_back(a);
+
+	// Point 6
+
+	vertices.push_back(this->vect.getX());
+	vertices.push_back(this->vect.getY());
+	vertices.push_back(this->vect.getZ() - size);
+
+	vertices.push_back(r);
+	vertices.push_back(g);
+	vertices.push_back(b);
+
+	vertices.push_back(a);
+
+	// Triangle 1
+
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(4);
+
+	// Triangle 2
+
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(4);
+
+	// Triangle 3
+
+	indices.push_back(2);
+	indices.push_back(3);
+	indices.push_back(4);
+
+	// Triangle 4
+
+	indices.push_back(0);
+	indices.push_back(3);
+	indices.push_back(4);
+
+	// Triangle 5
+
+	indices.push_back(0);
+	indices.push_back(1);
+	indices.push_back(5);
+
+	// Triangle 6
+
+	indices.push_back(1);
+	indices.push_back(2);
+	indices.push_back(5);
+
+	// Triangle 7
+
+	indices.push_back(2);
+	indices.push_back(3);
+	indices.push_back(5);
+
+	// Triangle 8
+
+	indices.push_back(0);
+	indices.push_back(3);
+	indices.push_back(5);
+
+
+	Update();
+}
+
+GraphicObject::~GraphicObject()
 {
 	Delete();
 }
 
-void ParticuleObject::SetMvt(float _x, float _y, float _z)
+
+void GraphicObject::SetMvt(float _x, float _y, float _z)
 {
-	x = x+_x;
-	y = y+_y;
-	z = z+_z;
+	this->vect.setX(vect.getX() + _x);
+	this->vect.setY(vect.getY() + _y);
+	this->vect.setZ(vect.getZ() + _z);
 	//move all vertices according to the inputs
 	int i = 0;
 	while (i < vertices.size())
 	{
 		vertices.at(i) = vertices.at(i) + _x;
-		vertices.at(i+1) = vertices.at(i+1) + _y;
-		vertices.at(i+2) = vertices.at(i+2) + _z;
+		vertices.at(i + 1) = vertices.at(i + 1) + _y;
+		vertices.at(i + 2) = vertices.at(i + 2) + _z;
 
 		i = i + 7;
 	}
 }
 
-void ParticuleObject::SetColor(GLfloat _r, GLfloat _g, GLfloat _b)
+void GraphicObject::SetColor(GLfloat _r, GLfloat _g, GLfloat _b)
 {
 	r = _r;
 	g = _g;
@@ -176,12 +317,14 @@ void ParticuleObject::SetColor(GLfloat _r, GLfloat _g, GLfloat _b)
 	}
 }
 
-void ParticuleObject::Update()
+
+
+void GraphicObject::Update()
 {
 	_VAO.Bind();
 
 
-	
+
 	// Generates Vertex Buffer Object and links it to vertices
 	//store the data of the vertices
 	GLfloat arr[100];
@@ -209,7 +352,7 @@ void ParticuleObject::Update()
 	_EBO.Unbind();
 }
 
-void ParticuleObject::Draw(Camera camera)
+void GraphicObject::Draw(Camera camera)
 {
 	shaderProgram.Activate(); //indicate what shader to draw
 
@@ -223,7 +366,7 @@ void ParticuleObject::Draw(Camera camera)
 }
 
 
-void ParticuleObject::Delete()
+void GraphicObject::Delete()
 {
 	_VAO.Delete();
 	_VBO.Delete();
@@ -231,5 +374,3 @@ void ParticuleObject::Delete()
 
 	shaderProgram.Delete();
 }
-
-

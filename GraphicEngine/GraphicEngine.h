@@ -3,7 +3,7 @@
 
 #include <list>
 #include "../GraphicEngine/GraphicObject.h"
-
+#include "../OpenGL/Camera.h"
 class GraphicEngine
 {
 public:
@@ -24,7 +24,26 @@ public:
 		ElementToDisplay.push_back(object);
 	}
 
+	int init();
+
+
+	// getter and setter
+
+	Camera getCamera();
+	unsigned int getWidth();
+	unsigned int getHeight();
+
 private:
+
+
+	const unsigned int width = 1600;
+	const unsigned int height = 800;
+
+	Camera camera = Camera(width, height, glm::vec3(0.0f, 1.0f, 20.0f));
+		Shader shaderProgram = Shader("OpenGL/Shaders/simplecolor.vert", "OpenGL/Shaders/simplecolor.frag");
+	void inputControlerBinding();
+	
+
 
 	std::list<GraphicObject*> ElementToDisplay;
 };
