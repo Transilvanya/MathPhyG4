@@ -40,7 +40,7 @@ private:
 	const unsigned int height = 800;
 
 	Camera camera = Camera(width, height, glm::vec3(0.0f, 1.0f, 20.0f));
-		Shader shaderProgram = Shader("OpenGL/Shaders/simplecolor.vert", "OpenGL/Shaders/simplecolor.frag");
+	
 	void inputControlerBinding();
 	
 

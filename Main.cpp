@@ -144,14 +144,15 @@ int main()
 
 
 
-	//MainManager::GetInstance()->Init();
-	//MainManager::GetInstance()->Update();
+	MainManager::GetInstance()->Init();
+	MainManager::GetInstance()->Update();
 	//TimeSystem* ts = (TimeSystem*) MainManager::GetInstance()->GetSystem("timesystem");
 
-
-	GraphicObject ge = GraphicObject();
-	/*Entity* e = new Entity(new PhysicObject(), new GraphicObject(0.0f, 0.0f, 0.f, 1.f, 1.f, 1.f, 0.f, 2.f), "name");
-	e->SetName("name");*/
+	GraphicEngine::GetInstance()->init();
+	
+	
+	Entity* e = new Entity(new PhysicObject(), new GraphicObject(0.0f, 0.0f, 0.f, 1.f, 1.f, 1.f, 0.f, 2.f), "name");
+	e->SetName("name");
 
 	//MainManager::GetInstance()->AddEntity(e);
 
@@ -166,8 +167,8 @@ int main()
 	//{
 	//	std::cout << "failed\n";
 	//}
-	//GraphicEngine::GetInstance()->init();
+	
 
 
-	return 0;
+	return EXIT_SUCCESS;
 }

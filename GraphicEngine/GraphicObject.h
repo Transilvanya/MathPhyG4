@@ -19,6 +19,7 @@ public :
 	GLfloat g;
 	GLfloat b;
 	GLfloat a;
+
 	GraphicObject();
 	GraphicObject(Vector3D vect, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a, GLfloat _size);
 	GraphicObject(GLfloat _x, GLfloat _y, GLfloat _z, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a, GLfloat _size);
@@ -26,8 +27,6 @@ public :
 
 	//Move and rotate the camera
 	void SetMvt(float _x, float _y, float _z);
-
-	void SetMvt(Vector3D vect);
 
 	void SetColor(GLfloat _r, GLfloat _g, GLfloat _b);
 

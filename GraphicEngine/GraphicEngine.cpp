@@ -119,11 +119,16 @@ std::vector<GLuint> Forceindice =
 
 int GraphicEngine::init()
 {
+
+
+	
 	//Setup OpenGL
 
 	const char* glsl_version = "#version 130";
 	GLFWwindow* window;
-	
+
+
+
 	try
 	{
 		

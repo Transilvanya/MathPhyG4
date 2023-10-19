@@ -142,88 +142,88 @@ GraphicObject::GraphicObject() {
 
 }
 
-GraphicObject::GraphicObject(Vector3D vect, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat size)
+GraphicObject::GraphicObject(Vector3D vect, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a, GLfloat _size)
 {
 	this->vect = Vector3D(vect.getX(), vect.getY(), vect.getZ());
-	this->r = r;
-	this->g = g;
-	this->b = b;
-	this->a = a;
+	this->r = _r;
+	this->g = _g;
+	this->b = _b;
+	this->a = _a;
 
 
 	//std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << a << "\n";
 
 	// Point 1
 
-	vertices.push_back(this->vect.getX() + size);
+	vertices.push_back(this->vect.getX() + _size);
 	vertices.push_back(this->vect.getY());
 	vertices.push_back(this->vect.getZ());
 
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
+	vertices.push_back(_r);
+	vertices.push_back(_g);
+	vertices.push_back(_b);
 
 	vertices.push_back(a);
 
 	// Point 2
 
 	vertices.push_back(this->vect.getX());
-	vertices.push_back(this->vect.getY() + size);
+	vertices.push_back(this->vect.getY() + _size);
 	vertices.push_back(this->vect.getZ());
 
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
+	vertices.push_back(_r);
+	vertices.push_back(_g);
+	vertices.push_back(_b);
 
-	vertices.push_back(a);
+	vertices.push_back(_a);
 
 	// Point 3
 
 
-	vertices.push_back(this->vect.getX() - size);
+	vertices.push_back(this->vect.getX() - _size);
 	vertices.push_back(this->vect.getY());
 	vertices.push_back(this->vect.getZ());
 
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
+	vertices.push_back(_r);
+	vertices.push_back(_g);
+	vertices.push_back(_b);
 
-	vertices.push_back(a);
+	vertices.push_back(_a);
 
 	// Point 4
 	vertices.push_back(this->vect.getX());
-	vertices.push_back(this->vect.getY() - size);
+	vertices.push_back(this->vect.getY() - _size);
 	vertices.push_back(this->vect.getZ());
 
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
+	vertices.push_back(_r);
+	vertices.push_back(_g);
+	vertices.push_back(_b);
 
-	vertices.push_back(a);
+	vertices.push_back(_a);
 
 	// Point 5
 
 	vertices.push_back(this->vect.getX());
 	vertices.push_back(this->vect.getY());
-	vertices.push_back(this->vect.getZ() + size);
+	vertices.push_back(this->vect.getZ() + _size);
 
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
+	vertices.push_back(_r);
+	vertices.push_back(_g);
+	vertices.push_back(_b);
 
-	vertices.push_back(a);
+	vertices.push_back(_a);
 
 	// Point 6
 
 	vertices.push_back(this->vect.getX());
 	vertices.push_back(this->vect.getY());
-	vertices.push_back(this->vect.getZ() - size);
+	vertices.push_back(this->vect.getZ() - _size);
 
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
+	vertices.push_back(_r);
+	vertices.push_back(_g);
+	vertices.push_back(_b);
 
-	vertices.push_back(a);
+	vertices.push_back(_a);
 
 	// Triangle 1
 
