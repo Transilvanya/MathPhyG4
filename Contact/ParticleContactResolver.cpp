@@ -6,11 +6,11 @@
 void ParticleContactResolver::resolveContacts(ParticleContact* contactArray,
 	unsigned int numContacts,
 	float duration) {
-	int i = 0;
+	unsigned int i = 0;
 	for (i = 0; i < this->iterations; i++) {
 		float max = 0;
 		int maxIndex = numContacts;
-		for (int j = 0; j < numContacts; j++) {
+		for (unsigned int j = 0; j < numContacts; j++) {
 			float sepVel = contactArray[j].calculateSeparatingVelocity();
 			if (sepVel < max) {
 				max = sepVel;

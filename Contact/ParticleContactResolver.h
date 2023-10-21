@@ -1,7 +1,6 @@
 #pragma once
 #ifndef MATHPHYG4_PARTICLECONTACTRESOLVER_H
 #define MATHPHYG4_PARTICLECONTACTRESOLVER_H
-#include "../Particules/Particules.h"
 #include "ParticleContact.h"
 
 

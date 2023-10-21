@@ -1,13 +1,13 @@
 #pragma once
 #ifndef MATHPHYG4_PARTICLECONTACT_H
 #define MATHPHYG4_PARTICLECONTACT_H
-#include "../Particules/Particules.h"
+#include "../PhysicEngine/Particules/Particule.h"
 
 class ParticleContact 
 {
 public:
 
-	Particules* particule[2];
+	Particule* particule[2];
 
 	float restitution;
 

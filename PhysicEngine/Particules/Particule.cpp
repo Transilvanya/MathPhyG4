@@ -38,7 +38,7 @@ Vector3D Particule::getForce()
 	return force;
 }
 
-Vector3D Particule::getPostion()
+Vector3D Particule::getPosition()
 {
 	return vectorPosition;
 }
@@ -51,6 +51,21 @@ Vector3D Particule::getVitesse()
 Vector3D Particule::getAcceleration()
 {
 	return vectorAcceleration;
+}
+
+void Particule::setPosition(Vector3D newPosition)
+{
+	vectorPosition = newPosition;
+}
+
+void Particule::setVitesse(Vector3D newVitesse)
+{
+	vectorVitesse = newVitesse;
+}
+
+void Particule::setAcceleration(Vector3D newAcceleration)
+{
+	vectorAcceleration = newAcceleration;
 }
 
 void Particule::setMasse(float newMasse)

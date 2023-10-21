@@ -1,34 +1,34 @@
 #include "ParticleRod.h"
 
-int ParticleRod::addContact(ParticleContact* contact, int limit) const
+unsigned int ParticleRod::addContact(ParticleContact* contact, int limit) const
 {
 	// Find the length of the rod
 	float currentLen = currentLength();
 
 	// Check if we're overextended
-	if (currentLen == length)
+	if (currentLen == maxLength)
 	{
 		return 0;
 	}
 
 	// Otherwise return the contact
-	contact->particle[0] = particle[0];
-	contact->particle[1] = particle[1];
+	contact->particule[0] = particule[0];
+	contact->particule[1] = particule[1];
 
 	// Calculate the normal
-	Vector3 normal = particle[1]->getPosition() - particle[0]->getPosition();
-	normal.normalise();
+	Vector3D normal = particule[1]->getPosition() - particule[0]->getPosition();
+	normal.getNorm();
 
 	// The contact normal depends on whether we're extending or compressing
-	if (currentLen > length)
+	if (currentLen > limit)
 	{
 		contact->contactNormal = normal;
-		contact->penetration = currentLen - length;
+		contact->penetration = currentLen - limit;
 	}
 	else
 	{
 		contact->contactNormal = normal * -1;
-		contact->penetration = length - currentLen;
+		contact->penetration = maxLength - currentLen;
 	}
 
 	// Always use zero restitution (no bounciness)

@@ -6,9 +6,9 @@
 class ParticleRod : public ParticleLink
 {
 public:
-		float length;
+		float maxLength;
 
-		unsigned int addContact(ParticleContact* contact, unsigned int limit) const;
+		unsigned int addContact(ParticleContact* contact, int limit) const;
 };
 
 #endif // MATHPHYG4_PARTICLEROD_H

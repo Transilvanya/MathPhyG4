@@ -20,7 +20,7 @@ float ParticleContact::calculateSeparatingVelocity() const
 //Handle impulse for this collision
 void ParticleContact::resolveVelocity() 
 {
-	int k = 0;
+	float k = 0;
 	Vector3D vRel = particule[0]->getVitesse() - particule[1]->getVitesse();
 	k = vRel * (restitution+1) & contactNormal;
 	k = k / (particule[0]->getInverseMasse() + particule[1]->getInverseMasse());
@@ -33,6 +33,6 @@ void ParticleContact::resolveInterpenetration()
 	int deltaB = -(particule[0]->getMasse()) / (particule[0]->getMasse() + particule[1]->getMasse());
 
 
-	particule[0]->setPosition(particule[0]->getPostion() + (contactNormal * deltaA * penetration));
-	particule[1]->setPosition(particule[1]->getPostion() + (contactNormal * deltaB * penetration));
+	particule[0]->setPosition(particule[0]->getPosition() + (contactNormal * deltaA * penetration));
+	particule[1]->setPosition(particule[1]->getPosition() + (contactNormal * deltaB * penetration));
 }

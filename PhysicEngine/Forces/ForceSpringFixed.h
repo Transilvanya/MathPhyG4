@@ -21,7 +21,7 @@ public:
 	virtual std::string getType() { return "ForceSpringFixed"; }
 	virtual OutValues ApplyForce(Particule* object)
 	{ 
-		Vector3D v = object->getPostion() - anchorpoint;
+		Vector3D v = object->getPosition() - anchorpoint;
 		Vector3D output = Vector3D(v.getUnitVector()[0], v.getUnitVector()[1], v.getUnitVector()[2]);
 		output = output * (-k) * (v.getNorm() - l0);
 

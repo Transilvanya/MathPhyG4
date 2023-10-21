@@ -1,6 +1,6 @@
 #include "ParticleCable.h"
 
-int ParticleCable::addContact(ParticleContact* contact, int limit) const
+unsigned int ParticleCable::addContact(ParticleContact* contact, int limit) const
 {
 	// Find the length of the cable
 	float length = currentLength();
@@ -12,12 +12,12 @@ int ParticleCable::addContact(ParticleContact* contact, int limit) const
 	}
 
 	// Otherwise return the contact
-	contact->particle[0] = particle[0];
-	contact->particle[1] = particle[1];
+	contact->particule[0] = particule[0];
+	contact->particule[1] = particule[1];
 
 	// Calculate the normal
-	Vector3 normal = particle[1]->getPosition() - particle[0]->getPosition();
-	normal.normalize();
+	Vector3D normal = particule[1]->getPosition() - particule[0]->getPosition();
+	normal.getNorm();
 	contact->contactNormal = normal;
 
 	contact->penetration = length - maxLength;

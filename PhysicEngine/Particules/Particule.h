@@ -19,11 +19,14 @@ public:
 	virtual float getMasse();
 	virtual float getInverseMasse();
 	virtual Vector3D getForce();
-	virtual Vector3D getPostion();
+	virtual Vector3D getPosition();
 	virtual Vector3D getVitesse();
 	virtual Vector3D getAcceleration();
 
 	//setter
+	virtual void setPosition(Vector3D newPosition);
+	virtual void setVitesse(Vector3D newVitesse);
+	virtual void setAcceleration(Vector3D newAcceleration);
 	virtual void setMasse(float newMasse);
 	virtual void setInverseMasse(float newMasse);
 	virtual void setVectorAcceleration(Vector3D newAcceleration);

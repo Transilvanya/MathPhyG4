@@ -9,7 +9,7 @@ public:
 	float maxLength;
 	float restitution;
 
-	unsigned int addContact(ParticleContact* contact, unsigned int limit) const;
+	unsigned int addContact(ParticleContact* contact, int limit) const;
 };
 
 #endif // MATHPHYG4_PARTICLECABLE_H
