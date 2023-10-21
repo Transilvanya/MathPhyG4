@@ -33,5 +33,3 @@
 /.vs
 /x64/Debug
 *.ini
-Particules/Particules.cpp
-Particules/Particules.h
