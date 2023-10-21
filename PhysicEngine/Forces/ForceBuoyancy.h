@@ -41,7 +41,7 @@ public:
 		*/
 		
 
-		float d = (object->getPostion().getY() - LiquidHeight - MaxDepth) / (2 * MaxDepth);
+		float d = (object->getPosition().getY() - LiquidHeight - MaxDepth) / (2 * MaxDepth);
 
 
 		Vector3D output = Vector3D(0, 0, 0);
@@ -64,7 +64,7 @@ public:
 			}
 		}
 
-		//std::cout << MaxDepth << " " << ObjectVolume << " " << object->getPostion().getY() << " "<< output.getY() << " "<< d << "\n";
+		//std::cout << MaxDepth << " " << ObjectVolume << " " << object->getPosition().getY() << " "<< output.getY() << " "<< d << "\n";
 
 		return { false, output };
 	}

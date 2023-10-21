@@ -123,6 +123,10 @@ Vector3D Vector3D::operator*(Vector3D rightVector)
     return Vector3D();
 }
 
+float Vector3D::distance()
+{
+    return sqrt(pow(this->getX(),2)+pow(this->getY(),2)+pow(this->getZ(),2));
+}
 
 string Vector3D::toString() 
 {

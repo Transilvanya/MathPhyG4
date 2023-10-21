@@ -160,6 +160,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Contact\ParticleCable.cpp" />
+    <ClCompile Include="Contact\ParticleContact.cpp" />
+    <ClCompile Include="Contact\ParticleContactResolver.cpp" />
+    <ClCompile Include="Contact\ParticleLink.cpp" />
+    <ClCompile Include="Contact\ParticleRod.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />
@@ -191,6 +196,12 @@
     <ClCompile Include="PhysicEngine\vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Contact\ParticleCable.h" />
+    <ClInclude Include="Contact\ParticleContact.h" />
+    <ClInclude Include="Contact\ParticleContactGenerator.h" />
+    <ClInclude Include="Contact\ParticleContactResolver.h" />
+    <ClInclude Include="Contact\ParticleLink.h" />
+    <ClInclude Include="Contact\ParticleRod.h" />
     <ClInclude Include="GraphicEngine\GraphicEngine.h" />
     <ClInclude Include="GraphicEngine\GraphicObject.h" />
     <ClInclude Include="MainManager\Entity.h" />
