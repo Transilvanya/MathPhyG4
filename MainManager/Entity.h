@@ -2,7 +2,7 @@
 #ifndef ENTITY_CLASS_H
 #define ENTITY_CLASS_H
 
-#include "../PhysicEngine/PhysicObject.h"
+#include "../PhysicEngine/Particules/Particule.h"
 #include "../GraphicEngine/GraphicObject.h"
 #include <string>
 
@@ -11,28 +11,31 @@ class Entity
 private:
 	std::string _name = "default";
 
-	bool displayenabled = false;
-	bool physicsenabled = false;
+	bool DisplayEnabled = true;
+	bool PhysicEnabled = true;
 
 public:
 
-	Entity(PhysicObject* PO, GraphicObject* GO, std::string name)
+	Entity(Particule* PO, GraphicObject* GO, std::string name)
 	{
 		_name = name;
 		_PhysicObject = PO;
 		_GraphicObject = GO;
 	}
 
-	PhysicObject* _PhysicObject;
-	GraphicObject* _GraphicObject;
+	Particule* _PhysicObject = nullptr;
+	GraphicObject* _GraphicObject = nullptr;
 
-	void Setdisplayenabled(bool newvalue) { displayenabled = newvalue; }
-	void Setphysicsenabled(bool newvalue) { physicsenabled = newvalue; }
-	bool Getdisplayenabled() { return displayenabled; }
-	bool Getphysicsenabled() { return  physicsenabled; }
 
-	std::string GetName() { return _name; }
+
+	void Setdisplayenabled(bool newvalue) { DisplayEnabled = newvalue; }
+	void Setphysicsenabled(bool newvalue) { PhysicEnabled=newvalue; }
+	bool Getdisplayenabled() { return DisplayEnabled; }
+	bool Getphysicsenabled() { return PhysicEnabled; }
+
+	std::string getName() { return _name; }
 	void SetName(std::string name) { _name = name; }
+
 };
 
 #endif
