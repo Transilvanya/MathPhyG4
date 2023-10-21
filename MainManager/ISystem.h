@@ -8,7 +8,7 @@
 class ISystem
 {
 public:
-	virtual int GetName() = 0;
+	virtual std::string getName() { return "Default"; };
 	virtual void Tick() = 0;
 
 };
