@@ -6,8 +6,6 @@
 class ParticleContact 
 {
 public:
-	ParticleContact();
-	~ParticleContact();
 
 	Particules* particule[2];
 

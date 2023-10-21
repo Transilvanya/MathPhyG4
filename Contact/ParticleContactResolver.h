@@ -11,8 +11,6 @@ protected:
 	unsigned int iterations;
 
 public:
-	ParticleContactResolver(unsigned int iterations);
-	~ParticleContactResolver();
 	void resolveContacts (ParticleContact* contactArray, unsigned int numContacts, float duration);
 };
 
