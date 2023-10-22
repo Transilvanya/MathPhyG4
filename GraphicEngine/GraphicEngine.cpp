@@ -3,7 +3,7 @@
 #include "../ImGui/imgui.h"
 #include "../UI/ImGuiOpenGLManager.cpp"
 #include "../UI/InputControler.cpp"
-#include "../MainManager/MainManager.h"
+#include "../MainManager/MainEngine.h"
 #include "../OpenGL/Texture.h"
 #include "../OpenGL/ThreeDObject.h"
 #include "../Particules/Particules.h"
@@ -176,7 +176,7 @@ void GraphicEngine::update()
 	Vector3D UserForce(0, 0, 0);
 	while (!Manager::CloseMainWindow(window))
 	{
-		MainManager::GetInstance()->Update();
+		MainEngine::GetInstance()->UpdateEntityPostion();
 		//std::cout << ts->GetDeltaT() << std::endl;
 
 

@@ -167,7 +167,6 @@
     <ClCompile Include="Contact\ParticleRod.cpp" />
     <ClCompile Include="GraphicEngine\GraphicEngine.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
-    <ClCompile Include="MainManager\Entity.cpp" />
     <ClCompile Include="ImGui\imgui.cpp" />
     <ClCompile Include="ImGui\imgui_demo.cpp" />
     <ClCompile Include="ImGui\imgui_draw.cpp" />

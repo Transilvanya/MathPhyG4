@@ -8,7 +8,7 @@
 #include "../OpenGL/Camera.h"
 #include <vector>
 #include "../OpenGL/Texture.h"
-#include "../vector/Vector3D.h"
+#include "../PhysicEngine/vector/Vector3D.h"
 
 
 class GraphicObject
