@@ -6,7 +6,8 @@
 #include "Particules/Particule.h"
 #include <iostream>
 #include "Forces/ForceRegistry.h"
-
+#include "../Collisions/CollisionDetector.h"
+#include "../Contact/ParticleContactResolver.h"
 
 class PhysicEngine
 {
@@ -72,6 +73,8 @@ private:
 	std::map<std::string, Particule*> _physicobjects;
 
 	ForceRegistry _forceregistry;
+	CollisionDetector _collisionRegistry;
+	ParticleContactResolver _contactregistry;
 	
 };
 
