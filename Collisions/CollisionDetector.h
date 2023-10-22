@@ -13,7 +13,6 @@ public:
 
 private:
 	//list of contact
-	std::map<int, std::list<ParticleContact> > contacts;
-	static int nbContact;
+	std::list<ParticleContact> contacts;
 
 };
