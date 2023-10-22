@@ -89,6 +89,8 @@ void Particule::setForce(Vector3D newforce)
 }
 
 void Particule::integrade(float DT){
+	vectorPrevPosition = vectorPosition;
+
 	vectorPosition = vectorPosition + (vectorVitesse * DT);
 	vectorAcceleration = force * getInverseMasse();
 	vectorVitesse = vectorVitesse + (vectorAcceleration * DT);

@@ -198,30 +198,50 @@ std::list<std::string> ForceRegistry::GetForcesOfParticule(std::string name)
 
 void ForceRegistry::AddForceGravityToParticule(Particule* particule, std::string forcename)
 {
+	if (particule == NULL)
+	{
+		std::cout << "Error Creation Force, a particule is incorrect\n";
+	}
 	ForceGravity* f = new ForceGravity;
 	AddForceToParticule(particule, f, forcename);
 }
 
 void ForceRegistry::AddForceDragToParticule(float k1, float k2, Particule* particule, std::string forcename)
 {
+	if (particule == NULL)
+	{
+		std::cout << "Error Creation Force, a particule is incorrect\n";
+	}
 	ForceDrag* f = new ForceDrag(k1, k2);
 	AddForceToParticule(particule, f, forcename);
 }
 
 void ForceRegistry::AddForceBuoyancyToParticule(float liquidjheight, float liquiddensity, Particule* particule, std::string forcename)
 {
+	if (particule == NULL)
+	{
+		std::cout << "Error Creation Force, a particule is incorrect\n";
+	}
 	ForceBuoyancy* f = new ForceBuoyancy(liquidjheight, liquiddensity);
 	AddForceToParticule(particule, f, forcename);
 }
 
 void ForceRegistry::AddForceSpringFixedToParticule(Vector3D anchor, float k, float l0, float maxlength, bool bungeespring, Particule* particule, std::string forcename)
 {
+	if (particule == NULL)
+	{
+		std::cout << "Error Creation Force, a particule is incorrect\n";
+	}
 	ForceSpringFixed* f = new ForceSpringFixed(anchor, k, l0, maxlength, bungeespring);
 	AddForceToParticule(particule, f, forcename);
 }
 
 void ForceRegistry::AddForceSpringToParticule(float k, float l0, float maxlength, bool bungeespring, Particule* particule1, Particule* particule2, std::string forcename)
 {
+	if (particule1 == NULL || particule2 == NULL )
+	{
+		std::cout << "Error Creation Force, a particule is incorrect\n";
+	}
 	ForceSpring* f1 = new ForceSpring(particule2, k, l0, maxlength, bungeespring);
 	ForceSpring* f2 = new ForceSpring(particule1, k, l0, maxlength, bungeespring);
 
