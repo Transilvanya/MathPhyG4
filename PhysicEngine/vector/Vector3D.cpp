@@ -118,9 +118,9 @@ Vector3D Vector3D::operator*(Vector3D rightVector)
 {
     Vector3D nVector = Vector3D();
     nVector.setX(this->getY() * rightVector.getZ() - this->getZ() * rightVector.getY());
-    nVector.setY(this->getX() * rightVector.getZ() - this->getZ() * rightVector.getX());
+    nVector.setY(this->getZ() * rightVector.getX() - this->getX() * rightVector.getZ());
     nVector.setZ(this->getX() * rightVector.getY() - this->getY() * rightVector.getX());
-    return Vector3D();
+    return nVector;
 }
 
 float Vector3D::distance()
