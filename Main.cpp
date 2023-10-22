@@ -41,24 +41,18 @@ namespace fs = std::filesystem;
 #include "../libs/emscripten/emscripten_mainloop_stub.h"
 #endif
 
-#include "UI/imgui_perso.cpp"
-#include "UI/InputControler.cpp"
-#include "OpenGL/Manager.h"
-#include "UI/ImGuiOpenGLManager.cpp"
-#include "UI/Windows/BasicWindows.cpp"
-#include "OpenGL/ThreeDObject.h"
-#include "OpenGL/ParticuleObject.h"
-#include "Particules/Particules.h"
-#include "MainManager/MainManager.h"
+
+#include "MainManager/MainEngine.h"
 #include "PhysicEngine/PhysicEngine.h"
 #include "GraphicEngine/GraphicEngine.h"
 
 
 
 
+
 /* -- static init -- */
 
-MainManager* MainManager::_mainmanagerptr = NULL;
+MainEngine* MainEngine::_mainmanagerptr = NULL;
 PhysicEngine* PhysicEngine::_physicengineptr = NULL;
 GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 
@@ -138,36 +132,33 @@ std::vector<GLuint> indicevector =
 
 int main()
 {
+	PhysicEngine::GetInstance()->Init();
 
-	
+	MainEngine::GetInstance()->Init();
 
 
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), 1, "particule1");
+	//PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, -2, 0), Vector3D(0, 0, 0.1f), Vector3D(0, 0, 0), 100, "particule2");
 
-
-	MainManager::GetInstance()->Init();
-	MainManager::GetInstance()->Update();
-	//TimeSystem* ts = (TimeSystem*) MainManager::GetInstance()->GetSystem("timesystem");
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceGravityToParticule(PhysicEngine::GetInstance()->GetParticule("particule1"), "gravity1");
+	//PhysicEngine::GetInstance()->GetForceRegistry()->RemoveForceFromParticule("particule2", "buoyancy1");
+	//PhysicEngine::GetInstance()->RemoveParticule("particule2");
 
 	GraphicEngine::GetInstance()->init();
-	GraphicEngine::GetInstance()->update();
-	Entity* e = new Entity(new PhysicObject(), new GraphicObject(0.0f, 0.0f, 0.f, 1.f, 1.f, 1.f, 0.f, 2.f), "name");
-	e->SetName("name");
+	int i = 0;
+	while (i < 100)
+	{
+		i++;
+		MainEngine::GetInstance()->Tick();
 
-	//MainManager::GetInstance()->AddEntity(e);
+		PhysicEngine::GetInstance()->Integrade(((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetDeltaT());
 
-	//MainManager::GetInstance()->RemoveSystem("timesystem");
-	//MainManager::GetInstance()->RemoveEntity("name");
+		//Sync the position of the graphic object and the physic object
+		//to do after graphic engine
+		MainEngine::GetInstance()->UpdateEntityPostion();
 
-	//if (MainManager::GetInstance()->GetEntity("name") != nullptr)
-	//{
-	//	std::cout << "success\n";
-	//}
-	//else
-	//{
-	//	std::cout << "failed\n";
-	//}
-	
+		//GraphicEngine::GetInstance()->Display();
+	}
 
-
-	return EXIT_SUCCESS;
+	return 0;
 }

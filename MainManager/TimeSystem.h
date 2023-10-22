@@ -8,8 +8,7 @@
 class TimeSystem : public ISystem
 {
 private:
-	std::string name = "timesystem";
-	int ID = -1;
+
 public:
 
 	TimeSystem()
@@ -20,21 +19,10 @@ public:
 		NewTime = StartTime;
 	}
 
-	int GetName() 
+	std::string getName() 
 	{
-		if (ID == -1)
-		{
-			int factor = 1;
-			int total = 0;
-			for (int i = 0; i < name.length(); i++)
-			{
-				total += factor * name[i];
-				factor *= 10;
-			}
-			ID = total;
-		}
 
-		return ID; 
+		return "TimeSystem";
 	}
 
 	virtual void Tick()

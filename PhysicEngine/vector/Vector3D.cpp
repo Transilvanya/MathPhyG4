@@ -104,6 +104,7 @@ Vector3D Vector3D::operator*(float scalar)
     return nVector;
 }
 
+//produit scalaire
 float Vector3D::operator&(Vector3D rightVector)
 {
     float returnValue = 0;
@@ -117,11 +118,15 @@ Vector3D Vector3D::operator*(Vector3D rightVector)
 {
     Vector3D nVector = Vector3D();
     nVector.setX(this->getY() * rightVector.getZ() - this->getZ() * rightVector.getY());
-    nVector.setY(this->getX() * rightVector.getZ() - this->getZ() * rightVector.getX());
+    nVector.setY(this->getZ() * rightVector.getX() - this->getX() * rightVector.getZ());
     nVector.setZ(this->getX() * rightVector.getY() - this->getY() * rightVector.getX());
-    return Vector3D();
+    return nVector;
 }
 
+float Vector3D::distance()
+{
+    return sqrt(pow(this->getX(),2)+pow(this->getY(),2)+pow(this->getZ(),2));
+}
 
 string Vector3D::toString() 
 {
