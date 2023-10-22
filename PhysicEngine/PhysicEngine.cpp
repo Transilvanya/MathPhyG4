@@ -34,6 +34,12 @@ void PhysicEngine::Integrade(float DTms)
 		++it;
 	}
 
+	while (it != _physicobjects.end())
+	{
+
+	}
+	_collisionRegistry.isColliding();
+
 
 
 	//std::cout << "end integrade\n";
