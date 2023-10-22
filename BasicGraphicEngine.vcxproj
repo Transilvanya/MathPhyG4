@@ -83,13 +83,13 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>OpenGL\Libraries\include;Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>OpenGL\Libraries\lib;Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>GraphicEngine\OpenGL\Libraries\include;Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>GraphicEngine\OpenGL\Libraries\lib;Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>OpenGL\Libraries\include;Libraries\include;$(IncludePath)</IncludePath>
-    <LibraryPath>OpenGL\Libraries\lib;Libraries\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>GraphicEngine\OpenGL\Libraries\include;Libraries\include;$(IncludePath)</IncludePath>
+    <LibraryPath>GraphicEngine\OpenGL\Libraries\lib;Libraries\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -167,34 +167,33 @@
     <ClCompile Include="Contact\ParticleRod.cpp" />
     <ClCompile Include="GraphicEngine\GraphicEngine.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
-    <ClCompile Include="ImGui\imgui.cpp" />
-    <ClCompile Include="ImGui\imgui_demo.cpp" />
-    <ClCompile Include="ImGui\imgui_draw.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_glfw.cpp" />
-    <ClCompile Include="ImGui\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="ImGui\imgui_tables.cpp" />
-    <ClCompile Include="ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="GraphicEngine\GraphicPolygon.cpp" />
+    <ClCompile Include="GraphicEngine\GraphicSphere.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="GraphicEngine\ImGui\imgui_widgets.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\Camera.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\EBO.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\glad.c" />
+    <ClCompile Include="GraphicEngine\OpenGL\shaderClass.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\stb.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\Texture.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\VAO.cpp" />
+    <ClCompile Include="GraphicEngine\OpenGL\VBO.cpp" />
+    <ClCompile Include="GraphicEngine\UI\ImGuiOpenGLManager.cpp" />
+    <ClCompile Include="GraphicEngine\UI\imgui_perso.cpp" />
+    <ClCompile Include="GraphicEngine\UI\InputControler.cpp" />
+    <ClCompile Include="GraphicEngine\UI\Windows\BasicWindows.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MainManager\Entity.cpp" />
-    <ClCompile Include="MainManager\MainEngine.cpp" />
-    <ClCompile Include="OpenGL\ParticuleObject.cpp" />
-    <ClCompile Include="OpenGL\ThreeDObject.cpp" />
-    <ClCompile Include="OpenGL\Camera.cpp" />
-    <ClCompile Include="OpenGL\EBO.cpp" />
-    <ClCompile Include="OpenGL\glad.c" />
-    <ClCompile Include="OpenGL\Manager.cpp" />
-    <ClCompile Include="OpenGL\shaderClass.cpp" />
-    <ClCompile Include="OpenGL\stb.cpp" />
-    <ClCompile Include="OpenGL\Texture.cpp" />
-    <ClCompile Include="OpenGL\VAO.cpp" />
-    <ClCompile Include="OpenGL\VBO.cpp" />
+    <ClCompile Include="MainEngine\Entity.cpp" />
+    <ClCompile Include="MainEngine\MainEngine.cpp" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
     <ClCompile Include="PhysicEngine\Particules\Particule.cpp" />
     <ClCompile Include="PhysicEngine\PhysicEngine.cpp" />
-    <ClCompile Include="UI\ImGuiOpenGLManager.cpp" />
-    <ClCompile Include="UI\imgui_perso.cpp" />
-    <ClCompile Include="UI\InputControler.cpp" />
-    <ClCompile Include="UI\Windows\BasicWindows.cpp" />
     <ClCompile Include="PhysicEngine\vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -206,10 +205,29 @@
     <ClInclude Include="Contact\ParticleRod.h" />
     <ClInclude Include="GraphicEngine\GraphicEngine.h" />
     <ClInclude Include="GraphicEngine\GraphicObject.h" />
-    <ClInclude Include="MainManager\Entity.h" />
-    <ClInclude Include="MainManager\ISystem.h" />
-    <ClInclude Include="MainManager\MainEngine.h" />
-    <ClInclude Include="MainManager\TimeSystem.h" />
+    <ClInclude Include="GraphicEngine\GraphicPolygon.h" />
+    <ClInclude Include="GraphicEngine\GraphicSphere.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imconfig.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imgui.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imgui_impl_glfw.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imgui_internal.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imstb_textedit.h" />
+    <ClInclude Include="GraphicEngine\ImGui\imstb_truetype.h" />
+    <ClInclude Include="GraphicEngine\OpenGL\Camera.h" />
+    <ClInclude Include="GraphicEngine\OpenGL\EBO.h" />
+    <ClInclude Include="GraphicEngine\OpenGL\shaderClass.h" />
+    <ClInclude Include="GraphicEngine\OpenGL\Texture.h" />
+    <ClInclude Include="GraphicEngine\OpenGL\VAO.h" />
+    <ClInclude Include="GraphicEngine\OpenGL\VBO.h" />
+    <ClInclude Include="GraphicEngine\UI\UIWindow.h" />
+    <ClInclude Include="GraphicEngine\UI\Windows\BasicUIWindow.h" />
+    <ClInclude Include="MainEngine\Entity.h" />
+    <ClInclude Include="MainEngine\ISystem.h" />
+    <ClInclude Include="MainEngine\MainEngine.h" />
+    <ClInclude Include="MainEngine\TimeSystem.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceBuoyancy.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceDrag.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceGravity.h" />
@@ -218,45 +236,26 @@
     <ClInclude Include="PhysicEngine\Forces\ForceSpringFixed.h" />
     <ClInclude Include="PhysicEngine\Forces\IForce.h" />
     <ClInclude Include="PhysicEngine\PhysicEngine.h" />
-    <ClInclude Include="ImGui\imconfig.h" />
-    <ClInclude Include="ImGui\imgui.h" />
-    <ClInclude Include="ImGui\imgui_impl_glfw.h" />
-    <ClInclude Include="ImGui\imgui_impl_opengl3.h" />
-    <ClInclude Include="ImGui\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="ImGui\imgui_internal.h" />
-    <ClInclude Include="ImGui\imstb_rectpack.h" />
-    <ClInclude Include="ImGui\imstb_textedit.h" />
-    <ClInclude Include="ImGui\imstb_truetype.h" />
-    <ClInclude Include="OpenGL\ParticuleObject.h" />
-    <ClInclude Include="OpenGL\ThreeDObject.h" />
-    <ClInclude Include="OpenGL\Camera.h" />
-    <ClInclude Include="OpenGL\EBO.h" />
-    <ClInclude Include="OpenGL\Manager.h" />
-    <ClInclude Include="OpenGL\shaderClass.h" />
-    <ClInclude Include="OpenGL\Texture.h" />
-    <ClInclude Include="OpenGL\VAO.h" />
-    <ClInclude Include="OpenGL\VBO.h" />
     <ClInclude Include="PhysicEngine\Particules\Particule.h" />
     <ClInclude Include="PhysicEngine\vector\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ImGui\imgui.natstepfilter" />
-    <None Include="OpenGL\Shaders\default.frag" />
-    <None Include="OpenGL\Shaders\default.vert" />
-    <None Include="OpenGL\Shaders\simplecolor.frag" />
-    <None Include="OpenGL\Shaders\simplecolor.vert" />
+    <None Include="GraphicEngine\ImGui\imgui.natstepfilter" />
+    <None Include="GraphicEngine\OpenGL\Shaders\default.frag" />
+    <None Include="GraphicEngine\OpenGL\Shaders\default.vert" />
+    <None Include="GraphicEngine\OpenGL\Shaders\simplecolor.frag" />
+    <None Include="GraphicEngine\OpenGL\Shaders\simplecolor.vert" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
-    <Natvis Include="ImGui\imgui.natvis" />
-  </ItemGroup>
-  <ItemGroup>
     <Text Include="DevJournal.txt" />
-    <Text Include="ImGui\LICENSE.txt" />
+    <Text Include="GraphicEngine\ImGui\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\BasicGraphicEngine\brick.png" />
-    <Image Include="Resources\BasicGraphicEngine\pop_cat.png" />
+    <Natvis Include="GraphicEngine\ImGui\imgui.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="GraphicEngine\OpenGL\Libraries\lib\glfw3.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

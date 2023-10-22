@@ -1,280 +1,9 @@
 #include "GraphicObject.h"
-
-
-GraphicObject::GraphicObject(GLfloat x, GLfloat y, GLfloat z, GLfloat r, GLfloat g, GLfloat b, GLfloat a, GLfloat size)
+GraphicObject::GraphicObject(std::string _name, Shader _shaderProgram)
 {
-	vect.setX(x);
-	vect.setY(y);
-	vect.setZ(z);
-	this->r = r;
-	this->g = g;
-	this->b = b;
-	this->a = a;
-
-
-	//std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << a << "\n";
-
-	// Point 1
-
-	vertices.push_back(x + size);
-	vertices.push_back(y);
-	vertices.push_back(z);
-
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
-
-	vertices.push_back(a);
-
-	// Point 2
-
-	vertices.push_back(x);
-	vertices.push_back(y + size);
-	vertices.push_back(z);
-
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
-
-	vertices.push_back(a);
-
-	// Point 3
-
-	vertices.push_back(x - size);
-	vertices.push_back(y);
-	vertices.push_back(z);
-
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
-
-	vertices.push_back(a);
-
-	// Point 4
-
-	vertices.push_back(x);
-	vertices.push_back(y - size);
-	vertices.push_back(z);
-
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
-
-	vertices.push_back(a);
-
-	// Point 5
-
-	vertices.push_back(x);
-	vertices.push_back(y);
-	vertices.push_back(z + size);
-
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
-
-	vertices.push_back(a);
-
-	// Point 6
-
-	vertices.push_back(x);
-	vertices.push_back(y);
-	vertices.push_back(z - size);
-
-	vertices.push_back(r);
-	vertices.push_back(g);
-	vertices.push_back(b);
-
-	vertices.push_back(a);
-
-	// Triangle 1
-
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(4);
-
-	// Triangle 2
-
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(4);
-
-	// Triangle 3
-
-	indices.push_back(2);
-	indices.push_back(3);
-	indices.push_back(4);
-
-	// Triangle 4
-
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(4);
-
-	// Triangle 5
-
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(5);
-
-	// Triangle 6
-
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(5);
-
-	// Triangle 7
-
-	indices.push_back(2);
-	indices.push_back(3);
-	indices.push_back(5);
-
-	// Triangle 8
-
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(5);
-
-
-	Update();
-}
-
-GraphicObject::GraphicObject() {
-
-}
-
-GraphicObject::GraphicObject(Vector3D vect, GLfloat _r, GLfloat _g, GLfloat _b, GLfloat _a, GLfloat _size)
-{
-	this->vect = Vector3D(vect.getX(), vect.getY(), vect.getZ());
-	this->r = _r;
-	this->g = _g;
-	this->b = _b;
-	this->a = _a;
-
-
-	//std::cout << x << " " << y << " " << z << " " << r << " " << g << " " << b << " " << a << "\n";
-
-	// Point 1
-
-	vertices.push_back(this->vect.getX() + _size);
-	vertices.push_back(this->vect.getY());
-	vertices.push_back(this->vect.getZ());
-
-	vertices.push_back(_r);
-	vertices.push_back(_g);
-	vertices.push_back(_b);
-
-	vertices.push_back(a);
-
-	// Point 2
-
-	vertices.push_back(this->vect.getX());
-	vertices.push_back(this->vect.getY() + _size);
-	vertices.push_back(this->vect.getZ());
-
-	vertices.push_back(_r);
-	vertices.push_back(_g);
-	vertices.push_back(_b);
-
-	vertices.push_back(_a);
-
-	// Point 3
-
-
-	vertices.push_back(this->vect.getX() - _size);
-	vertices.push_back(this->vect.getY());
-	vertices.push_back(this->vect.getZ());
-
-	vertices.push_back(_r);
-	vertices.push_back(_g);
-	vertices.push_back(_b);
-
-	vertices.push_back(_a);
-
-	// Point 4
-	vertices.push_back(this->vect.getX());
-	vertices.push_back(this->vect.getY() - _size);
-	vertices.push_back(this->vect.getZ());
-
-	vertices.push_back(_r);
-	vertices.push_back(_g);
-	vertices.push_back(_b);
-
-	vertices.push_back(_a);
-
-	// Point 5
-
-	vertices.push_back(this->vect.getX());
-	vertices.push_back(this->vect.getY());
-	vertices.push_back(this->vect.getZ() + _size);
-
-	vertices.push_back(_r);
-	vertices.push_back(_g);
-	vertices.push_back(_b);
-
-	vertices.push_back(_a);
-
-	// Point 6
-
-	vertices.push_back(this->vect.getX());
-	vertices.push_back(this->vect.getY());
-	vertices.push_back(this->vect.getZ() - _size);
-
-	vertices.push_back(_r);
-	vertices.push_back(_g);
-	vertices.push_back(_b);
-
-	vertices.push_back(_a);
-
-	// Triangle 1
-
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(4);
-
-	// Triangle 2
-
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(4);
-
-	// Triangle 3
-
-	indices.push_back(2);
-	indices.push_back(3);
-	indices.push_back(4);
-
-	// Triangle 4
-
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(4);
-
-	// Triangle 5
-
-	indices.push_back(0);
-	indices.push_back(1);
-	indices.push_back(5);
-
-	// Triangle 6
-
-	indices.push_back(1);
-	indices.push_back(2);
-	indices.push_back(5);
-
-	// Triangle 7
-
-	indices.push_back(2);
-	indices.push_back(3);
-	indices.push_back(5);
-
-	// Triangle 8
-
-	indices.push_back(0);
-	indices.push_back(3);
-	indices.push_back(5);
-
-
-	Update();
+	name = _name;
+	shaderProgram = _shaderProgram;
+	ElementToUpdate();
 }
 
 GraphicObject::~GraphicObject()
@@ -282,44 +11,27 @@ GraphicObject::~GraphicObject()
 	Delete();
 }
 
-
-void GraphicObject::SetMvt(float _x, float _y, float _z)
+void GraphicObject::SetMvt(float x, float y, float z)
 {
-	this->vect.setX(vect.getX() + _x);
-	this->vect.setY(vect.getY() + _y);
-	this->vect.setZ(vect.getZ() + _z);
+	
 	//move all vertices according to the inputs
 	int i = 0;
 	while (i < vertices.size())
 	{
-		vertices.at(i) = vertices.at(i) + _x;
-		vertices.at(i + 1) = vertices.at(i + 1) + _y;
-		vertices.at(i + 2) = vertices.at(i + 2) + _z;
+		vertices.at(i) = vertices.at(i) + x;
+		vertices.at(i + 1) = vertices.at(i + 1) + y;
+		vertices.at(i + 2) = vertices.at(i + 2) + z;
 
 		i = i + 7;
 	}
 }
 
-void GraphicObject::SetColor(GLfloat _r, GLfloat _g, GLfloat _b)
+void GraphicObject::SetRot(float Xangle, float Yangle, float Zangle)
 {
-	r = _r;
-	g = _g;
-	b = _b;
-	//move all vertices according to the inputs
-	int i = 0;
-	while (i < vertices.size())
-	{
-		vertices.at(i + 3) = _r;
-		vertices.at(i + 4) = _g;
-		vertices.at(i + 5) = _b;
 
-		i = i + 7;
-	}
 }
 
-
-
-void GraphicObject::Update()
+void GraphicObject::ElementToUpdate()
 {
 	_VAO.Bind();
 
@@ -327,12 +39,12 @@ void GraphicObject::Update()
 
 	// Generates Vertex Buffer Object and links it to vertices
 	//store the data of the vertices
-	GLfloat arr[100];
+	GLfloat arr[1000];
 	std::copy(vertices.begin(), vertices.end(), arr);
 
 	_VBO = VBO(arr, sizeof(arr));
 
-	GLuint arr2[100];
+	GLuint arr2[1000];
 	std::copy(indices.begin(), indices.end(), arr2);
 	// Generates Element Buffer Object and links it to indices
 	_EBO = EBO(arr2, sizeof(arr2)); //point to the various vertices
@@ -352,11 +64,14 @@ void GraphicObject::Update()
 	_EBO.Unbind();
 }
 
+
 void GraphicObject::Draw(Camera camera)
 {
 	shaderProgram.Activate(); //indicate what shader to draw
 
-	camera.Matrix(45.0f, 0.1f, 100.0f, shaderProgram, "camMatrix"); //use the projection matrix of the camera to create perspective
+	float FOV = 45.0f;
+
+	camera.Matrix(FOV, 0.1f, 100.0f, shaderProgram, "camMatrix"); //use the projection matrix of the camera to create perspective
 
 	_VAO.Bind();//tel OpenGL what to draw
 
@@ -372,5 +87,4 @@ void GraphicObject::Delete()
 	_VBO.Delete();
 	_EBO.Delete();
 
-	shaderProgram.Delete();
 }
