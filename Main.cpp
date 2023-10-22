@@ -149,8 +149,7 @@ int main()
 	//TimeSystem* ts = (TimeSystem*) MainManager::GetInstance()->GetSystem("timesystem");
 
 	GraphicEngine::GetInstance()->init();
-	
-	
+	GraphicEngine::GetInstance()->update();
 	Entity* e = new Entity(new PhysicObject(), new GraphicObject(0.0f, 0.0f, 0.f, 1.f, 1.f, 1.f, 0.f, 2.f), "name");
 	e->SetName("name");
 
