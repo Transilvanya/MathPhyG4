@@ -160,6 +160,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Collisions\CollisionDetector.cpp" />
     <ClCompile Include="Contact\ParticleCable.cpp" />
     <ClCompile Include="Contact\ParticleContact.cpp" />
     <ClCompile Include="Contact\ParticleContactResolver.cpp" />
@@ -187,7 +188,6 @@
     <ClCompile Include="GraphicEngine\UI\ImGuiOpenGLManager.cpp" />
     <ClCompile Include="GraphicEngine\UI\imgui_perso.cpp" />
     <ClCompile Include="GraphicEngine\UI\InputControler.cpp" />
-    <ClCompile Include="GraphicEngine\UI\Windows\BasicWindows.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainEngine\Entity.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
@@ -197,6 +197,7 @@
     <ClCompile Include="PhysicEngine\vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collisions\CollisionDetector.h" />
     <ClInclude Include="Contact\ParticleCable.h" />
     <ClInclude Include="Contact\ParticleContact.h" />
     <ClInclude Include="Contact\ParticleContactGenerator.h" />
@@ -223,7 +224,6 @@
     <ClInclude Include="GraphicEngine\OpenGL\VAO.h" />
     <ClInclude Include="GraphicEngine\OpenGL\VBO.h" />
     <ClInclude Include="GraphicEngine\UI\UIWindow.h" />
-    <ClInclude Include="GraphicEngine\UI\Windows\BasicUIWindow.h" />
     <ClInclude Include="MainEngine\Entity.h" />
     <ClInclude Include="MainEngine\ISystem.h" />
     <ClInclude Include="MainEngine\MainEngine.h" />

@@ -24,6 +24,8 @@ void PhysicEngine::Integrade(float DTms)
 
 
 
+
+
 	// Get an iterator pointing to the first element in the map
 	std::map<std::string, Particule*>::iterator it = _physicobjects.begin();
 
@@ -34,11 +36,9 @@ void PhysicEngine::Integrade(float DTms)
 		++it;
 	}
 
-	while (it != _physicobjects.end())
-	{
 
-	}
-	_collisionRegistry.isColliding();
+
+	//_collisionRegistry.isColliding();
 
 
 

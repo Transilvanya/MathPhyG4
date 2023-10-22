@@ -42,15 +42,6 @@ void GraphicEngine::Delete()
 	}
 		
 
-	// Get an iterator pointing to the first element in the map
-	std::map<std::string, UIWindow*>::iterator it4 = UIElements.begin();
-
-	// Iterate through the map and print the elements
-	while (it4 != UIElements.end())
-	{
-		delete(it4->second);
-		++it4;
-	}
 
 
 
@@ -158,16 +149,23 @@ void GraphicEngine::DisplayElements()
 
 void GraphicEngine::DisplayUI()
 {
-
-	std::map<std::string, UIWindow*>::iterator it = UIElements.begin();
-
-	while (it != UIElements.end())
+	ImGui::Begin("Debug");
+	if (ImGui::CollapsingHeader("Help"))
 	{
-		it->second->DisplayWindow();
-		++it;
+		ImGui::SeparatorText("ABOUT THIS DEMO:");
+		ImGui::BulletText("Camera controls : ZQSD (qwerty), WASD (azerty),\n crtl to go down, space to go up, mouse left click to orient the camera.");
+		ImGui::BulletText("The rotation of the camera will be fixed at the center\n of the screen but will keep rotation we the mouse reach the edges.");
+		ImGui::BulletText("The blue shape indicape the forces applied to the particule");
+	}
+	if (ImGui::Button("Button"))
+	{
+		
 	}
 
+	ImGui::End();
+
 }
+
 
 
 // ---------------------------------------------------------------- 
@@ -265,15 +263,11 @@ void GraphicEngine::InitUI()
 
 
 	setAfunc(cameraMoveLeft);
-	
-	
 	setDfunc(cameraMoveRight);
 	setWfunc(cameraMoveFoward);
 	setSfunc(cameraMoveBackward);
-
 	setSpacefunc(cameraMoveUp);
 	setLeftCtrlfunc(cameraMoveDown);
-
 	setMousePosfunc(cameraRotation);
 
 	setMouseReleasefunc(cameraSettoDrift);

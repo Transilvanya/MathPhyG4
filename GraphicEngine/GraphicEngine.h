@@ -290,33 +290,7 @@ public:
 			std::cout << "coud not remove Object " << name << "\n";
 		}
 	}
-	// --------------------------------------------------------------------------------
 
-	void AddUIElement(UIWindow* object)
-	{
-		UIElements.emplace(object->getName(), object);
-	}
-	UIWindow* GetUIElement(std::string name)
-	{
-
-		if (UIElements.count(name))
-			return UIElements.find(name)->second;
-		else
-		{
-			std::cout << "coud not get UIElement " << name << "\n";
-			return nullptr;
-		}
-			
-	}
-	void RemoveUIElement(std::string name)
-	{
-		if (UIElements.count(name))
-			UIElements.erase(name);
-		else
-		{
-			std::cout << "coud not remove UIElement " << name << "\n";
-		}
-	}
 	// --------------------------------------------------------------------------------
 
 	std::list<std::string> GetShaders()
@@ -366,8 +340,6 @@ private:
 	std::map<std::string, GraphicObject*> _graphicobjects;
 	
 	std::map<std::string, GraphicObject*> ElementToDisplay;
-
-	std::map<std::string, UIWindow*> UIElements;
 
 	const unsigned int width = 1600;
 	const unsigned int height = 800;
