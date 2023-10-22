@@ -2,7 +2,7 @@
 #ifndef MATHPHYG4_PARTICULES_H
 #define MATHPHYG4_PARTICULES_H
 
-#include "../Vector/Vector3D.h"
+#include "../vector/Vector3D.h"
 
 class Particules {
 

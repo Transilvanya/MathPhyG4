@@ -31,7 +31,7 @@ public:
 
 	// getter and setter
 	GLFWwindow* window;
-	ImGuiIO& io;
+	
 	Camera getCamera();
 	unsigned int getWidth();
 	unsigned int getHeight();

@@ -124,7 +124,7 @@ int GraphicEngine::init()
 	
 	//Setup OpenGL
 
-	const char* glsl_version = "#version 130";
+	
 	
 
 	try
@@ -142,7 +142,7 @@ int GraphicEngine::init()
 	// ______________________________     ImGui Setup
 
 
-	io = ImGuiSetup(window, glsl_version);
+
 	// Our state
 	bool show_demo_window = true;
 	bool show_another_window = false;
@@ -153,14 +153,12 @@ int GraphicEngine::init()
 
 
 	// Cleanup
-	CleanUp();
+
 
 	// Delete all the objects we've created
 	//VAO1.Delete();
 	//VBO1.Delete();
 	//EBO1.Delete();
-
-	Manager::DeleteWindow(window);
 
 	return EXIT_SUCCESS;
 
@@ -168,6 +166,8 @@ int GraphicEngine::init()
 
 void GraphicEngine::update()
 {
+	const char* glsl_version = "#version 130";
+	ImGuiIO& io = ImGuiSetup(window, glsl_version);
 	static bool Paused = false;
 	static bool UserForceEnabled = true;
 	float FrameRate = 1.0f / 60.0f;
@@ -311,7 +311,7 @@ void GraphicEngine::update()
 
 	}
 
-
+	CleanUp();
 
 
 
