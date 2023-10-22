@@ -44,7 +44,6 @@ namespace fs = std::filesystem;
 #include "UI/imgui_perso.cpp"
 #include "UI/InputControler.cpp"
 #include "UI/ImGuiOpenGLManager.cpp"
-#include "UI/Windows/BasicWindows.cpp"
 
 #include"OpenGL/Texture.h"
 #include"OpenGL/shaderClass.h"
@@ -53,8 +52,6 @@ namespace fs = std::filesystem;
 #include"OpenGL/EBO.h"
 #include"OpenGL/Camera.h"
 #include <map>
-#include "UI/UIWindow.h"
-#include "UI/Windows/BasicUIWindow.h"
 #include "GraphicPolygon.h"
 #include "GraphicSphere.h"
 
