@@ -23,8 +23,7 @@ void CollisionDetector::isColliding(Particule part1, Particule part2)
 		contact.particule[0] = &part1;
 		contact.particule[1] = &part2;
 
-		contacts.emplace(nbContact, contact);
-		nbContact++;
+		contacts.push_back(contact);
 	}
 
 
