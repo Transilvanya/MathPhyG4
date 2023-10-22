@@ -59,8 +59,6 @@ GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 /* -- ----------- -- */
 
 
-const unsigned int width = 1600;
-const unsigned int height = 800;
 
 /*
 
@@ -126,99 +124,11 @@ std::vector<GLuint> indicevector =
 
 */
 
-std::vector<GLfloat> backgroundvertice =
-{  //     COORDINATES     /        COLORS      /   TexCoord  //
-	-20.0f,  0.0f,  -20.0f,   0.83f, 0.70f, 0.44f,	0.0f, 0.0f,
-	-20.0f, 20.0f,  -20.0f,	 0.83f, 0.70f, 0.44f,	0.0f, 1.0f,
-	 20.0f, 20.0f,  -20.0f,   0.83f, 0.70f, 0.44f,	1.0f, 1.0f,
-	 20.0f,  0.0f,  -20.0f,   0.83f, 0.70f, 0.44f,	1.0f, 0.0f,
-};
-std::vector<GLuint> backgroundindice =
-{
-	0, 1, 2,
-	0, 2, 3,
-};
-
-std::vector<GLfloat> groundvertice =
-{  //     COORDINATES     /        COLORS      /   TexCoord  //
-	-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.7f,
-	-20.0f, 0.0f,  20.0f,	0.83f, 0.70f, 0.44f,	0.7f,
-	 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	0.7f, 
-	 20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.7f, 
-};
-std::vector<GLuint> groundindice =
-{
-	0, 1, 2,
-	0, 2, 3,
-};
-
-std::vector<GLfloat> Forcevertice =
-{  //     COORDINATES     /        COLORS      /   Alpha  //
-	-0.1f,		0.0f,	0.0f,     0.13f, 0.10f, 0.94f,	1.0f,
-	0.1f,		0.0f,	0.0f,		0.13f, 0.10f, 0.94f,	1.0f,
-	0.0f,		-0.1f,	0.0f,		0.13f, 0.10f, 0.94f,	1.0f,
-	0.0f,		0.1f,	0.0f,		0.13f, 0.10f, 0.94f,	1.0f,
-	0.0f,		0.0f,	-0.1f,		0.13f, 0.10f, 0.94f,	1.0f,
-	0.0f,		0.0f,	0.1f,		0.13f, 0.10f, 0.94f,	1.0f,
-};
-std::vector<GLuint> Forceindice =
-{
-	3,1,5,
-	1,2,5,
-	0,2,5,
-	0,3,5,
-	3,1,4,
-	1,2,4,
-	0,2,4,
-	0,3,4
-};
-
-Camera camera(width, height, glm::vec3(0.0f, 1.0f, 20.0f));
 
 
-//function to bind to the InputControler
 
-void cameraMoveLeft()
-{
-	camera.MoveLeftCamera();
-}
-void cameraMoveRight()
-{
-	camera.MoveRightCamera();
-}
-void cameraMoveFoward()
-{
-	camera.MoveFowardCamera();
-}
-void cameraMoveBackward()
-{
-	camera.MoveBackwardCamera();
-}
-void cameraMoveUp()
-{
-	camera.MoveUpCamera();
-}
-void cameraMoveDown()
-{
-	camera.MoveDownCamera();
-}
-void cameraRotation(int _xpos, int _ypos)
-{
-	if (_xpos < width / 10 || _xpos > width * 9 / 10)
-	{
-	//	camera.RotateCamera(_xpos, _ypos );
-	}
-	if (_ypos < height / 10 || _ypos > height * 9 / 10)
-	{
-		
-	}
-camera.RotateCamera(_xpos, _ypos);
-	
-}
-void cameraSettoDrift()
-{
-	camera.SetCameraToDrift();
-}
+
+
 
 int main()
 {
@@ -234,6 +144,7 @@ int main()
 	//PhysicEngine::GetInstance()->GetForceRegistry()->RemoveForceFromParticule("particule2", "buoyancy1");
 	//PhysicEngine::GetInstance()->RemoveParticule("particule2");
 
+	GraphicEngine::GetInstance()->init();
 	int i = 0;
 	while (i < 100)
 	{
