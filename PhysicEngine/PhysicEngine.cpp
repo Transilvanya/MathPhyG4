@@ -29,6 +29,9 @@ void PhysicEngine::Integrade(float DTms)
 	// Iterate through the map and print the elements
 	while (it != _physicobjects.end())
 	{
+
+		it->second->getVitesse();
+
 		it->second->integrade(DTms/1000);
 		++it;
 	}

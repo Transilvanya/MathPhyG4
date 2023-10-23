@@ -222,6 +222,7 @@
     <ClInclude Include="PhysicEngine\Contact\ParticleContact.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleRod.h" />
+    <ClInclude Include="PhysicEngine\Contact\WallContactGenerator.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceBuoyancy.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceDrag.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceGravity.h" />
