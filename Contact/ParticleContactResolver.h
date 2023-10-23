@@ -10,6 +10,7 @@ protected:
 	unsigned int iterations;
 
 public:
+	void setIterations(unsigned int iterations) { this->iterations = iterations; }
 	void resolveContacts (ParticleContact* contactArray, unsigned int numContacts, float duration);
 };
 

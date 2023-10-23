@@ -43,7 +43,7 @@ public :
     Vector3D operator+(Vector3D rightVector);
     Vector3D operator-(Vector3D rightVector);
     Vector3D operator*(float scalar);
-    float operator&(Vector3D rightVector);
+    float scalar(Vector3D rightVector);
     Vector3D operator*(Vector3D rightVector);
     float distance();
     string toString();

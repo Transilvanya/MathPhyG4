@@ -105,7 +105,7 @@ Vector3D Vector3D::operator*(float scalar)
 }
 
 //produit scalaire
-float Vector3D::operator&(Vector3D rightVector)
+float Vector3D::scalar(Vector3D rightVector)
 {
     float returnValue = 0;
     returnValue += this->getX() + rightVector.getX();

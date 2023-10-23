@@ -1,12 +1,26 @@
 #include "CollisionDetector.h"
 
-CollisionDetector::CollisionDetector()
+void CollisionDetector::collisionDetectorApplication(std::map<std::string, Particule*> _physicobjects)
 {
+	// Get an iterator pointing to the first element in the map
+	std::map<std::string, Particule*>::iterator it = _physicobjects.begin();
 
-}
+	// Iterate through the map and print the elements
+	while (it != _physicobjects.end())
+	{
+		// Get an iterator pointing to the first element in the map
+		std::map<std::string, Particule*>::iterator it2 = _physicobjects.begin();
 
-CollisionDetector::~CollisionDetector()
-{
+		// Iterate through the map and print the elements
+		while (it2 != _physicobjects.end())
+		{
+			if (it->first != it2->first) {
+				isColliding(*it->second, *it2->second);
+			}
+			++it2;
+		}
+		++it;
+	}
 }
 
 void CollisionDetector::isColliding(Particule part1, Particule part2)

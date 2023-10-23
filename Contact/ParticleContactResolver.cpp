@@ -11,6 +11,7 @@ void ParticleContactResolver::resolveContacts(ParticleContact* contactArray,
 		float max = 0;
 		int maxIndex = numContacts;
 		for (unsigned int j = 0; j < numContacts; j++) {
+			printf("la mort");
 			float sepVel = contactArray[j].calculateSeparatingVelocity();
 			if (sepVel < max) {
 				max = sepVel;

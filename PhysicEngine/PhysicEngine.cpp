@@ -37,8 +37,10 @@ void PhysicEngine::Integrade(float DTms)
 	}
 
 
+	_collisionRegistry.collisionDetectorApplication(_physicobjects);
 
-	//_collisionRegistry.isColliding();
+	_contactregistry.setIterations(10);
+	_contactregistry.resolveContacts(&_collisionRegistry.getContacts().front(), _collisionRegistry.getContacts().size(), DTms);
 
 
 

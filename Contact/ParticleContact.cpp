@@ -3,6 +3,7 @@
 
 void ParticleContact::resolve(float duration)
 {
+	printf("resolve");
 	resolveVelocity();
 	resolveInterpenetration();
 }
@@ -10,11 +11,16 @@ void ParticleContact::resolve(float duration)
 float ParticleContact::calculateSeparatingVelocity() const
 {
 	Vector3D relativeVelocity = particule[0]->getVitesse();
+	printf("1");
 	if (particule[1])
 	{
-		relativeVelocity = relativeVelocity - particule[1]->getVitesse();
+		printf("2");
+		Vector3D resultat = (relativeVelocity - particule[1]->getVitesse());
+		printf("bite");
+
 	}
-	return relativeVelocity & contactNormal;
+	printf("3");
+	return relativeVelocity.scalar(contactNormal);
 }
 
 //Handle impulse for this collision
@@ -22,7 +28,7 @@ void ParticleContact::resolveVelocity()
 {
 	float k = 0;
 	Vector3D vRel = particule[0]->getVitesse() - particule[1]->getVitesse();
-	k = vRel * (restitution+1) & contactNormal;
+	k = (vRel * (restitution+1)).scalar(contactNormal);
 	k = k / (particule[0]->getInverseMasse() + particule[1]->getInverseMasse());
 
 }

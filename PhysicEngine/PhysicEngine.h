@@ -6,6 +6,8 @@
 #include "Particules/Particule.h"
 #include <iostream>
 #include "Forces/ForceRegistry.h"
+#include "../Contact/ParticleContactResolver.h"
+#include "../Collisions/CollisionDetector.h"
 
 class PhysicEngine
 {
@@ -72,9 +74,8 @@ private:
 
 	ForceRegistry _forceregistry;
 
-
-//	CollisionDetector _collisionRegistry;
-//	ParticleContactResolver _contactregistry;
+	CollisionDetector _collisionRegistry;
+	ParticleContactResolver _contactregistry;
 	
 };
 
