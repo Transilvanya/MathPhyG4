@@ -60,6 +60,8 @@ public:
 					if (dist <= DistSum && DistSum - dist > ContactPrecision)
 					{
 						ParticleContact pc = ParticleContact(it->second, it2->second, 1, DistSum - dist, contactnormal);
+						it->second->activateVibration();
+						it2->second->activateVibration();
 						Contacts.push_back(pc);
 					}
 				}

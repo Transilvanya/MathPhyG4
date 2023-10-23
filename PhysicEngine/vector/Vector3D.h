@@ -46,6 +46,7 @@ public :
 
     float operator&(Vector3D rightVector);
     Vector3D operator*(Vector3D rightVector);
+    bool operator==(Vector3D rightVector);
     float distance();
     string toString();
 

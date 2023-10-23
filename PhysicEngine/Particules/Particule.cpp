@@ -89,12 +89,22 @@ void Particule::setForce(Vector3D newforce)
 }
 
 void Particule::integrade(float DT){
+	if (this->isVibrating()) {
+		vectorPrevPosition = vectorPosition;
 
-	vectorPrevPosition = vectorPosition;
-
-	vectorPosition = vectorPosition + (vectorVitesse * DT);
-	vectorAcceleration = force * getInverseMasse();
-	vectorVitesse = vectorVitesse + (vectorAcceleration * DT);
+		vectorPosition = vectorPosition + (vectorVitesse * DT);
+		vectorAcceleration = force * getInverseMasse();
+		vectorVitesse = vectorVitesse + (vectorAcceleration * DT);
+		ForceGravity forceGravity = ForceGravity();
+		if ((forceGravity.getGravityStrengh() * DT).distance() > vectorVitesse.distance()) {
+			float test = vectorVitesse & Vector3D(0.0f, 1.0f, 0.0f);
+			if (test == 0) {
+				if (force == forceGravity.getGravityStrengh()) {
+					this->desactivateVibration();
+				}
+			}
+		}
+	}
 
 	//std::cout << particulename << " " << vectorPosition.getX() << " " << vectorPosition.getY() << " " << vectorPosition.getZ() << "\n";
 	//std::cout << "\t" << force.getX() << " " << force.getY() << " " << force.getZ() << "\n";

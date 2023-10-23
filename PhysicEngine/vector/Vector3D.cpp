@@ -130,6 +130,18 @@ Vector3D Vector3D::operator*(Vector3D rightVector)
     return nVector;
 }
 
+bool Vector3D::operator==(Vector3D rightVector)
+{
+	if (this->getX() == rightVector.getX() && this->getY() == rightVector.getY() && this->getZ() == rightVector.getZ())
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+})
+
 float Vector3D::distance()
 {
     return sqrt(pow(this->getX(),2)+pow(this->getY(),2)+pow(this->getZ(),2));

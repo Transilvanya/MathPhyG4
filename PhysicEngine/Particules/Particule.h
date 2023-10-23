@@ -3,6 +3,7 @@
 #define MATHPHYG4_PARTICULE_H
 
 #include "../Vector/Vector3D.h"
+#include "../Forces/ForceGravity.h"
 #include <iostream>
 class Particule {
 
@@ -22,6 +23,7 @@ public:
 	virtual Vector3D getPosition();
 	virtual Vector3D getVitesse();
 	virtual Vector3D getAcceleration();
+	virtual bool isVibrating() { return vibrating; }
 
 	//setter
 	virtual void setPosition(Vector3D newPosition);
@@ -31,6 +33,8 @@ public:
 	virtual void setInverseMasse(float newMasse);
 	virtual void setVectorAcceleration(Vector3D newAcceleration);
 	virtual void setForce(Vector3D newforce);
+	virtual void activateVibration() { vibrating = true; }
+	virtual void desactivateVibration() { vibrating = false; };
 
 	//method
 	virtual void integrade(float DT);
@@ -51,6 +55,7 @@ private:
 	Vector3D force;
 
 	float inverseMasse = 1.0f;
+	bool vibrating = true;
 };
 
 #endif //MATHPHYG4_PARTICULES_H
