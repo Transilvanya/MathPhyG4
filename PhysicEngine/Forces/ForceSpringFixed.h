@@ -12,7 +12,7 @@ private:
 
 	bool BungeeSpring = false; // only create a force when v.norm > l0
 
-	float MaxLength;
+	float MaxLength; // breaking length of the spring
 	float k;
 	float l0;
 	

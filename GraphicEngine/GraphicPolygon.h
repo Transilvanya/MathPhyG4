@@ -58,21 +58,6 @@ public:
 
 private:
 
-
-	/*
-	std::vector<GLfloat> groundvertice =
-	{  //     COORDINATES     /        COLORS      /   ALPHA //
-		-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.7f,
-		-20.0f, 0.0f,  20.0f,	0.83f, 0.70f, 0.44f,	0.7f,
-		 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	0.7f,
-		 20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0.7f,
-	};
-	std::vector<GLuint> groundindice =
-	{
-		0, 1, 2,
-		0, 2, 3,
-	};
-	*/
 };
 
 

@@ -26,19 +26,9 @@ public:
 		float MaxDepth = 0.0f;
 		float ObjectVolume = 0.0f;
 
-		//if (object->getType() == 0)//particule
-		//{
 			MaxDepth = 1;
 			ObjectVolume = (4.0f / 3) * 3.14;
-		//}
-			/*
-		if (object->getType() == 1)//sphere
-		{
-			float objectradius = ((SphereObject*)object)->GetRadius();
-			MaxDepth = objectradius;
-			ObjectVolume = 4.0f/3 * 3.14 * objectradius * objectradius * objectradius;
-		}
-		*/
+
 		
 
 		float d = (object->getPosition().getY() - LiquidHeight - MaxDepth) / (2 * MaxDepth);

@@ -15,6 +15,7 @@ private:
 	Vector3D force = Vector3D(0, 0, 0);
 public:
 
+	//static linear force
 	SimpleForce(Vector3D vector)
 	{
 		force = vector;

@@ -53,4 +53,4 @@ private:
 	float inverseMasse = 1.0f;
 };
 
-#endif //MATHPHYG4_PARTICULES_H
+#endif 

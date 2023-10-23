@@ -56,21 +56,6 @@ namespace fs = std::filesystem;
 #include "GraphicSphere.h"
 
 
-/*
-
-obj with text
-isohecadron with texture
-
-
-ajouter origine de l'objet 
-object rotation, autour de l'origine de l'objet, autour d'un point
-when move, move origin
-
-base object graphic, origin of object
-=particule for physics
-
-*/
-
 
 class GraphicException
 {

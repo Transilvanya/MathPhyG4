@@ -20,12 +20,6 @@ public:
 	{ 
 	
 	}
-
-	//length of link
-	//float currentLength() const;
-
-
-	//virtual unsigned int addContact(ParticleContact* contact, int limit) const = 0;
 };
 
 #endif // MATHPHYG4_PARTICLELINK_H

@@ -183,7 +183,6 @@
     <ClCompile Include="GraphicEngine\UI\imgui_perso.cpp" />
     <ClCompile Include="GraphicEngine\UI\InputControler.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MainEngine\Entity.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
     <ClCompile Include="PhysicEngine\Particules\Particule.cpp" />
@@ -218,7 +217,6 @@
     <ClInclude Include="PhysicEngine\Contact\ContactRegistry.h" />
     <ClInclude Include="PhysicEngine\Contact\LinkRegistry.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleAnchor.h" />
-    <ClInclude Include="PhysicEngine\Contact\ParticleCable.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleContact.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleRod.h" />

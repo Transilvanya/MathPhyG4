@@ -24,11 +24,6 @@ public:
 	Particule* _PhysicObject = nullptr;
 	GraphicObject* _GraphicObject = nullptr;
 
-	//void Setdisplayenabled(bool newvalue) { _GraphicObject->SetDisplayed(newvalue); }
-	//void Setphysicsenabled(bool newvalue) { _PhysicObject->SetPhysicEnabled(newvalue); }
-	//bool Getdisplayenabled() { return _GraphicObject->IsDisplayed(); }
-	//bool Getphysicsenabled() { return _PhysicObject->IsPhysicsEnabled(); }
-
 	std::string getName() { return _name; }
 	void SetName(std::string name) { _name = name; }
 

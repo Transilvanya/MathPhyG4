@@ -199,6 +199,7 @@ int main()
 	while (!GraphicEngine::GetInstance()->ShouldCloseMainWindow())
 	{
 
+		//option to reset the simultation
 		if (GraphicEngine::GetInstance()->shouldReset())
 		{
 			GraphicEngine::GetInstance()->setReset(false);
@@ -207,27 +208,16 @@ int main()
 			DeleteObjectForce();
 			if (GraphicEngine::GetInstance()->isForce())
 			{
-			
 				SetupObject();
 			}
 			else
 			{
 				SetupObjectForce();
 			}
-
-
-			
-
 		}
 
-
-
-
-
-
-
+		//tick the system
 		MainEngine::GetInstance()->Tick();
-
 		//std::cout << ((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetDeltaT() << "\n";
 
 		

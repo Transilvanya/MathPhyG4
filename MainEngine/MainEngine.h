@@ -8,23 +8,7 @@
 #include "Entity.h"
 #include <map>
 #include <list>
-/*
 
-ajouter pos gameplay =/= de pos centre de masse
-
-
-camera set speed
-
-keybinding
-
-ui to control object and entities
-
-
-Elementotdisplay, elementointegrade, added by main and not physicengine and graphicengine
-
-cppreference dynamic_cast
-
-*/
 
 class MainEngine
 {

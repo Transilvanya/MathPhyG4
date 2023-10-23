@@ -77,30 +77,6 @@ public:
 		particules[0]->setVitesse(particules[0]->getVitesse() - contactNormal * (k * particules[0]->getInverseMasse()));
 		particules[1]->setVitesse(particules[1]->getVitesse() + contactNormal * (k * particules[1]->getInverseMasse()));
 
-		/*
-		Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());
-		Vector3D separatingspeed = ( contactNormal * speeddif.getNorm());
-
-		float tempf = particules[0]->getMasse() * particules[0]->getVitesse().getNorm() + particules[1]->getMasse() * particules[1]->getVitesse().getNorm();
-
-		if (tempf != 0)
-		{
-			// fix
-
-			//float qmvt0 = particules[1]->getMasse() * particules[1]->getVitesse().getNorm() / tempf;
-			//float qmvt1 = particules[0]->getMasse() * particules[0]->getVitesse().getNorm() / tempf;
-			
-			float qmvt0 = particules[1]->getMasse()  / tempf;
-			float qmvt1 = particules[0]->getMasse()  / tempf;
-
-			//std::cout << "\t \t " << qmvt0 << "\t" << qmvt1 << "\n";
-
-			particules[0]->setVitesse(particules[0]->getVitesse() + separatingspeed * restitution* qmvt0);
-			particules[1]->setVitesse(particules[1]->getVitesse() + separatingspeed * (-1)  *restitution * qmvt1);
-
-		}
-
-		*/
 		particules[0]->setForce(p0vector);
 		particules[1]->setForce(p1vector);
 
