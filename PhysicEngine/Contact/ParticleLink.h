@@ -2,7 +2,7 @@
 #ifndef PARTICLELINK_CLASS_H
 #define PARTICLELINK_CLASS_H
 
-#include "Particules/Particule.h"
+#include "../Particules/Particule.h"
 #include "ParticleContact.h"
 
 class ParticleLink

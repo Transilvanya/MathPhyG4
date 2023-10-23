@@ -7,6 +7,7 @@
 #include "ParticleContact.h"
 #include "ParticleLink.h"
 #include "ParticleRod.h"
+#include "ParticleAnchor.h"
 
 #include <map>
 #include <iostream>
@@ -15,6 +16,8 @@
 class LinkRegistry
 {
 	std::map<std::string, ParticleLink*> LinkEntries;
+
+	std::map<std::string, ParticleAnchor*> AnchorEntries;
 
 public:
 	/* for every particule in the registry, apply the sum of all the forces */
@@ -29,6 +32,16 @@ public:
 		{
 			it->second->ApplyLink();
 			it++;
+		}
+
+
+		std::map<std::string, ParticleAnchor*>::iterator it2 = AnchorEntries.begin();
+
+		// Iterate through the map and print the elements
+		while (it2 != AnchorEntries.end())
+		{
+			it2->second->ApplyLink();
+			it2++;
 		}
 	}
 
@@ -80,6 +93,37 @@ public:
 		}
 	}
 
+	void CreateAnchor(Particule* p1, Vector3D p, std::string name, float lenght, bool iscable)
+	{
+		ParticleAnchor* temp = new ParticleAnchor(p1, p, lenght, iscable);
+
+		if (AnchorEntries.count(name))
+		{
+			std::cout << "already exist ParticuleAnchor " << name << "\n";
+		}
+		else
+		{
+			//std::cout << "create link\n";
+			AnchorEntries.emplace(name, temp);
+		}
+
+
+	}
+
+	void RemoveAnchor(std::string name)
+	{
+		if (AnchorEntries.count(name))
+		{
+			delete(AnchorEntries.find(name)->second);
+			AnchorEntries.erase(name);
+
+		}
+		else
+		{
+			std::cout << "coud not find ParticuleAnchor " << name << "\n";
+		}
+	}
+
 	ParticleLink* GetLink(std::string nameObject, std::string nameForce)
 	{
 		ParticleLink* output = nullptr;
@@ -109,6 +153,41 @@ public:
 				output.push_back(it->first);
 				++it;
 			}
+
+
+
+		return output;
+	}
+
+	ParticleAnchor* GetAnchor(std::string nameObject, std::string nameForce)
+	{
+		ParticleAnchor* output = nullptr;
+
+		if (AnchorEntries.count(nameObject))
+		{
+			output = (AnchorEntries.find(nameObject)->second);
+		}
+		else
+		{
+			std::cout << "coud not find ParticuleLink " << nameObject << "\n";
+		}
+
+		return output;
+	}
+
+	std::list<std::string> GetAnchors()
+	{
+		std::list<std::string> output;
+
+		// Get an iterator pointing to the first element in the map
+		std::map<std::string, ParticleAnchor*>::iterator it = AnchorEntries.begin();
+
+		// Iterate through the map and print the elements
+		while (it != AnchorEntries.end())
+		{
+			output.push_back(it->first);
+			++it;
+		}
 
 
 

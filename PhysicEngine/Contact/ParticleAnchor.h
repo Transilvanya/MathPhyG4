@@ -1,30 +1,34 @@
-#pragma once
-#ifndef MATHPHYG4_PARTICLEROD_H
-#define MATHPHYG4_PARTICLEROD_H
-#include "ParticleLink.h"
 
-class ParticleRod : public ParticleLink
+
+#ifndef PARTICLEANCHOR_CLASS_H
+#define PARTICLEANCHOR_CLASS_H
+
+#include "../Particules/Particule.h"
+
+class ParticleAnchor
 {
 public:
-	
-	//generate contact if not length
+	Particule* particule;
+	Vector3D point;
 	float Length;
 	bool isCable;
 
-	ParticleRod(Particule* p0, Particule* p1, float _Length, bool _isCable) : ParticleLink(p0,p1)
+	ParticleAnchor(Particule* p0, Vector3D _point, float _Length, bool _isCable)
 	{
-		particule[0] = p0;
-		particule[1] = p1;
+		particule = p0;
+		point = _point;
 		Length = _Length;
 		isCable = _isCable;
 	}
 
+
+
 	void ApplyLink()
 	{
 
-		
+
 		//std::cout << "\t" << it2->second->GetName() << "\t";
-		Vector3D contactnormal = (particule[0]->getPosition() - particule[1]->getPosition());
+		Vector3D contactnormal = (particule->getPosition() - point);
 		float dist = contactnormal.getNorm();
 
 		//std::cout << dist << " " << Length << "\n";
@@ -33,44 +37,37 @@ public:
 		{
 			array<float, 3> temp = contactnormal.getUnitVector();
 			contactnormal = Vector3D(temp.at(0), temp.at(1), temp.at(2));
-		
 
-			
+
+
 
 			if (dist > Length)
 			{
-				float weight0 = particule[0]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-				float weight1 = particule[1]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-
 				//std::cout << dist << " " << Length << "\n";
 
-				Vector3D temp0 = contactnormal * -weight0 * (dist-Length);
-				Vector3D temp1 = contactnormal * weight1 * (dist-Length);
+				Vector3D temp0 = contactnormal * -1 * (dist - Length);
 
-
-
-				particule[0]->setPosition(particule[0]->getPosition() + temp0);
-				particule[1]->setPosition(particule[1]->getPosition() + temp1);
+				particule->setPosition(particule->getPosition() + temp0);
 			}
 
 			if (dist <= Length && !isCable)
 			{
-				float weight0 = particule[0]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-				float weight1 = particule[1]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-
+			
 				//std::cout << dist << " " << Length << "\n";
 
-				Vector3D temp0 = contactnormal * weight0 * (Length - dist);
-				Vector3D temp1 = contactnormal * -weight1 * (Length - dist);
+				Vector3D temp0 = contactnormal * (Length - dist);
 
-				particule[0]->setPosition(particule[0]->getPosition() + temp0);
-				particule[1]->setPosition(particule[1]->getPosition() + temp1);
+				particule->setPosition(particule->getPosition() + temp0);
 			}
 		}
 
 
 		//std::cout << "link\n";
 	}
+
 };
+
+
+
 
 #endif // MATHPHYG4_PARTICLEROD_H

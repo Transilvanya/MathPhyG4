@@ -217,6 +217,7 @@
     <ClInclude Include="MainEngine\TimeSystem.h" />
     <ClInclude Include="PhysicEngine\Contact\ContactRegistry.h" />
     <ClInclude Include="PhysicEngine\Contact\LinkRegistry.h" />
+    <ClInclude Include="PhysicEngine\Contact\ParticleAnchor.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleCable.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleContact.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />

@@ -50,6 +50,9 @@ void SetupObject()
 
 	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule5"), PhysicEngine::GetInstance()->GetParticule("particule6"), "link1", 5, false);
 	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule6"), PhysicEngine::GetInstance()->GetParticule("particule4"), "link2", 5, true);
+
+
+	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateAnchor(PhysicEngine::GetInstance()->GetParticule("particule5"), Vector3D(10, 6, 0), "anchor1", 1, false);
 }
 
 void DeleteObject()
@@ -85,6 +88,8 @@ void DeleteObject()
 
 	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveLink("link1");
 	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveLink("link2");
+
+	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveAnchor("anchor1");
 }
 
 
