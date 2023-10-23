@@ -159,7 +159,11 @@ void GraphicEngine::DisplayUI()
 	}
 	if (ImGui::Button("Button"))
 	{
-		
+		pauseapp = !pauseapp;
+	}
+	if (ImGui::Button("Reset"))
+	{
+		ToReset = !ToReset;
 	}
 
 	ImGui::End();

@@ -323,7 +323,18 @@ public:
 		}
 		return output;
 	}
+
+	bool isPaused() { return pauseapp; }
+
+	bool shouldReset() {return ToReset;}
+	void setReset(bool v) { ToReset = v; }
+
+
 private:
+
+
+	bool pauseapp = true;
+	bool ToReset = false;
 
 
 	void InitUI();

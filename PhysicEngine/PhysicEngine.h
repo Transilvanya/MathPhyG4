@@ -66,6 +66,7 @@ public:
 	ForceRegistry* GetForceRegistry();
 	
 
+
 private:
 
 	std::map<std::string, Particule*> _physicobjects;
