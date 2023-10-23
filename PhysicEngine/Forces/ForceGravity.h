@@ -10,9 +10,9 @@ class ForceGravity : public IForce
 private:
 	Vector3D gravityStrengh = Vector3D(0, -9.8f, 0);
 public:
+	Vector3D getGravityStrengh() { return gravityStrengh; }
 	virtual std::string getType() { return "Gravity"; }
 	virtual OutValues ApplyForce(Particule* object) { return{ false, gravityStrengh * object->getMasse() }; }
-	Vector3D getGravityStrengh() { return gravityStrengh; }
 
 };
 

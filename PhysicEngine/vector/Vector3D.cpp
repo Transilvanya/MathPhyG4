@@ -140,7 +140,7 @@ bool Vector3D::operator==(Vector3D rightVector)
 	{
 		return false;
 	}
-})
+}
 
 float Vector3D::distance()
 {
