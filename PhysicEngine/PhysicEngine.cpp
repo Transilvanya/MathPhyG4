@@ -1,5 +1,6 @@
 #include "PhysicEngine.h"
 
+
 PhysicEngine::~PhysicEngine()
 {
 	Delete();
@@ -22,10 +23,6 @@ void PhysicEngine::Integrade(float DTms)
 	_forceregistry.ApplyForces();
 
 
-
-
-
-
 	// Get an iterator pointing to the first element in the map
 	std::map<std::string, Particule*>::iterator it = _physicobjects.begin();
 
@@ -37,10 +34,14 @@ void PhysicEngine::Integrade(float DTms)
 	}
 
 
+	//std::cout << "is contact " << _contactregistry.DetectContact(_physicobjects) << "\n";
+	//create list of contact
+	_contactregistry.DetectContact(_physicobjects);
+	//move particule and apply impulsion
+	_contactregistry.SolveContact();
 
-	//_collisionRegistry.isColliding();
-
-
+	//move particule according to the links
+	_linkregistry.SolveLink();
 
 	//std::cout << "end integrade\n";
 }

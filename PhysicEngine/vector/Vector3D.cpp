@@ -114,12 +114,19 @@ float Vector3D::operator&(Vector3D rightVector)
     return returnValue;
 }
 
+
 Vector3D Vector3D::operator*(Vector3D rightVector)
 {
     Vector3D nVector = Vector3D();
-    nVector.setX(this->getY() * rightVector.getZ() - this->getZ() * rightVector.getY());
-    nVector.setY(this->getZ() * rightVector.getX() - this->getX() * rightVector.getZ());
-    nVector.setZ(this->getX() * rightVector.getY() - this->getY() * rightVector.getX());
+
+
+    float tempx = getY() * rightVector.getZ() - getZ() * rightVector.getY(); 
+    float tempy = getZ() * rightVector.getX() - getX() * rightVector.getZ(); 
+    float tempz = getX() * rightVector.getY() - getY() * rightVector.getX(); 
+
+    nVector.setX(tempx);
+    nVector.setY(tempy);
+    nVector.setZ(tempz);
     return nVector;
 }
 

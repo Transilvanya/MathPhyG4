@@ -89,6 +89,7 @@ void Particule::setForce(Vector3D newforce)
 }
 
 void Particule::integrade(float DT){
+
 	vectorPrevPosition = vectorPosition;
 
 	vectorPosition = vectorPosition + (vectorVitesse * DT);
@@ -98,6 +99,5 @@ void Particule::integrade(float DT){
 	//std::cout << particulename << " " << vectorPosition.getX() << " " << vectorPosition.getY() << " " << vectorPosition.getZ() << "\n";
 	//std::cout << "\t" << force.getX() << " " << force.getY() << " " << force.getZ() << "\n";
 }
-
 Vector3D Particule::getDeltaPosition() { return vectorPosition - vectorPrevPosition; }
 Vector3D Particule::getPrevPosition() { return vectorPrevPosition; }

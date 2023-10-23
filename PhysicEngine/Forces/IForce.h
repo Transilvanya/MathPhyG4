@@ -11,6 +11,8 @@ class IForce
 {
 private:
 	bool ForceApplied = true;
+
+	Vector3D force = Vector3D(0, 0, 0);
 public:
 
 	struct OutValues
@@ -19,10 +21,11 @@ public:
 		Vector3D outvector = Vector3D(0, 0, 0);
 	};
 
+
 	bool IsForceApplied() { return ForceApplied; }
 	void SetForceApplied(bool value) { ForceApplied = value; }
 	virtual std::string getType() { return "DefaultForce"; }
-	virtual OutValues ApplyForce(Particule* object) { return { false, Vector3D(0, 0, 0) }; }
+	virtual OutValues ApplyForce(Particule* object) { return { false, force }; }
 
 };
 

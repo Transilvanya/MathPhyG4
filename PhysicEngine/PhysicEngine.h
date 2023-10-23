@@ -6,6 +6,8 @@
 #include "Particules/Particule.h"
 #include <iostream>
 #include "Forces/ForceRegistry.h"
+#include "Contact/ContactRegistry.h"
+#include "Contact/LinkRegistry.h"
 
 class PhysicEngine
 {
@@ -65,18 +67,14 @@ public:
 
 	ForceRegistry* GetForceRegistry();
 	
-
-
+	LinkRegistry* GetLinkRegistry() { return &_linkregistry; }
 private:
 
 	std::map<std::string, Particule*> _physicobjects;
 
+	ContactRegistry _contactregistry;
 	ForceRegistry _forceregistry;
-
-
-//	CollisionDetector _collisionRegistry;
-//	ParticleContactResolver _contactregistry;
-	
+	LinkRegistry _linkregistry;
 };
 
 #endif

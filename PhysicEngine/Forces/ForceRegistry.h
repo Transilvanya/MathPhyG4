@@ -11,6 +11,7 @@
 #include "ForceSpring.h"
 #include "ForceSpringFixed.h"
 #include "ForceBuoyancy.h"
+#include "SimpleForce.h"
 
 #include <map>
 #include <list>
@@ -51,9 +52,11 @@ public:
 
 	void AddForceGravityToParticule(Particule* particule, std::string forcename);
 
+	void AddForceSimpleToParticule(Vector3D forcevector,Particule* particule, std::string forcename);
+
 	void AddForceDragToParticule(float k1, float k2, Particule* particule, std::string forcename);
 
-	void AddForceBuoyancyToParticule(float liquidjheight, float liquiddensity, Particule* particule, std::string forcename);
+	void AddForceBuoyancyToParticule(float liquidheight, float liquiddensity, Particule* particule, std::string forcename);
 
 	
 	void AddForceSpringFixedToParticule(Vector3D anchor, float k, float l0, float maxlength, bool bungeespring, Particule* particule, std::string forcename);

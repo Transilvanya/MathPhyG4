@@ -160,12 +160,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Collisions\CollisionDetector.cpp" />
-    <ClCompile Include="Contact\ParticleCable.cpp" />
-    <ClCompile Include="Contact\ParticleContact.cpp" />
-    <ClCompile Include="Contact\ParticleContactResolver.cpp" />
-    <ClCompile Include="Contact\ParticleLink.cpp" />
-    <ClCompile Include="Contact\ParticleRod.cpp" />
     <ClCompile Include="GraphicEngine\GraphicEngine.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
     <ClCompile Include="GraphicEngine\GraphicPolygon.cpp" />
@@ -197,13 +191,6 @@
     <ClCompile Include="PhysicEngine\vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Collisions\CollisionDetector.h" />
-    <ClInclude Include="Contact\ParticleCable.h" />
-    <ClInclude Include="Contact\ParticleContact.h" />
-    <ClInclude Include="Contact\ParticleContactGenerator.h" />
-    <ClInclude Include="Contact\ParticleContactResolver.h" />
-    <ClInclude Include="Contact\ParticleLink.h" />
-    <ClInclude Include="Contact\ParticleRod.h" />
     <ClInclude Include="GraphicEngine\GraphicEngine.h" />
     <ClInclude Include="GraphicEngine\GraphicObject.h" />
     <ClInclude Include="GraphicEngine\GraphicPolygon.h" />
@@ -228,6 +215,12 @@
     <ClInclude Include="MainEngine\ISystem.h" />
     <ClInclude Include="MainEngine\MainEngine.h" />
     <ClInclude Include="MainEngine\TimeSystem.h" />
+    <ClInclude Include="PhysicEngine\Contact\ContactRegistry.h" />
+    <ClInclude Include="PhysicEngine\Contact\LinkRegistry.h" />
+    <ClInclude Include="PhysicEngine\Contact\ParticleCable.h" />
+    <ClInclude Include="PhysicEngine\Contact\ParticleContact.h" />
+    <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />
+    <ClInclude Include="PhysicEngine\Contact\ParticleRod.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceBuoyancy.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceDrag.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceGravity.h" />
@@ -235,8 +228,9 @@
     <ClInclude Include="PhysicEngine\Forces\ForceSpring.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceSpringFixed.h" />
     <ClInclude Include="PhysicEngine\Forces\IForce.h" />
-    <ClInclude Include="PhysicEngine\PhysicEngine.h" />
+    <ClInclude Include="PhysicEngine\Forces\SimpleForce.h" />
     <ClInclude Include="PhysicEngine\Particules\Particule.h" />
+    <ClInclude Include="PhysicEngine\PhysicEngine.h" />
     <ClInclude Include="PhysicEngine\vector\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>
