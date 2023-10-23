@@ -86,6 +86,61 @@ void DeleteObject()
 	PhysicEngine::GetInstance()->RemoveParticule("particule7");
 }
 
+
+void SetupObjectForce()
+{
+	GraphicEngine::GetInstance()->CreateSphere("sphere", "simplecolor", 1, 0, 3, 0, 1, 1, 1, 1);
+	GraphicEngine::GetInstance()->CreateSphere("sphere2", "simplecolor", 1, 10, 0, 0, 1, 1, 1, 1);
+	GraphicEngine::GetInstance()->CreateSphere("sphere3", "simplecolor", 1, -10, 0, 0, 1, 1, 1, 1);
+
+
+
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 3, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 200, "particule");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(10, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 300, "particule2");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-10, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 10, "particule3");
+
+
+
+	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule"), GraphicEngine::GetInstance()->GetGraphicObject("sphere"), "entity1");
+	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule2"), GraphicEngine::GetInstance()->GetGraphicObject("sphere2"), "entity2");
+	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule3"), GraphicEngine::GetInstance()->GetGraphicObject("sphere3"), "entity3");
+
+
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceGravityToParticule(PhysicEngine::GetInstance()->GetParticule("particule"), "gravity1");
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceDragToParticule(0.4f, 0.2f, PhysicEngine::GetInstance()->GetParticule("particule"), "drag");
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceBuoyancyToParticule(0, 1000, PhysicEngine::GetInstance()->GetParticule("particule"), "buoyancy1");
+
+
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceGravityToParticule(PhysicEngine::GetInstance()->GetParticule("particule2"), "gravity1");
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceDragToParticule(0.4f, 0.2f, PhysicEngine::GetInstance()->GetParticule("particule2"), "drag");
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceBuoyancyToParticule(0, 1000, PhysicEngine::GetInstance()->GetParticule("particule2"), "buoyancy1");
+
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceSpringToParticule(10, 5, 15, false,
+		PhysicEngine::GetInstance()->GetParticule("particule"),
+		PhysicEngine::GetInstance()->GetParticule("particule2"),
+		"spring"
+	);
+
+
+	PhysicEngine::GetInstance()->GetForceRegistry()->AddForceSpringFixedToParticule(Vector3D(-7, 5, 0), 10, 2, 1000, true, PhysicEngine::GetInstance()->GetParticule("particule3"), "fixedspring");
+}
+
+void DeleteObjectForce()
+{
+	MainEngine::GetInstance()->RemoveEntity("entity1");
+	GraphicEngine::GetInstance()->RemoveGraphicObject("sphere");
+	PhysicEngine::GetInstance()->RemoveParticule("particule");
+
+	MainEngine::GetInstance()->RemoveEntity("entity2");
+	GraphicEngine::GetInstance()->RemoveGraphicObject("sphere2");
+	PhysicEngine::GetInstance()->RemoveParticule("particule2");
+
+
+
+	
+}
+
+
 void SwitchPerspective()
 {
 	GraphicEngine::GetInstance()->SwitchPersp();
@@ -142,11 +197,20 @@ int main()
 		{
 			GraphicEngine::GetInstance()->setReset(false);
 
-
 			DeleteObject();
+			DeleteObjectForce();
+			if (GraphicEngine::GetInstance()->isForce())
+			{
+			
+				SetupObject();
+			}
+			else
+			{
+				SetupObjectForce();
+			}
 
 
-			SetupObject();
+			
 
 		}
 

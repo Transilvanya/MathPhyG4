@@ -329,13 +329,15 @@ public:
 	bool shouldReset() {return ToReset;}
 	void setReset(bool v) { ToReset = v; }
 
+	bool isForce() {
+		return settoForce;}
 
 private:
 
 
 	bool pauseapp = true;
 	bool ToReset = false;
-
+	bool settoForce = false;
 
 	void InitUI();
 	void InitOpenGL();

@@ -166,6 +166,11 @@ void GraphicEngine::DisplayUI()
 		ToReset = !ToReset;
 	}
 
+	if (ImGui::Button("Force or Contact"))
+	{
+		settoForce = !settoForce;
+	}
+
 	ImGui::End();
 
 }
