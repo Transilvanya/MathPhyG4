@@ -41,6 +41,10 @@ public:
 	void SolveContact()
 	{
 
+		Vector3D p0vector = particules[0]->getForce();
+		Vector3D p1vector = particules[1]->getForce();
+
+
 
 
 		
@@ -64,17 +68,14 @@ public:
 		particules[1]->setPosition(particules[1]->getPosition() + temp1);
 
 
-
-
-
+		/* --------------------------------------- */
 
 		Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());
 
-		float k = (restitution + 1) * (speeddif & contactNormal) / (particules[0] -> getInverseMasse() + particules[1]->getInverseMasse()) ;
+		float k = (restitution + 1) * (speeddif & contactNormal) / (particules[0]->getInverseMasse() + particules[1]->getInverseMasse());
 
 		particules[0]->setVitesse(particules[0]->getVitesse() - contactNormal * (k * particules[0]->getInverseMasse()));
 		particules[1]->setVitesse(particules[1]->getVitesse() + contactNormal * (k * particules[1]->getInverseMasse()));
-		/* --------------------------------------- */
 
 		/*
 		Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());
@@ -98,8 +99,12 @@ public:
 			particules[1]->setVitesse(particules[1]->getVitesse() + separatingspeed * (-1)  *restitution * qmvt1);
 
 		}
-		
+
 		*/
+		particules[0]->setForce(p0vector);
+		particules[1]->setForce(p1vector);
+
+		
 
 		//std::cout << "\n";
 	}

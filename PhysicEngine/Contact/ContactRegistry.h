@@ -59,7 +59,7 @@ public:
 					//we assume the particule as a radius of 1
 					if (dist <= DistSum && DistSum - dist > ContactPrecision)
 					{
-						ParticleContact pc = ParticleContact(it->second, it2->second, 1, DistSum - dist, contactnormal);
+						ParticleContact pc = ParticleContact(it->second, it2->second, 0, DistSum - dist, contactnormal);
 						Contacts.push_back(pc);
 					}
 				}

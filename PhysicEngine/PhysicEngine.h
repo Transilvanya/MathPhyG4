@@ -8,7 +8,48 @@
 #include "Forces/ForceRegistry.h"
 #include "Contact/ContactRegistry.h"
 #include "Contact/LinkRegistry.h"
+/*
 
+Vecteur null, => si vecteur nul pas drag => pas de vecteur unitaire
+
+
+contact how to determine restitution
+
+
+detection if particule au repos, -> avec norme?
+
+link creer une anchor qui fixe a point
+add option for link to break
+
+
+ajouter centre de masse a objet rigide
+object rotation, autour de l'origine de l'objet, autour d'un point
+
+calculer les forces et verifier qu'elles correspondent
+
+resoudre oscillation
+
+
+trigger?
+
+
+detecte collision,
+creer contact -> type entity...,
+
+
+solve contact,	si rapide ? passe au travers
+				si au repos ? oscille au sol, coller a object et passé en dormant, si en pente?
+
+contact, tige, cable (fixe, 2 bgt), interpénétration, au repos
+
+avec objet sans phy
+
+
+buoyancy is abosulte and does not check if object is contatined, only vertical coordinates
+it should be attached to an object that knows with object it contains to apply and remove the force
+when nescessary
+
+*/
 class PhysicEngine
 {
 public:

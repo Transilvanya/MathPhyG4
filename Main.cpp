@@ -23,10 +23,8 @@ GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 
 void SetupObject()
 {
-	//GraphicEngine::GetInstance()->CreateSphere("sphere", "simplecolor", 1, 0, 0, 0, 1, 1, 1, 1);
-	GraphicEngine::GetInstance()->CreateSphere("sphere2", "simplecolor", 1, 0.5f, 0, 0, 1, 1, 1, 1);
 	GraphicEngine::GetInstance()->CreateSphere("sphere3", "simplecolor", 1, -0.5f, 0, 0, 1, 1, 1, 1);
-	GraphicEngine::GetInstance()->CreateSphere("sphere4", "simplecolor", 1, 3.5f, 0, 0, 1, 1, 1, 1);
+	GraphicEngine::GetInstance()->CreateSphere("sphere4", "simplecolor", 1, 2, 0, 0, 1, 1, 1, 1);
 
 	GraphicEngine::GetInstance()->CreateSphere("sphere5", "simplecolor", 1, 10, 6, 0, 1, 1, 1, 1);
 	GraphicEngine::GetInstance()->CreateSphere("sphere6", "simplecolor", 1, 0, 5, 0, 1, 1, 1, 1);
@@ -34,24 +32,24 @@ void SetupObject()
 	GraphicEngine::GetInstance()->CreateSphere("sphere7", "simplecolor", 1, -10, 1, 0, 1, 1, 1, 1);
 
 
-	//PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 10, "particule");
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0.5f, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 100, "particule2");
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-0.5f, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 200, "particule3");
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(3.5f, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule4");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(2, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule4");
 
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(10, 6, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule5");
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 5, 0), Vector3D(10, 0, 0), Vector3D(0, 0, 0), 100, "particule6");
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-10, 1, 0), Vector3D(11, 0, 0), Vector3D(0, 0, 0), 100, "particule7");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 5, 0), Vector3D(3, 0, 0), Vector3D(0, 0, 0), 100, "particule6");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-10, 1, 0), Vector3D(3, 0, 0), Vector3D(0, 0, 0), 100, "particule7");
 
 
-	//MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule"), GraphicEngine::GetInstance()->GetGraphicObject("sphere"), "entity1");
-	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule2"), GraphicEngine::GetInstance()->GetGraphicObject("sphere2"), "entity2");
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule3"), GraphicEngine::GetInstance()->GetGraphicObject("sphere3"), "entity3");
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule4"), GraphicEngine::GetInstance()->GetGraphicObject("sphere4"), "entity4");
 
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule5"), GraphicEngine::GetInstance()->GetGraphicObject("sphere5"), "entity5");
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule6"), GraphicEngine::GetInstance()->GetGraphicObject("sphere6"), "entity6");
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule7"), GraphicEngine::GetInstance()->GetGraphicObject("sphere7"), "entity7");
+
+
+	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule5"), PhysicEngine::GetInstance()->GetParticule("particule6"), "link1", 5, false);
+	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule6"), PhysicEngine::GetInstance()->GetParticule("particule4"), "link2", 5, true);
 }
 
 void DeleteObject()
@@ -84,6 +82,9 @@ void DeleteObject()
 	MainEngine::GetInstance()->RemoveEntity("entity7");
 	GraphicEngine::GetInstance()->RemoveGraphicObject("sphere7");
 	PhysicEngine::GetInstance()->RemoveParticule("particule7");
+
+	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveLink("link1");
+	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveLink("link2");
 }
 
 
