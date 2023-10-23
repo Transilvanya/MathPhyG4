@@ -157,19 +157,14 @@ void GraphicEngine::DisplayUI()
 		ImGui::BulletText("The rotation of the camera will be fixed at the center\n of the screen but will keep rotation we the mouse reach the edges.");
 		ImGui::BulletText("The blue shape indicape the forces applied to the particule");
 	}
-	if (ImGui::Button("Pause"))
-	{
-		pauseapp = !pauseapp;
-	}
 	if (ImGui::Button("Reset"))
 	{
 		ToReset = !ToReset;
 	}
 
-	if (ImGui::Button("Force or Contact"))
-	{
-		settoForce = !settoForce;
-	}
+	ImGui::Checkbox("Pause", &pauseapp);
+	ImGui::Checkbox("Force or Contact", &settoForce);
+
 
 	ImGui::End();
 
