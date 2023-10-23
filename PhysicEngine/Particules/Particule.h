@@ -3,7 +3,6 @@
 #define MATHPHYG4_PARTICULE_H
 
 #include "../Vector/Vector3D.h"
-#include "../Forces/ForceGravity.h"
 #include <iostream>
 class Particule {
 

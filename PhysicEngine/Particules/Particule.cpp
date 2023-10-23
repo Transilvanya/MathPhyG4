@@ -95,11 +95,11 @@ void Particule::integrade(float DT){
 		vectorPosition = vectorPosition + (vectorVitesse * DT);
 		vectorAcceleration = force * getInverseMasse();
 		vectorVitesse = vectorVitesse + (vectorAcceleration * DT);
-		ForceGravity forceGravity = ForceGravity();
-		if ((forceGravity.getGravityStrengh() * DT).distance() > vectorVitesse.distance()) {
+		Vector3D forceGravity = Vector3D(0, -9.8f, 0);
+		if ((forceGravity* DT).distance() > vectorVitesse.distance()) {
 			float test = vectorVitesse & Vector3D(0.0f, 1.0f, 0.0f);
 			if (test == 0) {
-				if (force == forceGravity.getGravityStrengh()) {
+				if (force == forceGravity) {
 					this->desactivateVibration();
 				}
 			}
