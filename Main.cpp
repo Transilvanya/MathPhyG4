@@ -91,7 +91,7 @@ void DeleteObject()
 
 	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveAnchor("anchor1");
 }
-
+//
 
 void SetupObjectForce()
 {
