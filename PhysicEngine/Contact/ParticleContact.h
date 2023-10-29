@@ -68,6 +68,10 @@ public:
 		particules[1]->setPosition(particules[1]->getPosition() + temp1);
 
 
+
+
+
+
 		/* --------------------------------------- */
 
 		Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());

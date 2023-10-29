@@ -23,14 +23,13 @@ GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 
 void SetupObject()
 {
-	GraphicEngine::GetInstance()->CreateSphere("sphere3", "simplecolor", 1, -0.5f, 0, 0, 1, 1, 1, 1);
-	GraphicEngine::GetInstance()->CreateSphere("sphere4", "simplecolor", 1, 2, 0, 0, 1, 1, 1, 1);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.6f, -0.5f, 0, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f, 2, 0, 0);
 
-	GraphicEngine::GetInstance()->CreateSphere("sphere5", "simplecolor", 1, 10, 6, 0, 1, 1, 1, 1);
-	GraphicEngine::GetInstance()->CreateSphere("sphere6", "simplecolor", 1, 0, 5, 0, 1, 1, 1, 1);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere5", "simpletext", "cattext", 0.6f, 10, 6, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere6", "simpletext", "cattext", 0.6f, 0, 5, 0);
 
-	GraphicEngine::GetInstance()->CreateSphere("sphere7", "simplecolor", 1, -10, 1, 0, 1, 1, 1, 1);
-
+	GraphicEngine::GetInstance()->CreateSphereText("sphere7", "simpletext", "cattext", 0.6f, -10, 1, 0);
 
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-0.5f, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 200, "particule3");
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(2, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule4");
@@ -95,10 +94,9 @@ void DeleteObject()
 
 void SetupObjectForce()
 {
-	GraphicEngine::GetInstance()->CreateSphere("sphere", "simplecolor", 1, 0, 3, 0, 1, 1, 1, 1);
-	GraphicEngine::GetInstance()->CreateSphere("sphere2", "simplecolor", 1, 10, 0, 0, 1, 1, 1, 1);
-	GraphicEngine::GetInstance()->CreateSphere("sphere3", "simplecolor", 1, -10, 0, 0, 1, 1, 1, 1);
-
+	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.5f, 0, 3, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere2", "simpletext", "cattext", 0.5f, 10, 0, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.5f, -10, 0, 0);
 
 
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 3, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 200, "particule");
@@ -179,6 +177,9 @@ int main()
 
 
 	GraphicEngine::GetInstance()->CreateShader("simplecolor", "GraphicEngine/OpenGL/Shaders/simplecolor.vert", "GraphicEngine/OpenGL/Shaders/simplecolor.frag");
+	GraphicEngine::GetInstance()->CreateShader("simpletext", "GraphicEngine/OpenGL/Shaders/simpletext.vert", "GraphicEngine/OpenGL/Shaders/simpletext.frag");
+
+	GraphicEngine::GetInstance()->CreateTexture("cattext", "border.png");
 
 	GraphicEngine::GetInstance()->CreatePolygon("newobject", "simplecolor", groundindice, groundvertice);
 
@@ -224,7 +225,7 @@ int main()
 		if (!GraphicEngine::GetInstance()->isPaused())
 		{
 			//Physic
-			PhysicEngine::GetInstance()->Integrade(((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetDeltaT());
+			PhysicEngine::GetInstance()->Integrade(((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetDeltaT()* GraphicEngine::GetInstance()->GetSimulationSpeed());
 
 			MainEngine::GetInstance()->UpdateEntityPostion();
 		}

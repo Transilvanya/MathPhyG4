@@ -160,7 +160,8 @@ void GraphicEngine::DisplayUI()
 	if (ImGui::Button("Reset"))
 	{
 		ToReset = !ToReset;
-	}
+
+	}ImGui::InputFloat("Speed", &simulationspeed, 0.01f, 1.0f, "%.3f");
 
 	ImGui::Checkbox("Pause", &pauseapp);
 	ImGui::Checkbox("Force or Contact", &settoForce);

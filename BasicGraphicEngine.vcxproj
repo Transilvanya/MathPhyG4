@@ -162,7 +162,9 @@
   <ItemGroup>
     <ClCompile Include="GraphicEngine\GraphicEngine.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
+    <ClCompile Include="GraphicEngine\GraphicObjectwithTexture.cpp" />
     <ClCompile Include="GraphicEngine\GraphicPolygon.cpp" />
+    <ClCompile Include="GraphicEngine\GraphicSphereText.cpp" />
     <ClCompile Include="GraphicEngine\GraphicSphere.cpp" />
     <ClCompile Include="GraphicEngine\ImGui\imgui.cpp" />
     <ClCompile Include="GraphicEngine\ImGui\imgui_demo.cpp" />
@@ -192,7 +194,9 @@
   <ItemGroup>
     <ClInclude Include="GraphicEngine\GraphicEngine.h" />
     <ClInclude Include="GraphicEngine\GraphicObject.h" />
+    <ClInclude Include="GraphicEngine\GraphicObjectwithTexture.h" />
     <ClInclude Include="GraphicEngine\GraphicPolygon.h" />
+    <ClInclude Include="GraphicEngine\GraphicSphereText.h" />
     <ClInclude Include="GraphicEngine\GraphicSphere.h" />
     <ClInclude Include="GraphicEngine\ImGui\imconfig.h" />
     <ClInclude Include="GraphicEngine\ImGui\imgui.h" />
@@ -235,8 +239,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="GraphicEngine\ImGui\imgui.natstepfilter" />
-    <None Include="GraphicEngine\OpenGL\Shaders\default.frag" />
-    <None Include="GraphicEngine\OpenGL\Shaders\default.vert" />
+    <None Include="GraphicEngine\OpenGL\Shaders\simpletext.frag" />
+    <None Include="GraphicEngine\OpenGL\Shaders\simpletext.vert" />
     <None Include="GraphicEngine\OpenGL\Shaders\simplecolor.frag" />
     <None Include="GraphicEngine\OpenGL\Shaders\simplecolor.vert" />
     <None Include="README.md" />
@@ -250,6 +254,11 @@
   </ItemGroup>
   <ItemGroup>
     <Library Include="GraphicEngine\OpenGL\Libraries\lib\glfw3.lib" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="GraphicEngine\Resources\border.png" />
+    <Image Include="GraphicEngine\Resources\brick.png" />
+    <Image Include="GraphicEngine\Resources\pop_cat.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

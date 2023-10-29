@@ -19,7 +19,7 @@ public:
 		Default = 0,
 		Sphere = 1,
 		Polygon = 2,
-		Texture = 3
+		TextureObj = 3
 	};
 	virtual GraphicObjectType getType() { return Default; }
 

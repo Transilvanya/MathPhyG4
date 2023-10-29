@@ -24,8 +24,8 @@ GraphicSphere::~GraphicSphere()
 
 void GraphicSphere::CreateCircle()
 {
-	vertices.empty();
-	indices.empty();
+	vertices.clear();
+	indices.clear();
 
 	float phi = 1.62f * Radius;
 	

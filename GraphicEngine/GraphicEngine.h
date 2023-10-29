@@ -54,7 +54,8 @@ namespace fs = std::filesystem;
 #include <map>
 #include "GraphicPolygon.h"
 #include "GraphicSphere.h"
-
+#include "GraphicObjectwithTexture.h"
+#include "GraphicSphereText.h"
 
 
 class GraphicException
@@ -126,9 +127,9 @@ public:
 		Shader* shaderProgramColor = new Shader(name, vertexshader, fragmentshader);
 		_shaders.emplace(name, shaderProgramColor);
 	}
-	void CreateTexture(std::string name, const char* image, GLenum texType, GLenum slot, GLenum format, GLenum pixelType)
+	void CreateTexture(std::string name, std::string textname)
 	{
-		Texture* newtext = new Texture(name, image, texType, slot, format, pixelType);
+		Texture* newtext = new Texture(name, textname);
 		_textures.emplace(name, newtext);
 	}
 
@@ -200,6 +201,79 @@ public:
 			std::cout << "coud not get Object " << name << "\n";
 			return nullptr;
 		}
+	}
+
+	// --------------------------------------------------------------------------------
+	void CreateObjectwithTexture(std::string name, std::string nameshader, std::string nametexture)
+	{
+		Shader* s = GetShader(nameshader);
+		Texture* t = GetTexture(nametexture);
+		if (s != nullptr)
+		{
+			if (t != nullptr)
+			{
+				GraphicObjectwithTexture* GO = new GraphicObjectwithTexture(name, *s, *t);
+				_graphicobjects.emplace(name, GO);
+				ElementToDisplay.emplace(name, GO);
+			}
+			else
+			{
+				std::cout << "coud not create Object " << name << " because Texture " << nametexture << " could not be found\n";
+			}
+		}
+		else
+		{
+			std::cout << "coud not create Object " << name << " because Shader " << nameshader << " could not be found\n";
+		}
+	}
+	GraphicObjectwithTexture* GetObjectwithTexture(std::string name)
+	{
+		if (_graphicobjects.count(name) && _graphicobjects.find(name)->second->getType() == 2)
+			return (GraphicObjectwithTexture*)_graphicobjects.find(name)->second;
+		else
+		{
+			std::cout << "coud not get GraphicObjectwithTexture " << name << "\n";
+			return nullptr;
+		}
+
+	}
+	// --------------------------------------------------------------------------------
+
+	
+	void CreateSphereText(std::string name, std::string nameshader, std::string nametexture, float _Radius, float _x, float _y, float _z)
+	{
+		Shader* s = GetShader(nameshader);
+		Texture* t = GetTexture(nametexture);
+		if (s != nullptr)
+		{
+			if (t != nullptr)
+			{
+				GraphicSphereText* GO = new GraphicSphereText(name, *s, *t, _Radius, _x, _y, _z);
+				_graphicobjects.emplace(name, GO);
+				ElementToDisplay.emplace(name, GO);
+			}
+			else
+			{
+				std::cout << "coud not create Object " << name << " because Texture " << nametexture << " could not be found\n";
+			}
+			
+		}
+		else
+		{
+			std::cout << "coud not create GraphicObjectwithTexture " << name << " because Shader " << nameshader << " could not be found\n";
+		}
+	}
+	GraphicSphereText* GetSphereText(std::string name)
+	{
+
+		if (_graphicobjects.count(name) && _graphicobjects.find(name)->second->getType() == 1)
+			return (GraphicSphereText*)_graphicobjects.find(name)->second;
+		else
+		{
+			std::cout << "coud not get GraphicObjectwithTexture " << name << "\n";
+			return nullptr;
+		}
+
 	}
 	// --------------------------------------------------------------------------------
 	void CreatePolygon(std::string name, std::string nameshader, std::vector<GLuint> _indices, std::vector<GLfloat> _values)
@@ -316,13 +390,18 @@ public:
 
 	bool isForce() {
 		return settoForce;}
-
+	
+	float GetSimulationSpeed()
+	{
+		return simulationspeed;
+	}
 private:
 
 
 	bool pauseapp = true;
 	bool ToReset = false;
 	bool settoForce = false;
+	float simulationspeed = 1.0f;
 
 	void InitUI();
 	void InitOpenGL();
