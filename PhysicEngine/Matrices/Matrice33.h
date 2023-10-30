@@ -7,9 +7,6 @@
 class Matrice33
 {
 public:
-	Matrice33();
-	~Matrice33();
-
 
 	//combinaison de transformation lineaire
 	Matrice33 operator*(const Matrice33& m) const;
@@ -17,19 +14,24 @@ public:
 	// Transform of a vector
 	Vector3D operator*(const Vector3D& v) const;
 
+	Matrice33 operator*(const float& f) const;
+
 	//renvoie l'inverse de la matrice
 	Matrice33 Inverse();
 
 	//renvoie le transpose de la matrice
 	Matrice33 Transpose();
 
-	// set une matrice base sur un quaternion
+	// set the matrix base on a quaternion
 	void setOrientation(const Quaternion& q);
+
+	float& getValues(int i) { return value[i]; }
 
 private:
 
 	float value[9];
-
+	float getDeterminant();
+	Matrice33 getAdjointe() const;
 };
 
 

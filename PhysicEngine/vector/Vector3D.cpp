@@ -23,24 +23,24 @@ Vector3D::~Vector3D() {
 
 }
 
-array<float, 3> Vector3D::getVector() {
+const array<float, 3> Vector3D::getVector() const{
 
     return vector;
 }
 
-float Vector3D::getX() {
+const float Vector3D::getX() const{
 
     return this->vector[0];
 
 }
 
-float Vector3D::getY() {
+const float Vector3D::getY() const{
 
     return this->vector[1];
 
 }
 
-float Vector3D::getZ() {
+const float Vector3D::getZ() const{
 
     return this->vector[2];
 

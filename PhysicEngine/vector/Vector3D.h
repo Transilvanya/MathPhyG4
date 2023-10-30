@@ -32,10 +32,10 @@ public :
 
 
     // getter
-    float getX();
-    float getY();
-    float getZ();
-    array<float,3> getVector();
+    const float getX() const;
+    const float getY() const;
+    const float getZ() const;
+    const array<float,3> getVector() const;
 
     //method
     float getNorm();
