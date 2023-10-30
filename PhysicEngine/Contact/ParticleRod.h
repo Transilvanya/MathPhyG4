@@ -8,68 +8,64 @@ class ParticleRod : public ParticleLink
 public:
 	
 	//generate contact if not length
-	float Length;
+	float Length = 1;
 	bool isCable;
 
 	ParticleRod(Particule* p0, Particule* p1, float _Length, bool _isCable) : ParticleLink(p0,p1)
 	{
 		particule[0] = p0;
 		particule[1] = p1;
-		Length = _Length;
+		if (_Length > 0)
+		{
+			Length = _Length;
+		}
+		
 		isCable = _isCable;
 	}
 
-	void ApplyLink()
+	void AddContact(std::list<ParticleContact>* Contacts)
 	{
-
-		
-		//std::cout << "\t" << it2->second->GetName() << "\t";
 		Vector3D contactnormal = (particule[0]->getPosition() - particule[1]->getPosition());
 		float dist = contactnormal.getNorm();
 
-		//std::cout << dist << " " << Length << "\n";
+		array<float, 3> temp = contactnormal.getUnitVector();
+		contactnormal = Vector3D(temp.at(0), temp.at(1), temp.at(2));
 
-		if (dist > 0)
+
+		//>0?
+		std::cout << "\t\t" << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ() << "\n";
+		//Selon si la distance des particule est plus petite ou plus grande que la
+		//longueur de la tige, la normal et la pénétration seront inversées.
+
+		//penetration toujours positive, normal doit etre inversé
+
+		if (dist > Length && Length - dist < -0.01f)
 		{
-			array<float, 3> temp = contactnormal.getUnitVector();
-			contactnormal = Vector3D(temp.at(0), temp.at(1), temp.at(2));
 		
-
-			
-
-			if (dist > Length)
-			{
-				float weight0 = particule[0]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-				float weight1 = particule[1]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-
-				//std::cout << dist << " " << Length << "\n";
-
-				Vector3D temp0 = contactnormal * -weight0 * (dist-Length);
-				Vector3D temp1 = contactnormal * weight1 * (dist-Length);
+			ParticleContact pc = ParticleContact(particule[0], particule[1], 0, Length - dist, contactnormal);
+			Contacts->push_back(pc);
 
 
 
-				particule[0]->setPosition(particule[0]->getPosition() + temp0);
-				particule[1]->setPosition(particule[1]->getPosition() + temp1);
-			}
 
-			if (dist <= Length && !isCable)
-			{
-				float weight0 = particule[0]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
-				float weight1 = particule[1]->getMasse() / (particule[0]->getMasse() + particule[1]->getMasse());
 
-				//std::cout << dist << " " << Length << "\n";
 
-				Vector3D temp0 = contactnormal * weight0 * (Length - dist);
-				Vector3D temp1 = contactnormal * -weight1 * (Length - dist);
+			std::cout << particule[0]->getPosition().getX() << " " << particule[0]->getPosition().getY() << " " << particule[0]->getPosition().getZ() << "\n";
+			std::cout << particule[1]->getPosition().getX() << " " << particule[1]->getPosition().getY() << " " << particule[1]->getPosition().getZ() << "\n";
+			std::cout << dist << " " << Length << " " << Length - dist << "\n";
+			std::cout << "\t\t" << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ() << "\n";
 
-				particule[0]->setPosition(particule[0]->getPosition() + temp0);
-				particule[1]->setPosition(particule[1]->getPosition() + temp1);
-			}
 		}
 
 
-		//std::cout << "link\n";
+		//working fine
+		if (dist <= Length && !isCable && dist > 0)
+		{
+			ParticleContact pc = ParticleContact(particule[0], particule[1], 0, Length - dist, contactnormal);
+			Contacts->push_back(pc);
+		}
+
+		std::cout << "\n";
 	}
 };
 

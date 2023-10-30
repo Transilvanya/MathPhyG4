@@ -16,7 +16,7 @@ public:
 		particule[1] = p1;
 	}
 
-	virtual void ApplyLink() 
+	virtual void AddContact(std::list<ParticleContact>* Contacts)
 	{ 
 	
 	}

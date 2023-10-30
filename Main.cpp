@@ -24,17 +24,17 @@ GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 void SetupObject()
 {
 	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.6f, -0.5f, 0, 0);
-	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f, 2, 0, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f, 0, 1, 0);
 
-	GraphicEngine::GetInstance()->CreateSphereText("sphere5", "simpletext", "cattext", 0.6f, 10, 6, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere5", "simpletext", "cattext", 0.6f, 10, 5, 0);
 	GraphicEngine::GetInstance()->CreateSphereText("sphere6", "simpletext", "cattext", 0.6f, 0, 5, 0);
 
 	GraphicEngine::GetInstance()->CreateSphereText("sphere7", "simpletext", "cattext", 0.6f, -10, 1, 0);
 
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-0.5f, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 200, "particule3");
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(2, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule4");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 1, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule4");
 
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(10, 6, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule5");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(10, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 50, "particule5");
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 5, 0), Vector3D(3, 0, 0), Vector3D(0, 0, 0), 100, "particule6");
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(-10, 1, 0), Vector3D(3, 0, 0), Vector3D(0, 0, 0), 100, "particule7");
 
@@ -47,11 +47,11 @@ void SetupObject()
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule7"), GraphicEngine::GetInstance()->GetGraphicObject("sphere7"), "entity7");
 
 
-	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule5"), PhysicEngine::GetInstance()->GetParticule("particule6"), "link1", 5, false);
-	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule6"), PhysicEngine::GetInstance()->GetParticule("particule4"), "link2", 5, true);
+	PhysicEngine::GetInstance()->GetContactRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule5"), PhysicEngine::GetInstance()->GetParticule("particule6"), "link1", 5, false);
+	PhysicEngine::GetInstance()->GetContactRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule6"), PhysicEngine::GetInstance()->GetParticule("particule4"), "link2", 5, true);
 
 
-	PhysicEngine::GetInstance()->GetLinkRegistry()->CreateAnchor(PhysicEngine::GetInstance()->GetParticule("particule5"), Vector3D(10, 6, 0), "anchor1", 1, false);
+	PhysicEngine::GetInstance()->GetContactRegistry()->CreateAnchor(PhysicEngine::GetInstance()->GetParticule("particule5"), Vector3D(10, 6, 0), "anchor1", 1, false);
 }
 
 void DeleteObject()
@@ -85,10 +85,10 @@ void DeleteObject()
 	GraphicEngine::GetInstance()->RemoveGraphicObject("sphere7");
 	PhysicEngine::GetInstance()->RemoveParticule("particule7");
 
-	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveLink("link1");
-	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveLink("link2");
+	PhysicEngine::GetInstance()->GetContactRegistry()->RemoveLink("link1");
+	PhysicEngine::GetInstance()->GetContactRegistry()->RemoveLink("link2");
 
-	PhysicEngine::GetInstance()->GetLinkRegistry()->RemoveAnchor("anchor1");
+	PhysicEngine::GetInstance()->GetContactRegistry()->RemoveAnchor("anchor1");
 }
 //
 

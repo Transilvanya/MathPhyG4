@@ -38,7 +38,7 @@ void PhysicEngine::Integrade(float DTms)
 
 	int loopindex = 0;
 
-	bool contactdetected = _contactregistry.DetectContact(_physicobjects);
+	bool contactdetected = _contactregistry.AddContacts(_physicobjects);
 
 	while (contactdetected && loopindex < 10)
 	{
@@ -47,17 +47,14 @@ void PhysicEngine::Integrade(float DTms)
 		//_contactregistry.DetectContact(_physicobjects);
 		//move particule and apply impulsion
 		_contactregistry.SolveContact();
+		_contactregistry.ApplyAnchors();
 
-		//move particule according to the links
-		_linkregistry.SolveLink();
-
-		contactdetected = _contactregistry.DetectContact(_physicobjects);
+		contactdetected = _contactregistry.AddContacts(_physicobjects);
 		//std::cout << "end integrade\n";
 		loopindex++;
 	}//std::cout << "end integrade\n";
 	
-
-	_linkregistry.SolveLink();
+	_contactregistry.ApplyAnchors();
 }
 
 

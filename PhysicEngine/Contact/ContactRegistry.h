@@ -8,13 +8,20 @@
 
 #include <list>
 #include <iostream>
-
+#include <map>
+#include "ContactGenerator.h"
+#include "ParticleLink.h"
+#include "ParticleRod.h"
+#include "ParticleAnchor.h"
 
 class ContactRegistry
 {
 private:
 	std::list<ParticleContact> Contacts;
 
+	std::map<std::string, ParticleLink*> LinkEntries;
+
+	std::map<std::string, ParticleAnchor*> AnchorEntries;
 
 	//max iter of contact
 	unsigned int iteration;
@@ -26,60 +33,25 @@ public:
 	unsigned int GetIteration() { return iteration; }
 
 	//fill Contacts with the list of Contact
-	bool DetectContact(std::map<std::string, Particule*> objects)
+	bool AddContacts(std::map<std::string, Particule*> objects)
 	{
 		Contacts.clear();
 
-		//std::cout << "contact start\n";
+		ContactGenerator c(objects);
+		c.AddContact(&Contacts);
 
-		std::map<std::string, Particule*>::iterator it = objects.begin();
-		while (it != objects.end())
+
+
+
+		std::map<std::string, ParticleLink*>::iterator it = LinkEntries.begin();
+		// Iterate through the map and print the elements
+		while (it != LinkEntries.end())
 		{
-			//std::cout << it->second->GetName() << "\n";
-			std::map<std::string, Particule*>::iterator it2 = it;
-			it2++;
-			while (it2 != objects.end())
-			{
-				//std::cout << "\t" << it2->second->GetName() << "\t";
-				Vector3D contactnormal = (it->second->getPosition() - it2->second->getPosition());
-				float dist = contactnormal.getNorm();
-
-				
-				if (dist > 0)
-				{
-					array<float, 3> temp = contactnormal.getUnitVector();
-					contactnormal = Vector3D(temp.at(0), temp.at(1), temp.at(2));
-					/*
-					std::cout << dist << "\t";
-					std::cout << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ();
-					std::cout << "\n";
-					*/
-					//distance between the center of the 2 object
-					float DistSum = 1 + 1;
-					//we assume the particule as a radius of 1
-					if (dist <= DistSum && DistSum - dist > ContactPrecision)
-					{
-						ParticleContact pc = ParticleContact(it->second, it2->second, 0, DistSum - dist, contactnormal);
-						Contacts.push_back(pc);
-					}
-				}
-				
-				++it2;
-			}
-			++it;
-			//std::cout << "\n";
+			it->second->AddContact(&Contacts);
+			it++;
 		}
 
-		/*
-		std::cout <<"_____  \n" << Contacts.size() << "\n";
-
-		std::list<ParticleContact>::iterator it3;
-		for (it3 = Contacts.begin(); it3 != Contacts.end(); it3++)
-		{
-			std::cout << "- " << it3->write() << "\n";
-		}
-		std::cout << "contact end\n\n";
-		*/
+		std::cout << " __________________ \n\n";
 
 		return Contacts.size() != 0;
 	}
@@ -92,6 +64,177 @@ public:
 		{
 			it->SolveContact();
 		}
+	}
+
+	void ApplyAnchors()
+	{
+		std::map<std::string, ParticleAnchor*>::iterator it2 = AnchorEntries.begin();
+		// Iterate through the map and print the elements
+		while (it2 != AnchorEntries.end())
+		{
+			it2->second->ApplyAnchor();
+			it2++;
+		}
+
+	}
+
+
+
+
+
+
+
+
+
+
+
+	//add and remove a particule from the 
+	void CreateLink(Particule* p1, Particule* p2, std::string name)
+	{
+		ParticleLink* temp = new ParticleLink(p1, p2);
+
+		if (LinkEntries.count(name))
+		{
+			std::cout << "already exist ParticuleLink " << name << "\n";
+		}
+		else
+		{
+			LinkEntries.emplace(name, temp);
+		}
+
+
+	}
+
+	void CreateRod(Particule* p1, Particule* p2, std::string name, float lenght, bool iscable)
+	{
+		ParticleRod* temp = new ParticleRod(p1, p2, lenght, iscable);
+
+		if (LinkEntries.count(name))
+		{
+			std::cout << "already exist ParticuleLink " << name << "\n";
+		}
+		else
+		{
+			//std::cout << "create link\n";
+			LinkEntries.emplace(name, temp);
+		}
+
+
+	}
+
+	void RemoveLink(std::string name)
+	{
+		if (LinkEntries.count(name))
+		{
+			delete(LinkEntries.find(name)->second);
+			LinkEntries.erase(name);
+
+		}
+		else
+		{
+			std::cout << "coud not find ParticuleLink " << name << "\n";
+		}
+	}
+
+	void CreateAnchor(Particule* p1, Vector3D p, std::string name, float lenght, bool iscable)
+	{
+		ParticleAnchor* temp = new ParticleAnchor(p1, p, lenght, iscable);
+
+		if (AnchorEntries.count(name))
+		{
+			std::cout << "already exist ParticuleAnchor " << name << "\n";
+		}
+		else
+		{
+			//std::cout << "create link\n";
+			AnchorEntries.emplace(name, temp);
+		}
+
+
+	}
+
+	void RemoveAnchor(std::string name)
+	{
+		if (AnchorEntries.count(name))
+		{
+			delete(AnchorEntries.find(name)->second);
+			AnchorEntries.erase(name);
+
+		}
+		else
+		{
+			std::cout << "coud not find ParticuleAnchor " << name << "\n";
+		}
+	}
+
+	ParticleLink* GetLink(std::string nameObject, std::string nameForce)
+	{
+		ParticleLink* output = nullptr;
+
+		if (LinkEntries.count(nameObject))
+		{
+			output = (LinkEntries.find(nameObject)->second);
+		}
+		else
+		{
+			std::cout << "coud not find ParticuleLink " << nameObject << "\n";
+		}
+
+		return output;
+	}
+
+	std::list<std::string> GetLinks()
+	{
+		std::list<std::string> output;
+
+		// Get an iterator pointing to the first element in the map
+		std::map<std::string, ParticleLink*>::iterator it = LinkEntries.begin();
+
+		// Iterate through the map and print the elements
+		while (it != LinkEntries.end())
+		{
+			output.push_back(it->first);
+			++it;
+		}
+
+
+
+		return output;
+	}
+
+	ParticleAnchor* GetAnchor(std::string nameObject, std::string nameForce)
+	{
+		ParticleAnchor* output = nullptr;
+
+		if (AnchorEntries.count(nameObject))
+		{
+			output = (AnchorEntries.find(nameObject)->second);
+		}
+		else
+		{
+			std::cout << "coud not find ParticuleLink " << nameObject << "\n";
+		}
+
+		return output;
+	}
+
+	std::list<std::string> GetAnchors()
+	{
+		std::list<std::string> output;
+
+		// Get an iterator pointing to the first element in the map
+		std::map<std::string, ParticleAnchor*>::iterator it = AnchorEntries.begin();
+
+		// Iterate through the map and print the elements
+		while (it != AnchorEntries.end())
+		{
+			output.push_back(it->first);
+			++it;
+		}
+
+
+
+		return output;
 	}
 };
 

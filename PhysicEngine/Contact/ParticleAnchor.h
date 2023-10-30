@@ -23,9 +23,8 @@ public:
 
 
 
-	void ApplyLink()
+	void ApplyAnchor()
 	{
-
 
 		//std::cout << "\t" << it2->second->GetName() << "\t";
 		Vector3D contactnormal = (particule->getPosition() - point);
@@ -60,7 +59,7 @@ public:
 				particule->setPosition(particule->getPosition() + temp0);
 			}
 		}
-
+		
 
 		//std::cout << "link\n";
 	}
