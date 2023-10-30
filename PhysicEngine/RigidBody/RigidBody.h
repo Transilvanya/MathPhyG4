@@ -9,8 +9,6 @@
 class RigidBody
 {
 public:
-	RigidBody();
-	~RigidBody();
 
 	//Intergrade the rigid body by modifying the position, orientation and velocity
 	void Intergrate(float dt);

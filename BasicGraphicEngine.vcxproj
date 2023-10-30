@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -187,8 +187,11 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
+    <ClCompile Include="PhysicEngine\Matrices\Matrice33.cpp" />
+    <ClCompile Include="PhysicEngine\Matrices\Matrice34.cpp" />
     <ClCompile Include="PhysicEngine\Particules\Particule.cpp" />
     <ClCompile Include="PhysicEngine\PhysicEngine.cpp" />
+    <ClCompile Include="PhysicEngine\Quaternion\Quaternion.cpp" />
     <ClCompile Include="PhysicEngine\vector\Vector3D.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -233,8 +236,12 @@
     <ClInclude Include="PhysicEngine\Forces\ForceSpringFixed.h" />
     <ClInclude Include="PhysicEngine\Forces\IForce.h" />
     <ClInclude Include="PhysicEngine\Forces\SimpleForce.h" />
+    <ClInclude Include="PhysicEngine\Matrices\Matrice33.h" />
+    <ClInclude Include="PhysicEngine\Matrices\Matrice34.h" />
     <ClInclude Include="PhysicEngine\Particules\Particule.h" />
     <ClInclude Include="PhysicEngine\PhysicEngine.h" />
+    <ClInclude Include="PhysicEngine\Quaternion\Quaternion.h" />
+    <ClInclude Include="PhysicEngine\RigidBody\RigidBody.h" />
     <ClInclude Include="PhysicEngine\vector\Vector3D.h" />
   </ItemGroup>
   <ItemGroup>

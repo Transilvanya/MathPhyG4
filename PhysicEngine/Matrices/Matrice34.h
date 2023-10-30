@@ -1,17 +1,15 @@
 #pragma once
-#ifndef MATHPHYG4_MATRICE33_H
-#define MATHPHYG4_MATRICE33_H
+#ifndef MATHPHYG4_MATRICE34_H
+#define MATHPHYG4_MATRICE34_H
 
 #include "../Vector/Vector3D.h"
 #include "../Quaternion/Quaternion.h"
+#include "Matrice33.h"
 
 class Matrice34
 {
 public:
-	Matrice34();
-	~Matrice34();
-	
-	//combianaise d'une transformation affine
+	//combinaison d'une transformation affine
 	Matrice34 operator*(const Matrice34& m) const;
 
 	//transformation d'un vecteur
@@ -32,4 +30,4 @@ private:
 	float values [12];
 };
 
-#endif // !MATHPHYG4_MATRICE33_H
+#endif // !MATHPHYG4_MATRICE34_H

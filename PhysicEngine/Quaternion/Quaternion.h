@@ -7,8 +7,6 @@
 class Quaternion
 {
 public:
-	Quaternion();
-	~Quaternion();
 	
 	//normalise en multipliant le quaternion par l'inverse de sa magnitude
 	void Normalized();
@@ -22,8 +20,16 @@ public:
 	//apply quaternion update by angular velocity
 	void UpdateByAngularVelocity(const Vector3D& rotation, float dt);
 
+	float getW() const { return value[0]; }
+	float getX() const { return value[1]; }
+	float getY() const { return value[2]; }
+	float getZ() const { return value[3]; }
+
 private:
 	float value[4];
+
+	//w + xi + yj + zk
+	//w scalaire i j k nombre imaginaire
 };
 
 #endif // !MATHPHYG4_QUATERNION_H
