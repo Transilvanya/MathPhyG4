@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Forces/ForceRegistry.h"
 #include "Contact/ContactRegistry.h"
+#include "Matrices/Matrice33.h"
 
 class PhysicEngine
 {
