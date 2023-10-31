@@ -51,7 +51,7 @@ public:
 			it++;
 		}
 
-		std::cout << " __________________ \n\n";
+		//std::cout << " __________________ \n\n";
 
 		return Contacts.size() != 0;
 	}

@@ -34,18 +34,19 @@ public:
 
 	void SolveContact()
 	{
+		//std::cout << "\n\nsolve contact \n\n\n";
 		
 		//std::cout << particules[0]->GetName() << " " << particules[0]->getPosition().getX() << " " << particules[0]->getPosition().getY() << " " << particules[0]->getPosition().getZ() << "\n";
 		//std::cout << particules[1]->GetName() << " " << particules[1]->getPosition().getX() << " " << particules[1]->getPosition().getY() << " " << particules[1]->getPosition().getZ() << "\n";
-		
 
-		float weight0 = particules[0]->getMasse()/(particules[0]->getMasse() + particules[1]->getMasse());
+
+		float weight0 = particules[0]->getMasse() / (particules[0]->getMasse() + particules[1]->getMasse());
 		float weight1 = particules[1]->getMasse() / (particules[0]->getMasse() + particules[1]->getMasse());
 
 		//std::cout << penetration << " "<< weight0 << " " << weight1 << "\n";
 
 
-		Vector3D temp0 = contactNormal* weight0* penetration;
+		Vector3D temp0 = contactNormal * weight0 * penetration;
 		Vector3D temp1 = contactNormal * -weight1 * penetration;
 
 		//std::cout << temp0.getX() << " " << temp0.getY() << " " << temp0.getZ() << "\n";
@@ -55,31 +56,35 @@ public:
 		particules[1]->setPosition(particules[1]->getPosition() + temp1);
 
 		/* --------------------------------------- */
-		
-		if (penetration > 0)
-		{
-			Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());
 
-			float k = (restitution + 1) * (speeddif & contactNormal) / (particules[0]->getInverseMasse() + particules[1]->getInverseMasse());
+		Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());
 
-			particules[0]->setVitesse(particules[0]->getVitesse() - contactNormal * (k * particules[0]->getInverseMasse()));
-			particules[1]->setVitesse(particules[1]->getVitesse() + contactNormal * (k * particules[1]->getInverseMasse()));
-		}
-		else
-		{
-			Vector3D speeddif = (particules[0]->getVitesse() - particules[1]->getVitesse());
 
-			float k = (restitution + 1) * (speeddif & contactNormal) / (particules[0]->getInverseMasse() + particules[1]->getInverseMasse());
+		float k = (restitution + 1) * (speeddif & contactNormal) / (particules[0]->getInverseMasse() + particules[1]->getInverseMasse());
 
-			particules[0]->setVitesse(particules[0]->getVitesse() - contactNormal * (k * particules[0]->getInverseMasse()));
-			particules[1]->setVitesse(particules[1]->getVitesse() + contactNormal * (k * particules[1]->getInverseMasse()));
-		}
-		
-			
 
-			
+		particules[0]->setVitesse(particules[0]->getVitesse() - contactNormal * (k * particules[0]->getInverseMasse()));
+		particules[1]->setVitesse(particules[1]->getVitesse() + contactNormal * (k * particules[1]->getInverseMasse()));
 
-		//std::cout << "\n";
+		/*
+		std::cout << "\tspeed " << speeddif.getNorm() << "\n";
+		std::cout << "\tk " << k << "\n";
+		std::cout << "\tcontact normal uniform " << contactNormal.getX() << " " << contactNormal.getY() << " " << contactNormal.getZ() << "\n";
+
+		std::cout << "\tnew speed " << (contactNormal * (k * particules[0]->getInverseMasse())).getX() << " " << (contactNormal * (k * particules[0]->getInverseMasse())).getY() << " " << (contactNormal * (k * particules[0]->getInverseMasse())).getZ() << "\n";
+
+		std::cout << "End Contact\n\n";
+
+		std::cout << particules[0]->GetName() << "\n";
+		std::cout << "pos " << particules[0]->getPosition().getX() << " " << particules[0]->getPosition().getY() << " " << particules[0]->getPosition().getZ() << "\n";
+		std::cout << "vit " << particules[0]->getVitesse().getX() << " " << particules[0]->getVitesse().getY() << " " << particules[0]->getVitesse().getZ() << "\n";
+		std::cout << "vit " << particules[0]->getVitesse().getNorm() << "\n\n";
+
+		std::cout << "\t" << particules[1]->GetName() << "\n";
+		std::cout << "\tpos " << particules[1]->getPosition().getX() << " " << particules[1]->getPosition().getY() << " " << particules[1]->getPosition().getZ() << "\n";
+		std::cout << "\tvit " << particules[1]->getVitesse().getX() << " " << particules[1]->getVitesse().getY() << " " << particules[1]->getVitesse().getZ() << "\n";
+		std::cout << "\tvit " << particules[1]->getVitesse().getNorm() << "\n\n";
+		*/
 	}
 
 

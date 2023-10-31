@@ -22,6 +22,7 @@ void PhysicEngine::Integrade(float DTms)
 	//apply all forces to all particules
 	_forceregistry.ApplyForces();
 
+	//std::cout << "\n ______________________ Start PHY\n\n";
 
 	// Get an iterator pointing to the first element in the map
 	std::map<std::string, Particule*>::iterator it = _physicobjects.begin();
@@ -30,17 +31,27 @@ void PhysicEngine::Integrade(float DTms)
 	while (it != _physicobjects.end())
 	{
 
+
+
 		it->second->getVitesse();
 
 		it->second->integrade(DTms/1000);
+		
+
+
+		//std::cout << it->second->GetName() << "\n";
+		//std::cout << "\t\tposition " << it->second->getPosition().getX() << " " << it->second->getPosition().getY() << " " << it->second->getPosition().getZ() << "\n";
+		//std::cout << "\t\tvitesse " << it->second->getVitesse().getX() << " " << it->second->getVitesse().getY() << " " << it->second->getVitesse().getZ() << "\n";
+
 		++it;
 	}
+	//std::cout << "\n";
 
 	int loopindex = 0;
 
 	bool contactdetected = _contactregistry.AddContacts(_physicobjects);
 
-	while (contactdetected && loopindex < 10)
+	while (contactdetected && loopindex < 1)
 	{
 		//std::cout << "is contact " << _contactregistry.DetectContact(_physicobjects) << "\n";
 //create list of contact
@@ -55,6 +66,7 @@ void PhysicEngine::Integrade(float DTms)
 	}//std::cout << "end integrade\n";
 	
 	_contactregistry.ApplyAnchors();
+
 }
 
 

@@ -33,7 +33,7 @@ public:
 
 
 		//>0?
-		std::cout << "\t\t" << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ() << "\n";
+		//std::cout << "\t\t" << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ() << "\n";
 		//Selon si la distance des particule est plus petite ou plus grande que la
 		//longueur de la tige, la normal et la pénétration seront inversées.
 
@@ -42,18 +42,18 @@ public:
 		if (dist > Length && Length - dist < -0.01f)
 		{
 		
-			ParticleContact pc = ParticleContact(particule[0], particule[1], 0, Length - dist, contactnormal);
+			ParticleContact pc = ParticleContact(particule[0], particule[1], 0, dist - Length, contactnormal * -1);
 			Contacts->push_back(pc);
 
 
+			//std::cout << "\t\t\t\trod contact\n";
 
 
 
-
-			std::cout << particule[0]->getPosition().getX() << " " << particule[0]->getPosition().getY() << " " << particule[0]->getPosition().getZ() << "\n";
-			std::cout << particule[1]->getPosition().getX() << " " << particule[1]->getPosition().getY() << " " << particule[1]->getPosition().getZ() << "\n";
-			std::cout << dist << " " << Length << " " << Length - dist << "\n";
-			std::cout << "\t\t" << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ() << "\n";
+			//std::cout << particule[0]->getPosition().getX() << " " << particule[0]->getPosition().getY() << " " << particule[0]->getPosition().getZ() << "\n";
+			//std::cout << particule[1]->getPosition().getX() << " " << particule[1]->getPosition().getY() << " " << particule[1]->getPosition().getZ() << "\n";
+			//std::cout << dist << " " << Length << " " << Length - dist << "\n";
+			//std::cout << "\t\t" << contactnormal.getX() << " " << contactnormal.getY() << " " << contactnormal.getZ() << "\n";
 
 		}
 
@@ -65,7 +65,7 @@ public:
 			Contacts->push_back(pc);
 		}
 
-		std::cout << "\n";
+		//std::cout << "\n";
 	}
 };
 
