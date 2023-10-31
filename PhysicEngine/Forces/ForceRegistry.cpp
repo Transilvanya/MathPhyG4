@@ -2,7 +2,7 @@
 
 ForceRegistry::~ForceRegistry()
 {
-	ParticuleEntries.empty();
+	ParticuleEntries.clear();
 }
 
 void ForceRegistry::ApplyForces()

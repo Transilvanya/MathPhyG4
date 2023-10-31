@@ -186,6 +186,7 @@
     <ClCompile Include="GraphicEngine\UI\InputControler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
+    <ClCompile Include="PhysicEngine\ForceRigid\ForceRegistryRigid.h" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
     <ClCompile Include="PhysicEngine\Matrices\Matrice33.cpp" />
     <ClCompile Include="PhysicEngine\Matrices\Matrice34.cpp" />
@@ -228,6 +229,9 @@
     <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleRod.h" />
     <ClInclude Include="PhysicEngine\Contact\WallContactGenerator.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\ForceSpring.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\ForceSpringFixed.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\IForceRigid.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceBuoyancy.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceDrag.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceGravity.h" />

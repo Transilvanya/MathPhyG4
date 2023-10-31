@@ -8,7 +8,7 @@
 #include "Forces/ForceRegistry.h"
 #include "Contact/ContactRegistry.h"
 #include "Contact/LinkRegistry.h"
-
+#include "RigidBody/RigidBody.h"
 class PhysicEngine
 {
 public:
@@ -31,6 +31,23 @@ public:
 	void Integrade(float DT);
 
 	void Init() {};
+
+
+
+	// --------------------------------------------------------------------------------
+
+	void CreateRigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+
+	//call CreateRigidBody with the correct Tenseur and type
+	void CreateRigidSphere(float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+
+	void CreateRigidCuboid(float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+
+	void CreateRigidCylinder(float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+
+
+
+
 
 	// --------------------------------------------------------------------------------
 	void CreateParticule(Vector3D newPosition, Vector3D newVitesse, Vector3D newAcceleration, float masse, std::string name);
