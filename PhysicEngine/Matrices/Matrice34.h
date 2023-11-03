@@ -9,6 +9,11 @@
 class Matrice34
 {
 public:
+
+	Matrice34();
+	Matrice34(float newVal[12]);
+	~Matrice34();
+
 	//combinaison d'une transformation affine
 	Matrice34 operator*(const Matrice34& m) const;
 
@@ -26,6 +31,9 @@ public:
 
 	//transforme la direction en ingnorant la translation
 	Vector3D TransformDirection(const Vector3D& v);
+
+	float getValues(int i) const { return values[i]; }
+
 private:
 	float values [12];
 };

@@ -1,24 +1,38 @@
 #include "Matrice34.h"
 
+Matrice34::Matrice34()
+{
+	for (int i = 0; i < 12; i++)
+		values[i] = 0;
+}
+
+Matrice34::Matrice34(float newVal[12])
+{
+	for (int i = 0; i < 12; i++)
+		values[i] = newVal[i];
+}
+
+Matrice34::~Matrice34()
+{
+}
+
 Matrice34 Matrice34::operator*(const Matrice34& m) const
 {
-	Matrice34 result;
+	float tab[12] = {0,0,0,0,0,0,0,0,0,0,0,0 };
+	Matrice34 result = Matrice34(tab);
 
 	for (int i = 0; i < 3; i++)
 	{
 		for (int j = 0; j < 4; j++)
 		{
-			result.values[4 * i + j] = 0;
 			for (int k = 0; k < 4; k++)
 			{
-				if (i == 2) {
-					if(k == 3)
-						result.values[4 * i + j] += this->values[4 * i + k] * 1;
-					else
-						result.values[4 * i + j] += this->values[4 * i + k] * 0;
+				if (k == 3) {
+					if(j == 3)
+						result.values[4*i + j] += this->values[4*i + k] * 1;
 				}
 				else {
-					result.values[4 * i + j] += this->values[4 * i + k] * m.values[4 * k + i];
+					result.values[4*i + j] += this->values[4*i + k] * m.values[4*k + j];
 				}
 			}
 		}
@@ -79,17 +93,17 @@ void Matrice34::SetOrientationAndPosition(const Quaternion& q, const Vector3D& p
 {
 	Vector3D vecteur = pos;
 	values[0] = 1 - 2 * (q.getY() * q.getY() + q.getZ() * q.getZ());
-	values[1] = 2 * (q.getX() * q.getY() - q.getW() * q.getZ());
-	values[2] = 2 * (q.getX() * q.getZ() + q.getW() * q.getY());
+	values[1] = 2 * (q.getX() * q.getY() + q.getW() * q.getZ());
+	values[2] = 2 * (q.getX() * q.getZ() - q.getW() * q.getY());
 	values[3] = vecteur.getX();
 
-	values[4] = 2 * (q.getX() * q.getY() + q.getW() * q.getZ());
+	values[4] = 2 * (q.getX() * q.getY() - q.getW() * q.getZ());
 	values[5] = 1 - 2 * (q.getX() * q.getX() + q.getZ() * q.getZ());
-	values[6] = 2 * (q.getY() * q.getZ() - q.getW() * q.getX());
+	values[6] = 2 * (q.getY() * q.getZ() + q.getW() * q.getX());
 	values[7] = vecteur.getY();
 
-	values[8] = 2 * (q.getX() * q.getZ() - q.getW() * q.getY());
-	values[9] = 2 * (q.getY() * q.getZ() + q.getW() * q.getX());
+	values[8] = 2 * (q.getX() * q.getZ() + q.getW() * q.getY());
+	values[9] = 2 * (q.getY() * q.getZ() - q.getW() * q.getX());
 	values[10] = 1 - 2 * (q.getX() * q.getX() + q.getY() * q.getY());
 	values[11] = vecteur.getZ();
 }

@@ -1,0 +1,72 @@
+﻿  GraphicEngine.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.h(37,9): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(204,12): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(204,69): warning C4018: '>' : incompatibilité signed/unsigned
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(208,12): warning C4018: '<' : incompatibilité signed/unsigned
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(208,70): warning C4018: '>' : incompatibilité signed/unsigned
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(212,65): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(212,58): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.cpp(243,25): warning C4101: 'e' : variable locale non référencée
+  GraphicObject.cpp
+  GraphicPolygon.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicPolygon.cpp(31,23): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicPolygon.cpp(36,24): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicPolygon.cpp(41,28): warning C4267: 'return' : conversion de 'size_t' en 'int', perte possible de données
+  GraphicSphere.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicSphere.cpp(27,16): warning C4858: abandon de la valeur retournée : This member function returns a bool indicating whether the container is empty and has no other effects. It is not useful to call this member function and discard the return value. Use the 'clear()' member function if you want to erase all elements.
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicSphere.cpp(28,15): warning C4858: abandon de la valeur retournée : This member function returns a bool indicating whether the container is empty and has no other effects. It is not useful to call this member function and discard the return value. Use the 'clear()' member function if you want to erase all elements.
+  imgui.cpp
+  imgui_demo.cpp
+  imgui_draw.cpp
+  imgui_impl_glfw.cpp
+  imgui_impl_opengl3.cpp
+  imgui_tables.cpp
+  imgui_widgets.cpp
+  Camera.cpp
+  EBO.cpp
+  shaderClass.cpp
+  stb.cpp
+  Texture.cpp
+  VAO.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\OpenGL\VAO.cpp(13,63): warning C4244: 'argument' : conversion de 'GLsizeiptr' en 'GLsizei', perte possible de données
+  VBO.cpp
+  ImGuiOpenGLManager.cpp
+  imgui_perso.cpp
+  Génération de code en cours...
+  Compilation en cours...
+  InputControler.cpp
+  Main.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\MainEngine\TimeSystem.h(37,18): warning C4244: 'return' : conversion de '__int64' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\MainEngine\TimeSystem.h(42,18): warning C4244: 'return' : conversion de '__int64' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Forces\ForceBuoyancy.h(32,1): warning C4305: '=' : troncation de 'double' à 'float'
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Contact\ContactRegistry.h(22,8): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.h(37,9): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\Main.cpp(237,119): warning C4244: 'argument' : conversion de 'int' en 'float', perte possible de données
+  Entity.cpp
+  MainEngine.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\MainEngine\TimeSystem.h(37,18): warning C4244: 'return' : conversion de '__int64' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\MainEngine\TimeSystem.h(42,18): warning C4244: 'return' : conversion de '__int64' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Forces\ForceBuoyancy.h(32,1): warning C4305: '=' : troncation de 'double' à 'float'
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Contact\ContactRegistry.h(22,8): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\GraphicEngine\GraphicEngine.h(37,9): warning C4067: jetons inattendus après la directive du préprocesseur - saut de ligne attendu
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\MainEngine\MainEngine.cpp(39,16): warning C4858: abandon de la valeur retournée : This member function returns a bool indicating whether the container is empty and has no other effects. It is not useful to call this member function and discard the return value. Use the 'clear()' member function if you want to erase all elements.
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\MainEngine\MainEngine.cpp(40,17): warning C4858: abandon de la valeur retournée : This member function returns a bool indicating whether the container is empty and has no other effects. It is not useful to call this member function and discard the return value. Use the 'clear()' member function if you want to erase all elements.
+  ForceRegistry.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Forces\ForceBuoyancy.h(32,1): warning C4305: '=' : troncation de 'double' à 'float'
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Forces\ForceRegistry.cpp(5,24): warning C4858: abandon de la valeur retournée : This member function returns a bool indicating whether the container is empty and has no other effects. It is not useful to call this member function and discard the return value. Use the 'clear()' member function if you want to erase all elements.
+  Matrice33.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Matrices\Matrice33.cpp(110,193): warning C4244: '=' : conversion de 'float' en 'int', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Matrices\Matrice33.cpp(111,9): warning C4244: 'return' : conversion de 'int' en 'float', perte possible de données
+  Matrice34.cpp
+  Particule.cpp
+  PhysicEngine.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Forces\ForceBuoyancy.h(32,1): warning C4305: '=' : troncation de 'double' à 'float'
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Contact\ContactRegistry.h(22,8): warning C4305: 'initialisation' : troncation de 'double' à 'float'
+  Quaternion.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Quaternion\Quaternion.cpp(23,10): warning C4244: 'initialisation' : conversion de 'double' en 'float', perte possible de données
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\Quaternion\Quaternion.cpp(61,55): warning C4244: '=' : conversion de 'double' en 'float', perte possible de données
+  Vector3D.cpp
+C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\PhysicEngine\vector\Vector3D.cpp(140,16): warning C4244: 'return' : conversion de 'double' en 'float', perte possible de données
+  Génération de code en cours...
+  glad.c
+  BasicGraphicEngine.vcxproj -> C:\Users\Antonin\Desktop\Travail UQAC\1semestres\MathPhy\MathPhyG4\x64\Test\BasicGraphicEngine.lib

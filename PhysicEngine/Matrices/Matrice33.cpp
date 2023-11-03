@@ -1,6 +1,23 @@
 #include "Matrice33.h"
 
 
+Matrice33::Matrice33()
+{
+	for (int i = 0; i < 9; i++)
+		values[i] = 0;
+}
+
+Matrice33::Matrice33(float newVal[9])
+{
+	for (int i = 0; i < 9; i++)
+		values[i] = newVal[i];
+
+}
+
+Matrice33::~Matrice33()
+{
+}
+
 //combinaison de transformation lineaire
 Matrice33 Matrice33::operator*(const Matrice33& m) const
 {
@@ -9,7 +26,7 @@ Matrice33 Matrice33::operator*(const Matrice33& m) const
 		for (int j = 0; j < 3; j++) 
 		{
 			for (int k = 0; k < 3; k++) {
-				result.value[3 * i + j] = this->value[3*i + k] * this->value[3*k +j];
+				result.values[3 * i + j] += this->values[3*i + k] * m.values[3*k +j];
 			}
 		}
 	}
@@ -20,9 +37,9 @@ Vector3D Matrice33::operator*(const Vector3D& v) const
 {
 	Vector3D result = Vector3D(0,0,0);
 	for (int i = 0; i < 3; i++) {
-		result.setX(result.getX() + this->value[i] * v.getVector()[i]);
-		result.setY(result.getY() + this->value[i+3] * v.getVector()[i]);
-		result.setZ(result.getZ() + this->value[i+6] * v.getVector()[i]);
+		result.setX(result.getX() + this->values[i] * v.getVector()[i]);
+		result.setY(result.getY() + this->values[i+3] * v.getVector()[i]);
+		result.setZ(result.getZ() + this->values[i+6] * v.getVector()[i]);
 	}
 	return result;
 }
@@ -31,7 +48,7 @@ Matrice33 Matrice33::operator*(const float& f) const
 {
 	Matrice33 result;
 	for (int i = 0; i < 9; i++) {
-		result.value[i] = this->value[i] * f;
+		result.values[i] = this->values[i] * f;
 	}
 	return result;
 }
@@ -40,8 +57,10 @@ Matrice33 Matrice33::Inverse()
 {
 	Matrice33 result;
 	Matrice33 adjointe = this->getAdjointe();
-	float determinant = this->getDeterminant();
+	float determinant = this->getDeterminant(this->values, 9);
+	printf("determinant : %f\n", determinant);
 	if (determinant != 0) {
+		
 		result =  adjointe * (1 / determinant);
 	}
 	return result;
@@ -53,7 +72,7 @@ Matrice33 Matrice33::Transpose()
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++)
 		{
-			result.value[i*3+j] = this->value[j*3+i];
+			result.values[i*3+j] = this->values[j*3+i];
 		}
 	}
 	return result;
@@ -74,34 +93,102 @@ void Matrice33::setOrientation(const Quaternion& q)
 	zz = q.getZ() * q.getZ();
 	
 
-	this->value[0] = 1 - 2 * (yy + zz);
-	this->value[1] = 2 * (xy - wz);
-	this->value[2] = 2 * (xz + wy);
-	this->value[3] = 2 * (xy + wz);
-	this->value[4] = 1 - 2 * (xx + zz);
-	this->value[5] = 2 * (yz - wx);
-	this->value[6] = 2 * (xz - wy);
-	this->value[7] = 2 * (yz + wx);
-	this->value[8] = 1 - 2 * (xx + yy);
+	this->values[0] = 1 - 2 * (yy + zz);
+	this->values[1] = 2 * (xy - wz);
+	this->values[2] = 2 * (xz + wy);
+	this->values[3] = 2 * (xy + wz);
+	this->values[4] = 1 - 2 * (xx + zz);
+	this->values[5] = 2 * (yz - wx);
+	this->values[6] = 2 * (xz - wy);
+	this->values[7] = 2 * (yz + wx);
+	this->values[8] = 1 - 2 * (xx + yy);
 
 
 }
 
-float Matrice33::getDeterminant()
+float Matrice33::getDeterminant(float *tab, int n)
 {
 	int result = 0;
-	result = this->value[0] * (this->value[4] * this->value[8] - this->value[5] * this->value[7]) - this->value[1] * (this->value[3] * this->value[8] - this->value[5] * this->value[6]) + this->value[2] * (this->value[3] * this->value[7] - this->value[4] * this->value[6]);
+	float subtab[4];
+	if (n == 4)
+		return ((tab[0] * tab[3] ) - (tab[2] * tab[1]));
+	else {
+		for (int x = 0; x < 3; x++) {
+			int subi = 0;
+			for (int i = 1; i < 3; i++) {
+				int subj = 0;
+				for (int j = 0; j < 3; j++) {
+					if (j == x)
+						continue;
+					subtab[subi*2 + subj] = tab[i*3+j];
+					subj++;
+				}
+				subi++;
+			}
+			result += (pow(-1, x) * tab[x] * getDeterminant(subtab, n - 5));
+		}
+	}
 	return result;
 }
 
 Matrice33 Matrice33::getAdjointe() const 
 {
 	Matrice33 adjointe;
+	Matrice33 temp;
+	Matrice33 vec;
+	for (int i = 0; i < 9; i++) {
+		vec.getValues(i) = this->values[i];
+	}
+	vec.Transpose();
+		
+	int sign = 1;
 	for (int i = 0; i < 3; i++) {
 		for (int j = 0; j < 3; j++) {
-			adjointe.value[i * 3 + j] = this->value[(i + 1) % 3 * 3 + (j + 1) % 3] * this->value[(i + 2) % 3 * 3 + (j + 2) % 3] - this->value[(i + 1) % 3 * 3 + (j + 2) % 3] * this->value[(i + 2) % 3 * 3 + (j + 1) % 3];
+			getCofactor(vec, temp, i, j);
+
+			sign = ((i + j) % 2 == 0) ? 1 : -1;
+			// Interchanging rows and columns to get the transpose of the cofector Matrix
+			adjointe.getValues(i*3+j) = (sign) * (temp.getDeterminant(&temp.getValues(0), 4));
 		}
 	}
 
 	return adjointe;
+}
+
+void Matrice33::getCofactor(Matrice33& vec, Matrice33& temp, int p, int q) const{
+	//std::vector<std::vector<int>> temp(3, std::vector<int>(3));
+	int i = 0;
+	int j = 0;
+	for (int row = 0; row < 3; row++) {
+		for (int col = 0; col < 3; col++)
+		{
+			//copying into temporary matix only those element which are not given row and column
+			if (row != p && col != q) {
+				switch (3*i+j)
+				{
+				case 2:
+					temp.getValues(3) = vec.getValues(row + 3 * col);
+					break;
+				case 3:
+					temp.getValues(2) = vec.getValues(row + 3 * col);
+					break;
+				case 4:
+					temp.getValues(3) = vec.getValues(row + 3 * col);
+					break;
+				default:
+					temp.getValues(3 * i + j) = vec.getValues(row + 3 * col);
+					break;
+				}
+				
+				j++;
+			}
+
+			if (j == 3 - 1) {
+				j = 0;
+				i++;
+			}
+		}
+
+	}
+
 }
