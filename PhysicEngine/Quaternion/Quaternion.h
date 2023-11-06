@@ -2,12 +2,18 @@
 
 #ifndef MATHPHYG4_QUATERNION_H
 #define MATHPHYG4_QUATERNION_H
+#define _USE_MATH_DEFINES
 #include "../vector/Vector3D.h"
+#include <math.h>
 
 class Quaternion
 {
 public:
 	
+	Quaternion();
+	Quaternion(float w, float x, float y, float z);
+	~Quaternion();
+
 	//normalise en multipliant le quaternion par l'inverse de sa magnitude
 	void Normalized();
 

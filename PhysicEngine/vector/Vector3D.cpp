@@ -19,6 +19,11 @@ Vector3D::Vector3D(float x, float y, float z) {
 
 }
 
+Vector3D::Vector3D(array<float, 3> vector)
+{
+	this->vector = vector;
+}
+
 Vector3D::~Vector3D() {
 
 }
