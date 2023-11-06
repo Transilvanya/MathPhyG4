@@ -19,7 +19,7 @@ public :
     Vector3D();
     Vector3D(float x, float y, float z);
     Vector3D(array<float,3> vector);
-
+    
 
     //Destructor
     ~Vector3D();
@@ -39,6 +39,7 @@ public :
 
     //method
     float getNorm();
+    void reset();
     array<float,3> getUnitVector();
     Vector3D operator+(Vector3D rightVector);
     Vector3D operator-(Vector3D rightVector);

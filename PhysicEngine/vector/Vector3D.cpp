@@ -75,6 +75,13 @@ float Vector3D::getNorm() {
 
 }
 
+void Vector3D::reset()
+{
+    this->setX(0);
+    this->setY(0);
+    this->setZ(0);
+}
+
 array<float, 3> Vector3D::getUnitVector() {
 
     float norm = getNorm();
