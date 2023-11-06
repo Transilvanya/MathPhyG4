@@ -5,6 +5,33 @@
 
 #include "../Particules/Particule.h"
 
+
+class Wall
+{
+public:
+	/*
+	
+	 >
+	v
+	
+	A B
+	C D
+
+	*/
+	Vector3D A;
+	Vector3D B;
+	Vector3D C;
+	Vector3D D;
+
+	Wall(Vector3D _A, Vector3D _B, Vector3D _C, Vector3D _D)
+	{
+		A = _A;
+		B = _B;
+		C = _C;
+		D = _D;
+	}
+};
+
 class WallContact
 {
 
@@ -20,7 +47,6 @@ private:
 
 
 	Vector3D contactNormal;
-
 
 public:
 
