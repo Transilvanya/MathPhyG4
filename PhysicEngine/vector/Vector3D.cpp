@@ -128,7 +128,7 @@ float Vector3D::operator&(Vector3D rightVector)
     return returnValue;
 }
 
-
+//produit vectoriel
 Vector3D Vector3D::operator*(Vector3D rightVector)
 {
     Vector3D nVector = Vector3D();

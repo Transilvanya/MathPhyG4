@@ -2,6 +2,7 @@
 #ifndef PARTICULECONTACT_CLASS_H
 #define PARTICULECONTACT_CLASS_H
 
+#include "../Particules/Particule.h"
 
 class ParticleContact
 {

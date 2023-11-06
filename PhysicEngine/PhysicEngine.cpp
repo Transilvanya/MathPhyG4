@@ -14,6 +14,8 @@ void PhysicEngine::Delete()
 		delete(it->second);
 		++it;
 	}
+
+	
 }
 
 void PhysicEngine::Integrade(float DTms)

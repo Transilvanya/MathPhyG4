@@ -56,6 +56,7 @@ namespace fs = std::filesystem;
 #include "GraphicSphere.h"
 #include "GraphicObjectwithTexture.h"
 #include "GraphicSphereText.h"
+#include "GraphicPolygonText.h"
 
 
 class GraphicException
@@ -300,6 +301,44 @@ public:
 			return nullptr;
 		}
 			
+	}
+	// --------------------------------------------------------------------------------
+	void CreatePolygonText(std::string name, std::string nameshader, std::string nametexture, std::vector<GLuint> _indices, std::vector<GLfloat> _values, float xanchor, float yanchor, float zanchor)
+	{
+
+		
+		Shader* s = GetShader(nameshader);
+		Texture* t = GetTexture(nametexture);
+		if (s != nullptr)
+		{
+
+
+			if (t != nullptr)
+			{
+				GraphicPolygonText* GO = new GraphicPolygonText(name, *s, *t, _indices, _values, xanchor, yanchor, zanchor);
+				_graphicobjects.emplace(name, GO);
+				ElementToDisplay.emplace(name, GO);
+			}
+			else
+			{
+				std::cout << "coud not create PolygonText " << name << " because Texture " << nametexture << " could not be found\n";
+			}
+		}
+		else
+		{
+			std::cout << "coud not create PolygonText " << name << " because Shader " << nameshader << " could not be found\n";
+		}
+	}
+	GraphicPolygonText* GetPolygonText(std::string name)
+	{
+		if (_graphicobjects.count(name) && _graphicobjects.find(name)->second->getType() == 4)
+			return (GraphicPolygonText*)_graphicobjects.find(name)->second;
+		else
+		{
+			std::cout << "coud not get PolygonText " << name << "\n";
+			return nullptr;
+		}
+
 	}
 	// --------------------------------------------------------------------------------
 	void CreateSphere(std::string name, std::string nameshader , float _Radius, float _x, float _y, float _z, float _r, float _g, float _b, float _a)

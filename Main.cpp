@@ -177,6 +177,18 @@ int main()
 		0, 2, 3,
 	};
 
+	std::vector<GLfloat> groundvertice2 =
+	{  //     COORDINATES     /        COLORS      /   TexCoord  //
+		-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+		- 20.0f, 0.0f,  20.0f,	0.83f, 0.70f, 0.44f,	0, 10,
+		 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+		 20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	10, 0,
+	};
+	std::vector<GLuint> groundindice2 =
+	{
+		0, 1, 2,
+		0, 2, 3,
+	};
 
 
 	GraphicEngine::GetInstance()->CreateShader("simplecolor", "GraphicEngine/OpenGL/Shaders/simplecolor.vert", "GraphicEngine/OpenGL/Shaders/simplecolor.frag");
@@ -185,7 +197,9 @@ int main()
 	GraphicEngine::GetInstance()->CreateTexture("cattext", "border.png");
 	GraphicEngine::GetInstance()->CreateTexture("brick", "brick.png");
 
-	GraphicEngine::GetInstance()->CreatePolygon("newobject", "simplecolor", groundindice, groundvertice);
+	//GraphicEngine::GetInstance()->CreatePolygon("newobject", "simplecolor", groundindice, groundvertice);
+
+	GraphicEngine::GetInstance()->CreatePolygonText("newobject2", "simpletext", "brick", groundindice2, groundvertice2, 0,0,0);
 
 
 	SetupObject();
@@ -200,9 +214,11 @@ int main()
 		std::cout << it->c_str() << "\n";
 	}
 
-
 	while (!GraphicEngine::GetInstance()->ShouldCloseMainWindow())
 	{
+		//GraphicEngine::GetInstance()->GetPolygonText("newobject2")->SetMvt(0, 0.01f, 0);
+		GraphicEngine::GetInstance()->GetPolygonText("newobject2")->AddRot(0.0f, 0.01f, 0.001f);
+		GraphicEngine::GetInstance()->GetPolygonText("newobject2")->ElementToUpdate();
 
 		//option to reset the simultation
 		if (GraphicEngine::GetInstance()->shouldReset())

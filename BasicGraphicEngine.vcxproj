@@ -232,6 +232,7 @@
     <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObjectwithTexture.cpp" />
     <ClCompile Include="GraphicEngine\GraphicPolygon.cpp" />
+    <ClCompile Include="GraphicEngine\GraphicPolygonText.cpp" />
     <ClCompile Include="GraphicEngine\GraphicSphereText.cpp" />
     <ClCompile Include="GraphicEngine\GraphicSphere.cpp" />
     <ClCompile Include="GraphicEngine\ImGui\imgui.cpp" />
@@ -269,6 +270,7 @@
     <ClInclude Include="GraphicEngine\GraphicObject.h" />
     <ClInclude Include="GraphicEngine\GraphicObjectwithTexture.h" />
     <ClInclude Include="GraphicEngine\GraphicPolygon.h" />
+    <ClInclude Include="GraphicEngine\GraphicPolygonText.h" />
     <ClInclude Include="GraphicEngine\GraphicSphereText.h" />
     <ClInclude Include="GraphicEngine\GraphicSphere.h" />
     <ClInclude Include="GraphicEngine\ImGui\imconfig.h" />
@@ -297,6 +299,7 @@
     <ClInclude Include="PhysicEngine\Contact\ParticleContact.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleRod.h" />
+    <ClInclude Include="PhysicEngine\Contact\WallContact.h" />
     <ClInclude Include="PhysicEngine\Contact\WallContactGenerator.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceSpring.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceSpringFixed.h" />
