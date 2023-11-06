@@ -26,10 +26,6 @@ public:
 	//apply quaternion update by angular velocity
 	void UpdateByAngularVelocity(const Vector3D& rotation, float dt);
 
-	Quaternion EulerToQuaternion(float roll, float pitch, float yaw) const;
-
-	Vector3D QuaternionToEuler() const;
-
 	float getW() const { return value[0]; }
 	float getX() const { return value[1]; }
 	float getY() const { return value[2]; }
