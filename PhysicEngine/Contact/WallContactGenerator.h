@@ -18,22 +18,24 @@ public:
 	float ContactPrecision = 0.001;
 
 	std::map<std::string, Particule*> objects;
+	std::map<std::string, Wall*> walls;
+	
 
 	WallContactGenerator(std::map<std::string, Particule*> _objects)
 	{
 		objects = _objects;
+		walls.emplace("sol", Wall( Vector3D(-10, 0, -10), Vector3D(10, 0, -10), Vector3D(-10, 0, 10), Vector3D(10, 0, 10) ) );
 	}
 
 	virtual void AddContact(std::list<WallContact>* Contacts)
 	{
 
-		std::map<std::string, Particule*>::iterator it = objects.begin();
-		while (it != objects.end())
+		std::map<std::string, Wall*>::iterator it = walls.begin();
+		while (it != walls.end())
 		{
 
 
-			std::map<std::string, Particule*>::iterator it2 = it;
-			it2++;
+			std::map<std::string, Particule*>::iterator it2 = objects.begin();
 			while (it2 != objects.end())
 			{
 				Vector3D contactnormal = (it->second->getPosition() - it2->second->getPosition());
