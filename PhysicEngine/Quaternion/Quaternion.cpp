@@ -29,6 +29,41 @@ void Quaternion::Normalized()
 
 }
 
+Matrice34 Quaternion::getMatrice34()
+{
+	float w = value[0];
+	float x = value[1];
+	float y = value[2];
+	float z = value[3];
+
+
+	float values[12] = {
+	1 - 2 * (y * y + z * z), 2 * (x * y - w * z), 2 * (x * z + w * y), 0,
+	2 * (x * y + w * z), 1 - 2 * (x * x + z + z), 2 * (y * z - w * x), 0,
+	2 * (x * z - w - y), 2 * (y * z + w * x), 1 - 2 * (x * x - y * y), 0 
+	};
+
+	
+	return Matrice34(values);
+}
+
+Matrice33 Quaternion::getMatrice33()
+{
+	float w = value[0];
+	float x = value[1];
+	float y = value[2];
+	float z = value[3];
+
+
+	float values[9] = {
+	1 - 2 * ( y * y + z * z ), 2 * ( x * y - w * z ), 2 * ( x * z + w * y ),
+	2 * ( x * y + w * z ), 1 - 2 * ( x * x + z + z ), 2 * ( y * z - w * x ),
+	2 * ( x * z - w - y ), 2 * ( y * z + w * x ), 1 - 2 * ( x * x - y * y )
+	};
+
+	return Matrice33(values);
+}
+
 Quaternion Quaternion::operator*(const Quaternion& q)
 {
 	Quaternion result;
