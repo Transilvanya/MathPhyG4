@@ -65,7 +65,7 @@ public:
 
 	*/
 
-	RigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+	RigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _acceleration,Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName);
 
 
 

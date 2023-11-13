@@ -12,6 +12,7 @@ public:
 
 	Matrice34();
 	Matrice34(float newVal[12]);
+	Matrice34(Matrice33 mat);
 	~Matrice34();
 
 	//combinaison d'une transformation affine
@@ -32,7 +33,7 @@ public:
 	//transforme la direction en ingnorant la translation
 	Vector3D TransformDirection(const Vector3D& v);
 
-	float getValues(int i) const { return values[i]; }
+	float& getValues(int i)  { return values[i]; }
 
 private:
 	float values [12];

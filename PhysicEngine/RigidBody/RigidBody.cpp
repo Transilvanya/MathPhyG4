@@ -47,22 +47,47 @@ void RigidBody::Intergrate(float dt)
 	PrevRotation = rotation;
 	rotation = rotation + (angularacceleration * dt);
 
+	CalculateDerivedData();
 
 
+	Matrice34 inverseTenseurDerived(InverseTenseur);
+	
+	inverseTenseurDerived = transformMatrix * inverseTenseurDerived * transformMatrix.Inverse();
+	acceleration = ForceSum * inverseMasse ;
+	angularacceleration = inverseTenseurDerived * TorqueSum;
+
+	vitesse = vitesse + (acceleration * dt);
+	rotation = rotation + (angularacceleration * dt);
+
+	Reset();
 
 }
 
-RigidBody::RigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName)
+RigidBody::RigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
 {
 
 	InverseTenseur = _InverseTenseur;
 	Type = _Type;
 	inverseMasse = _inverseMasse;
 	position = _position;
-	vitesse = _vitesse;
+	orientation = _orientation;
 	acceleration = _acceleration;
 	angularacceleration = _angularacceleration;
 	ObjectName = _ObjectName;
 
 
 }
+
+void RigidBody::CalculateDerivedData()
+{
+	Quaternion q = orientation;
+	q.Normalized();
+	transformMatrix = q.getMatrice34();
+	transformMatrix.getValues(3) = position.getX();
+	transformMatrix.getValues(7) = position.getX();
+	transformMatrix.getValues(11) = position.getZ();
+
+
+
+}
+	
