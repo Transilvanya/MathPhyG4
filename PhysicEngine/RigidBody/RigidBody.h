@@ -72,6 +72,14 @@ public:
 
 	//getters, setters
 
+	std::string getObjectName() { return ObjectName; }
+
+
+	Vector3D getPosition() { return position; }
+	Vector3D getVitesse() { return vitesse; }
+
+
+
 
 
 	//used by GraphicEngine

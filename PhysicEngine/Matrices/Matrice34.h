@@ -32,7 +32,7 @@ public:
 	//transforme la direction en ingnorant la translation
 	Vector3D TransformDirection(const Vector3D& v);
 
-	float getValues(int i) const { return values[i]; }
+	float& getValues(int i) { return values[i]; }
 
 private:
 	float values [12];

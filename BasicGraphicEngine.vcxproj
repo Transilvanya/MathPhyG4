@@ -55,7 +55,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -255,6 +255,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
     <ClCompile Include="PhysicEngine\ForceRigid\ForceRegistryRigid.h" />
+    <ClCompile Include="PhysicEngine\ForceRigid\ForceRegistryRigid.cc" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
     <ClCompile Include="PhysicEngine\Matrices\Matrice33.cpp" />
     <ClCompile Include="PhysicEngine\Matrices\Matrice34.cpp" />
@@ -297,9 +298,12 @@
     <ClInclude Include="PhysicEngine\Contact\ParticleLink.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleRod.h" />
     <ClInclude Include="PhysicEngine\Contact\WallContactGenerator.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\ForceDrag.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\ForceGravity.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceSpring.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceSpringFixed.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\IForceRigid.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\SimpleForce.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceBuoyancy.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceDrag.h" />
     <ClInclude Include="PhysicEngine\Forces\ForceGravity.h" />

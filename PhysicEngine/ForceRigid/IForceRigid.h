@@ -14,14 +14,18 @@ private:
 
 	Vector3D force = Vector3D(0, 0, 0);
 public:
-
+	
+	struct OutValues {
+		bool removeforce = false;
+		Vector3D outVector = Vector3D(0, 0, 0);
+	};
 
 
 	bool IsForceApplied();
 	void SetForceApplied(bool value);
 	virtual std::string getType();
 	//the return define wheater the force should be removed after this tick
-	virtual bool ApplyForce(RigidBody* object);
+	virtual OutValues ApplyForce(RigidBody* object) { return {false, force }; };
 
 };
 

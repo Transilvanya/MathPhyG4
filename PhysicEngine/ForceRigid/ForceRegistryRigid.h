@@ -8,6 +8,12 @@
 #include <iostream>
 #include "../RigidBody/RigidBody.h"
 #include "IForceRigid.h"
+#include "ForceGravity.h"
+#include "SimpleForce.h"
+#include "ForceDrag.h"
+#include "ForceBuoyancy.h"
+#include "ForceSpring.h"
+#include "ForceSpringFixed.h"
 
 
 class ForceRegistryRigid
@@ -19,16 +25,16 @@ private:
 		IForceRigid* force;
 		Vector3D ApplicationPoint; //ignore if global force
 		bool IsGlobalForce;
-		bool isGlocalCoordinate; //if it is not a global point define if the point is local or global
+		bool isGlobalCoordinate; //if it is not a global point define if the point is local or global
 	};
 
-	struct Entry
+	struct RigidBodyEntry
 	{
-		RigidBody* particule;
+		RigidBody* rigidbody;
 		std::map<std::string, ForceApplication> forces;
 	};
 
-	std::map<std::string, Entry> ForceEntries;
+	std::map<std::string, RigidBodyEntry> ForceEntries;
 
 public:
 	// clear ForceEntries and forces and destroy the pointer of the forces
@@ -56,21 +62,20 @@ public:
 
 
 
-	void AddForceGravityToParticule(RigidBody* particule, std::string forcename);
+	void AddForceGravityToRigidBody(RigidBody* rigidbody, std::string forcename);
 
-	void AddForceSimpleToParticule(Vector3D forcevector, RigidBody* particule, std::string forcename);
-	void AddForceSimpleToParticuleAtPoint(Vector3D forcevector, RigidBody* particule, std::string forcename, Vector3D ApplicationPoint, bool _isGlobalCoordinate);
+	void AddForceSimpleToRigidBody(Vector3D forcevector, RigidBody* rigidbody, std::string forcename);
+	void AddForceSimpleToRigidBodyAtPoint(Vector3D forcevector, RigidBody* rigidbody, std::string forcename, Vector3D ApplicationPoint, bool _isGlobalCoordinate);
 
-	void AddForceDragToParticule(float k1, float k2, RigidBody* particule, std::string forcename);
+	void AddForceDragToRigidBody(float k1, float k2, RigidBody* rigidbody, std::string forcename);
 
-	void AddForceBuoyancyToParticule(float liquidheight, float liquiddensity, RigidBody* particule, std::string forcename);
+	void AddForceBuoyancyToRigidBody(float liquidheight, float liquiddensity, RigidBody* rigidbody, std::string forcename);
 
 
-	void AddForceSpringFixedToParticule(Vector3D anchor, float k, float l0, float maxlength, bool bungeespring, RigidBody* rigidbody, Vector3D _Anchor, std::string forcename);
+	void AddForceSpringFixedToRigidBody(Vector3D anchor, float k, float l0, float maxlength, bool bungeespring, RigidBody* rigidbody, Vector3D _Anchor, std::string forcename);
 
 	//create two force, one on each rigidboy
-	void AddForceSpringToParticule(float k, float l0, float maxlength, bool bungeespring, RigidBody* rigidbody1, RigidBody* rigidbody2, Vector3D _Anchor1, Vector3D _Anchor2, std::string forcename);
-
+	void AddForceSpringToRigidBody(float k, float l0, float maxlength, bool bungeespring, RigidBody* rigidbody1, RigidBody* rigidbody2, Vector3D _Anchor1, Vector3D _Anchor2, std::string forcename);
 
 
 };
