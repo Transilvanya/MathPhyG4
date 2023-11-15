@@ -5,6 +5,10 @@
 
 #include "GraphicObject.h"
 #include "OpenGL/Texture.h"
+#include "../PhysicEngine/Matrices/Matrice34.h"
+#include "../PhysicEngine/Quaternion/Quaternion.h"
+#include "../PhysicEngine/vector/Vector3D.h"
+
 
 class GraphicObjectwithTexture : public GraphicObject
 {
@@ -15,10 +19,6 @@ public:
 
 	GraphicObjectwithTexture(std::string _name, Shader _shaderProgram, Texture _text);
 	~GraphicObjectwithTexture();
-
-	//Move and rotate the object
-	virtual void SetMvt(float x, float y, float z);
-	virtual void SetRot(float Xangle, float Yangle, float Zangle); //Xangle : rotation around X
 
 	//update the value of the 3D object
 	virtual void ElementToUpdate();
@@ -35,7 +35,12 @@ public:
 	{
 		return shaderProgram.getName();
 	}
+
+	virtual void SetMtransform(Matrice34 _mtransform) { mtransform= _mtransform; }
+
 protected:
+	Matrice34 mtransform;
+
 	bool Displayed = true;
 
 	std::string name;

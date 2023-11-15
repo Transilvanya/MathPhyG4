@@ -1,5 +1,6 @@
 #include "GraphicObjectwithTexture.h"
 
+
 GraphicObjectwithTexture::GraphicObjectwithTexture(std::string _name, Shader _shaderProgram, Texture _text) : GraphicObject(_name, _shaderProgram)
 {
 	name = _name;
@@ -14,26 +15,6 @@ GraphicObjectwithTexture::GraphicObjectwithTexture(std::string _name, Shader _sh
 GraphicObjectwithTexture::~GraphicObjectwithTexture()
 {
 	Delete();
-}
-
-void GraphicObjectwithTexture::SetMvt(float x, float y, float z)
-{
-
-	//move all vertices according to the inputs
-	int i = 0;
-	while (i < vertices.size())
-	{
-		vertices.at(i) = vertices.at(i) + x;
-		vertices.at(i + 1) = vertices.at(i + 1) + y;
-		vertices.at(i + 2) = vertices.at(i + 2) + z;
-
-		i = i + 8;
-	}
-}
-
-void GraphicObjectwithTexture::SetRot(float Xangle, float Yangle, float Zangle)
-{
-
 }
 
 void GraphicObjectwithTexture::ElementToUpdate()
@@ -69,11 +50,32 @@ void GraphicObjectwithTexture::ElementToUpdate()
 
 void GraphicObjectwithTexture::Draw(Camera camera)
 {
-	shaderProgram.Activate(); //indicate what shader to draw
 
+	shaderProgram.Activate(); //indicate what shader to draw
 	float FOV = 45.0f;
 
+
+
+	glm::mat4x4 mat = glm::mat4x4(
+		1, 0, 0, 0.0f,
+		0, 1, 0, 0.0f,
+		0, 0, 1, 0.0f,
+		0, 0, 0, 1.0f);
+
+	glm::mat4x4 mat2 = glm::mat4x4(
+		mtransform.getValues(0), mtransform.getValues(1), mtransform.getValues(2), 0,
+		mtransform.getValues(4), mtransform.getValues(5), mtransform.getValues(6), 0,
+		mtransform.getValues(8), mtransform.getValues(9), mtransform.getValues(10), 0,
+		0.0f, 0.0f, 0.0f, 1.0f);
+
+
+	glm::mat4x4 mat3 = glm::translate(glm::mat4x4(1.0f), glm::vec3(mtransform.getValues(3), mtransform.getValues(7), mtransform.getValues(11)));
+
+	mat = mat3 * mat2 * mat;
+
 	camera.Matrix(FOV, 0.1f, 100.0f, shaderProgram, "camMatrix"); //use the projection matrix of the camera to create perspective
+
+	glUniformMatrix4fv(glGetUniformLocation(shaderProgram.ID, "transform"), 1, GL_FALSE, glm::value_ptr(mat));
 
 	_texture.Bind();
 
@@ -83,6 +85,7 @@ void GraphicObjectwithTexture::Draw(Camera camera)
 	std::copy(indices.begin(), indices.end(), arr);
 	glDrawElements(GL_TRIANGLES, sizeof(arr) / sizeof(int), GL_UNSIGNED_INT, 0); //draw the selected element
 }
+
 
 
 void GraphicObjectwithTexture::Delete()

@@ -108,11 +108,6 @@ private:
 
 
 
-	//only for dysplay puprose
-	Vector3D PrevPosition;
-	Vector3D PrevRotation;
-
-
 	Matrice34 transformMatrix;
 
 	//appel a chaque frame

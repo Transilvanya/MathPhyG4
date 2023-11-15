@@ -21,6 +21,7 @@ public:
 		Polygon = 2,
 		TextureObj = 3,
 		PolygonText = 4,
+		SphereText = 5,
 	};
 	virtual GraphicObjectType getType() { return Default; }
 

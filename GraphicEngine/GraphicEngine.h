@@ -241,7 +241,7 @@ public:
 	// --------------------------------------------------------------------------------
 
 	
-	void CreateSphereText(std::string name, std::string nameshader, std::string nametexture, float _Radius, float _x, float _y, float _z)
+	void CreateSphereText(std::string name, std::string nameshader, std::string nametexture, float _Radius)
 	{
 		Shader* s = GetShader(nameshader);
 		Texture* t = GetTexture(nametexture);
@@ -249,7 +249,7 @@ public:
 		{
 			if (t != nullptr)
 			{
-				GraphicSphereText* GO = new GraphicSphereText(name, *s, *t, _Radius, _x, _y, _z);
+				GraphicSphereText* GO = new GraphicSphereText(name, *s, *t, _Radius);
 				_graphicobjects.emplace(name, GO);
 				ElementToDisplay.emplace(name, GO);
 			}

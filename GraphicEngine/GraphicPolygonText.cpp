@@ -106,28 +106,6 @@ void GraphicPolygonText::ElementToUpdate()
 	_texture.texUnit(shaderProgram, "tex0", 0);
 }
 
-void GraphicPolygonText::SetMvt(float _x, float _y, float _z)
-{
-
-	x += _x;
-	y += _y;
-	z += _z;
-}
-
-void GraphicPolygonText::SetRot(float Xangle, float Yangle, float Zangle)
-{
-	rotx = Xangle;
-	roty = Yangle;
-	rotz = Zangle;
-}
-
-void GraphicPolygonText::AddRot(float Xangle, float Yangle, float Zangle)
-{
-	rotx += Xangle;
-	roty += Yangle;
-	rotz += Zangle;
-}
-
 
 std::vector<GLuint> GraphicPolygonText::GetIndices()
 {

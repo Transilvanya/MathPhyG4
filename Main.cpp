@@ -6,6 +6,7 @@
 #include "MainEngine/MainEngine.h"
 #include "PhysicEngine/PhysicEngine.h"
 #include "GraphicEngine/GraphicEngine.h"
+#include "PhysicEngine/Matrices/Matrice34.h"
 
 /* -- static init -- */
 
@@ -23,12 +24,10 @@ GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 
 void SetupObject()
 {
-	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.6f, 5, 0, 0);
-	GraphicEngine::GetInstance()->CreateSphereText("sphere7", "simpletext", "cattext", 0.6f, 5, 10, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.6f);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere7", "simpletext", "cattext", 0.6f);
 
-	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f, 0, 5, 0);
-	GraphicEngine::GetInstance()->CreateSphereText("sphere6", "simpletext", "brick", 0.6f, 5, 5, 0);
-	GraphicEngine::GetInstance()->CreateSphereText("sphere5", "simpletext", "cattext", 0.6f, 10, 5, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f);
 	 
 	
 
@@ -36,6 +35,32 @@ void SetupObject()
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(5, 10, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), 100, "particule7");
 
 	
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 5, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), 100, "particule4");
+
+
+	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule3"), GraphicEngine::GetInstance()->GetGraphicObject("sphere3"), "entity3");
+	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule7"), GraphicEngine::GetInstance()->GetGraphicObject("sphere7"), "entity7");
+
+	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule4"), GraphicEngine::GetInstance()->GetGraphicObject("sphere4"), "entity4");
+}
+
+/*
+
+void SetupObject()
+{
+	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.6f, 5, 0, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere7", "simpletext", "cattext", 0.6f, 5, 10, 0);
+
+	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f, 0, 5, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere6", "simpletext", "brick", 0.6f, 5, 5, 0);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere5", "simpletext", "cattext", 0.6f, 10, 5, 0);
+
+
+
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(5, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), 200, "particule3");
+	PhysicEngine::GetInstance()->CreateParticule(Vector3D(5, 10, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), 100, "particule7");
+
+
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 5, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), 100, "particule4");
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(5, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), 100, "particule6");
 	PhysicEngine::GetInstance()->CreateParticule(Vector3D(10, 5, 0), Vector3D(-2, 0, 0), Vector3D(0, 0, 0), 100, "particule5");
@@ -48,7 +73,7 @@ void SetupObject()
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule6"), GraphicEngine::GetInstance()->GetGraphicObject("sphere6"), "entity6");
 	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule5"), GraphicEngine::GetInstance()->GetGraphicObject("sphere5"), "entity5");
 
-	
+
 
 
 	PhysicEngine::GetInstance()->GetContactRegistry()->CreateRod(PhysicEngine::GetInstance()->GetParticule("particule6"), PhysicEngine::GetInstance()->GetParticule("particule4"), "link2", 5, false);
@@ -56,6 +81,8 @@ void SetupObject()
 
 	PhysicEngine::GetInstance()->GetContactRegistry()->CreateAnchor(PhysicEngine::GetInstance()->GetParticule("particule5"), Vector3D(10, 6, 0), "anchor1", 1, false);
 }
+
+
 
 void DeleteObject()
 {
@@ -146,7 +173,7 @@ void DeleteObjectForce()
 
 	
 }
-
+*/
 
 void SwitchPerspective()
 {
@@ -206,6 +233,10 @@ int main()
 
 
 
+
+
+
+
 	std::list<std::string> lst = MainEngine::GetInstance()->GetEntities();
 
 	std::list<std::string>::iterator it;
@@ -217,7 +248,7 @@ int main()
 	while (!GraphicEngine::GetInstance()->ShouldCloseMainWindow())
 	{
 		//GraphicEngine::GetInstance()->GetPolygonText("newobject2")->SetMvt(0, 0.01f, 0);
-		GraphicEngine::GetInstance()->GetPolygonText("newobject2")->AddRot(0.0f, 0.01f, 0.001f);
+		//GraphicEngine::GetInstance()->GetPolygonText("newobject2")->AddRot(0.0f, 0.01f, 0.001f);
 		GraphicEngine::GetInstance()->GetPolygonText("newobject2")->ElementToUpdate();
 
 		//option to reset the simultation
@@ -225,15 +256,15 @@ int main()
 		{
 			GraphicEngine::GetInstance()->setReset(false);
 
-			DeleteObject();
-			DeleteObjectForce();
+			//DeleteObject();
+			//DeleteObjectForce();
 			if (GraphicEngine::GetInstance()->isForce())
 			{
-				SetupObject();
+				//SetupObject();
 			}
 			else
 			{
-				SetupObjectForce();
+				//SetupObjectForce();
 			}
 		}
 

@@ -30,6 +30,7 @@ void ForceRegistry::ApplyForces()
 				if (it2->second->IsForceApplied())
 				{
 					IForce::OutValues outvalue = it2->second->ApplyForce(it->second.particule);
+					
 					TotalForce = TotalForce + outvalue.outvector;
 
 

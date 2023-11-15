@@ -31,11 +31,6 @@ public:
 
 	virtual void ElementToUpdate();
 
-	virtual void SetMvt(float _x, float _y, float _z);
-
-	virtual void SetRot(float Xangle, float Yangle, float Zangle);
-	virtual void AddRot(float Xangle, float Yangle, float Zangle);
-
 
 	//Value setter ------------------------------------------------------------------------------------------------------
 	//function to get and set Indicies vector and Vertex vector

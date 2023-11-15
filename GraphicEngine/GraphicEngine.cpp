@@ -129,6 +129,8 @@ void GraphicEngine::Display()
 	glfwPollEvents();
 }
 
+float temp = 0;
+
 void GraphicEngine::DisplayElements()
 {
 	
@@ -140,7 +142,37 @@ void GraphicEngine::DisplayElements()
 	{
 		if (it->second->IsDisplayed())
 		{
+			
+
+			if (it->second->getType() == 5 || it->second->getType() == 4 || it->second->getType() == 3)
+			
+			{
+				float newvalue[12] = {
+					1, 0 , 0 ,0,
+					0, 1, 0, 0,
+					0, 0, 1, 0
+				};
+
+				Matrice34 m(newvalue);
+
+				temp += 0.01f;
+
+				Quaternion q(1* cos(temp), 1 * sin(temp), 0, 0 * sin(temp));
+
+				if (temp > 3.15)
+				{
+					temp = -3.15;
+				}
+				q.Normalized();
+
+				if (it->second->getType() == 5)
+					m.SetOrientationAndPosition(q, Vector3D(0, 3, 0));
+				((GraphicObjectwithTexture*)it->second)->SetMtransform(m);
+			}
+
 			it->second->Draw(camera);
+			
+
 		}
 		++it;
 	}
