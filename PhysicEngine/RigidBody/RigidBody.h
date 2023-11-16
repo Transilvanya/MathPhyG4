@@ -77,6 +77,7 @@ public:
 
 	Vector3D getPosition() { return position; }
 	Vector3D getVitesse() { return vitesse; }
+	int getMasse();
 
 
 

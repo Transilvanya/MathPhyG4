@@ -21,11 +21,11 @@ public:
 	};
 
 
-	bool IsForceApplied();
-	void SetForceApplied(bool value);
-	virtual std::string getType();
+	bool IsForceApplied() { return ForceApplied; }
+	void SetForceApplied(bool value) { this->ForceApplied = value; }
+	virtual std::string getType() = 0;
 	//the return define wheater the force should be removed after this tick
-	virtual OutValues ApplyForce(RigidBody* object) { return {false, force }; };
+	virtual OutValues ApplyForce(RigidBody* object) { return {false, force }; }
 
 };
 

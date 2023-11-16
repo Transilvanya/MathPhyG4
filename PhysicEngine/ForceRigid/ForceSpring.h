@@ -8,7 +8,7 @@
 class ForceSpring : public IForceRigid
 {
 private:
-	RigidBody* otherParticule;
+	RigidBody* otherRigidbody;
 	Vector3D otherAnchor;
 
 	//anchore of the spring in local coordinate
@@ -25,29 +25,28 @@ public:
 	virtual std::string getType() { return "ForceSpring"; }
 	virtual OutValues ApplyForce(RigidBody* object)
 	{
-		OutValues out;
-		out.force = Vector3D(0, 0, 0);
-		out.torque = Vector3D(0, 0, 0);
+		Vector3D v = Anchor - otherAnchor;
+		Vector3D output = Vector3D(v.getUnitVector()[0], v.getUnitVector()[1], v.getUnitVector()[2]);
+		output = output * (-k) * (v.getNorm() - l0);
+		bool breakspring = false;
 
-		Vector3D p1 = object->getTransform().getGlobalPosition() + object->getTransform().getLocalToGlobal().transform(Anchor);
-		Vector3D p2 = otherParticule->getTransform().getGlobalPosition() + otherParticule->getTransform().getLocalToGlobal().transform(otherAnchor);
-
-		Vector3D v = p2 - p1;
-		float l = v.norm();
-
-		if (l > MaxLength)
+		if (v.getNorm() > MaxLength)
 		{
-			v = v * (1 / l);
-			out.force = v * (l - MaxLength) * k;
-		}
-		else if (BungeeSpring && l > l0)
-		{
-			v = v * (1 / l);
-			out.force = v * (l - l0) * k;
+			breakspring = true;
 		}
 
-		return out;
+		if (BungeeSpring && v.getNorm() - l0 <= 0)
+		{
+			return { breakspring, Vector3D(0, 0, 0) };
+		}
+		else
+		{
+			//	std::cout << output.getX() << " " << output.getY() << " " << output.getZ() << "\n";
+
+			return { breakspring, output };
+		}
 	}
+
 };
 
 
