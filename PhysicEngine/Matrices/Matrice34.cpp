@@ -15,12 +15,21 @@ Matrice34::Matrice34(float newVal[12])
 Matrice34::Matrice34(Matrice33 mat)
 {
 
-	for (int i = 0; i < 9; i++) 
-		values[i] = mat.getValues(i);
+	values[0] = mat.getValues(0);
+	values[1] = mat.getValues(1);
+	values[2] = mat.getValues(2);
+	values[3] = 0;
 	
-	for (int i = 9; i < 12; i++)
-		values[i] = 0;
+	values[4] = mat.getValues(3);
+	values[5] = mat.getValues(4);
+	values[6] = mat.getValues(5);
+	values[7] = 0;
 
+	values[8] = mat.getValues(6);
+	values[9] = mat.getValues(7);
+	values[10] = mat.getValues(8);
+	values[11] = 0;
+	
 
 }
 

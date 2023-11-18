@@ -58,7 +58,7 @@ Matrice33 Matrice33::Inverse()
 	Matrice33 result;
 	Matrice33 adjointe = this->getAdjointe();
 	float determinant = this->getDeterminant(this->values, 9);
-	printf("determinant : %f\n", determinant);
+//	printf("determinant : %f\n", determinant);
 	if (determinant != 0) {
 		
 		result =  adjointe * (1 / determinant);
@@ -108,7 +108,7 @@ void Matrice33::setOrientation(const Quaternion& q)
 
 float Matrice33::getDeterminant(float *tab, int n)
 {
-	int result = 0;
+	float result = 0;
 	float subtab[4];
 	if (n == 4)
 		return ((tab[0] * tab[3] ) - (tab[2] * tab[1]));

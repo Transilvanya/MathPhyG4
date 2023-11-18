@@ -22,6 +22,8 @@ public:
 	//Matrice33 getMatrice33();
 
 	Quaternion operator*(const Quaternion& q);
+	Quaternion operator*(const float& f);
+	Quaternion operator+(const Quaternion& q);
 
 	//rotate le quaternion par un vecteur
 	//multiplie le par q = (0, dx, dy, dx)

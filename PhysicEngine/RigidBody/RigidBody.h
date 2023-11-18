@@ -6,6 +6,8 @@
 #include "../Matrices/Matrice34.h"
 #include "../Matrices/Matrice33.h"
 
+#include <iostream>
+
 class RigidBody
 {
 public:
@@ -136,7 +138,22 @@ public:
 						0.0f,	0.0f,	value };
 
 		Matrice33 m(v);
+	//	std::cout << "____ _ _ _ \n\n";
+
+		std::cout << "\n";
+		std::cout << m.getValues(0) << " " << m.getValues(1) << " " << m.getValues(2) << "\n";
+		std::cout << m.getValues(3) << " " << m.getValues(4) << " " << m.getValues(5) << "\n";
+		std::cout << m.getValues(6) << " " << m.getValues(7) << " " << m.getValues(8) << "\n\n";
+
+
 		InverseTenseur = m.Inverse();
+
+		std::cout << "\n";
+		std::cout << InverseTenseur.getValues(0) << " " << InverseTenseur.getValues(1) << " " << InverseTenseur.getValues(2) << "\n";
+		std::cout << InverseTenseur.getValues(3) << " " << InverseTenseur.getValues(4) << " " << InverseTenseur.getValues(5) << "\n";
+		std::cout << InverseTenseur.getValues(6) << " " << InverseTenseur.getValues(7) << " " << InverseTenseur.getValues(8) << "\n\n";
+
+		std::cout << "____ _ _ _ \n\n";
 
 		Radius = _Radius;
 	}

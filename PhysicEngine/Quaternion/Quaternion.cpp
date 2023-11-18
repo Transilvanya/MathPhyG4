@@ -74,6 +74,16 @@ Quaternion Quaternion::operator*(const Quaternion& q)
 	return result;
 }
 
+Quaternion Quaternion::operator*(const float& f)
+{
+	return Quaternion(f*this->value[0], f*this->value[1], f*this->value[2], f*this->value[3]);
+}
+
+Quaternion Quaternion::operator+(const Quaternion& q)
+{
+	return Quaternion(this->value[0]+ q.value[0], this->value[1]+ q.value[1], this->value[2]+ q.value[2], this->value[3]+ q.value[3]);
+}
+
 void Quaternion::RotateByVector(const Vector3D& q)
 {
 

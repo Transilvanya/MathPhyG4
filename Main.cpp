@@ -30,9 +30,9 @@ void SetupObject()
 	 
 	
 
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(10, 0, 0), Vector3D(1, 0, 0),Quaternion(0,1,0,0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule3");
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 3, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule7");
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(3, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule4");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),Quaternion(0,1,0,0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "particule3");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 3, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule7");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(3, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "particule4");
 
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("particule3"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere3"), "entity3");
