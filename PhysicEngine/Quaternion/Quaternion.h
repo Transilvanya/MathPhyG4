@@ -5,7 +5,7 @@
 #define _USE_MATH_DEFINES
 #include "../vector/Vector3D.h"
 #include <math.h>
-#include "../Matrices/Matrice34.h"
+//#include "../Matrices/Matrice34.h"
 
 class Quaternion
 {
@@ -18,8 +18,8 @@ public:
 	//normalise en multipliant le quaternion par l'inverse de sa magnitude
 	void Normalized();
 
-	Matrice34 getMatrice34();
-	Matrice33 getMatrice33();
+	//Matrice34 getMatrice34();
+	//Matrice33 getMatrice33();
 
 	Quaternion operator*(const Quaternion& q);
 

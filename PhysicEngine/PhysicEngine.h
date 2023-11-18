@@ -9,6 +9,9 @@
 #include "Contact/ContactRegistry.h"
 #include "Matrices/Matrice33.h"
 
+#include "RigidBody/RigidBody.h"
+#include "ForceRigid/ForceRegistryRigid.h"
+
 class PhysicEngine
 {
 public:
@@ -36,15 +39,19 @@ public:
 
 	// --------------------------------------------------------------------------------
 
-	void CreateRigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+	void CreateRigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName);
+	RigidBody* GetRigidBody(std::string name);
+	void RemoveRigidBody(std::string name);
 
 	//call CreateRigidBody with the correct Tenseur and type
-	void CreateRigidSphere(float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+	void CreateRigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName);
+	RigidSphere* GetRigidSphere(std::string name);
 
 	void CreateRigidCuboid(float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
+	Particule* GetRigidCuboid(std::string name);
 
 	void CreateRigidCylinder(float _inverseMasse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Vector3D _rotation, Vector3D _angularvitesse, Vector3D _angularacceleration, std::string _ObjectName);
-
+	Particule* GetRigidCylinder(std::string name);
 
 
 
@@ -53,9 +60,6 @@ public:
 	void CreateParticule(Vector3D newPosition, Vector3D newVitesse, Vector3D newAcceleration, float masse, std::string name);
 	Particule* GetParticule(std::string name);
 
-
-
-	// --------------------------------------------------------------------------------
 	void RemoveParticule(std::string name);
 	// --------------------------------------------------------------------------------
 
@@ -65,9 +69,11 @@ public:
 private:
 
 	std::map<std::string, Particule*> _physicobjects;
+	std::map<std::string, RigidBody*> _physicobjectsRB;
 
 	ContactRegistry _contactregistry;
 	ForceRegistry _forceregistry;
+	//ForceRegistryRigid _forceregistryRB;
 };
 
 #endif

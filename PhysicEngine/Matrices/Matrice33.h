@@ -9,7 +9,7 @@ class Matrice33
 public:
 
 	Matrice33();
-
+	~Matrice33();
 	Matrice33(float newVal[9]);
 
 	//combinaison de transformation lineaire

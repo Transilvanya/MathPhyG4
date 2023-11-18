@@ -28,7 +28,7 @@ void Quaternion::Normalized()
 	}
 
 }
-
+/*
 Matrice34 Quaternion::getMatrice34()
 {
 	float w = value[0];
@@ -63,7 +63,7 @@ Matrice33 Quaternion::getMatrice33()
 
 	return Matrice33(values);
 }
-
+*/
 Quaternion Quaternion::operator*(const Quaternion& q)
 {
 	Quaternion result;

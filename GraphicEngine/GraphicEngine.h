@@ -229,7 +229,7 @@ public:
 	}
 	GraphicObjectwithTexture* GetObjectwithTexture(std::string name)
 	{
-		if (_graphicobjects.count(name) && _graphicobjects.find(name)->second->getType() == 2)
+		if (_graphicobjects.count(name) && (_graphicobjects.find(name)->second->getType() == 3 || _graphicobjects.find(name)->second->getType() == 4 || _graphicobjects.find(name)->second->getType() == 5))
 			return (GraphicObjectwithTexture*)_graphicobjects.find(name)->second;
 		else
 		{
@@ -267,7 +267,7 @@ public:
 	GraphicSphereText* GetSphereText(std::string name)
 	{
 
-		if (_graphicobjects.count(name) && _graphicobjects.find(name)->second->getType() == 1)
+		if (_graphicobjects.count(name) && _graphicobjects.find(name)->second->getType() == 5)
 			return (GraphicSphereText*)_graphicobjects.find(name)->second;
 		else
 		{

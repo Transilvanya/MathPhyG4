@@ -32,14 +32,7 @@ void PhysicEngine::Integrade(float DTms)
 	// Iterate through the map and print the elements
 	while (it != _physicobjects.end())
 	{
-
-
-
-		it->second->getVitesse();
-
 		it->second->integrade(DTms/1000);
-		
-
 
 		//std::cout << it->second->GetName() << "\n";
 		//std::cout << "\t\tposition " << it->second->getPosition().getX() << " " << it->second->getPosition().getY() << " " << it->second->getPosition().getZ() << "\n";
@@ -48,6 +41,23 @@ void PhysicEngine::Integrade(float DTms)
 		++it;
 	}
 	//std::cout << "\n";
+
+
+
+	//_forceregistryRB.ApplyForces();
+
+	std::map<std::string, RigidBody*>::iterator it2 = _physicobjectsRB.begin();
+
+	while (it2 != _physicobjectsRB.end())
+	{
+		it2->second->integrade(DTms / 1000);
+		++it2;
+	}
+
+
+
+
+
 
 	int loopindex = 0;
 
@@ -92,7 +102,6 @@ Particule* PhysicEngine::GetParticule(std::string name)
 }
 
 
-// --------------------------------------------------------------------------------
 void PhysicEngine::RemoveParticule(std::string name)
 {
 	if (_physicobjects.count(name))
@@ -105,6 +114,56 @@ void PhysicEngine::RemoveParticule(std::string name)
 	else
 	{
 		std::cout << "coud not remove Object " << name << "\n";
+	}
+}
+
+// --------------------------------------------------------------------------------
+
+void PhysicEngine::CreateRigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+{
+	RigidBody* RB = new RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName);
+	_physicobjectsRB.emplace(_ObjectName, RB);
+	//_forceregistryRB.AddRigidBody(RB);
+}
+
+RigidBody* PhysicEngine::GetRigidBody(std::string name)
+{
+	if (_physicobjectsRB.count(name))
+		return _physicobjectsRB.find(name)->second;
+	else
+	{
+		std::cout << "coud not get Object " << name << "\n";
+		return nullptr;
+	}
+}
+void PhysicEngine::RemoveRigidBody(std::string name)
+{
+	if (_physicobjects.count(name))
+	{
+		Particule* temp = _physicobjects.find(name)->second;
+		_physicobjectsRB.erase(name);
+		//_forceregistryRB.RemoveRigidBody(name);
+		delete(temp);
+	}
+	else
+	{
+		std::cout << "coud not remove Object " << name << "\n";
+	}
+}
+void PhysicEngine::CreateRigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+{
+	RigidSphere* RB = new RigidSphere(_Radius, Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName);
+	_physicobjectsRB.emplace(_ObjectName, RB);
+	//_forceregistryRB.AddRigidBody(RB);
+}
+RigidSphere* PhysicEngine::GetRigidSphere(std::string name)
+{
+	if (_physicobjectsRB.count(name))
+		return (RigidSphere*)_physicobjectsRB.find(name)->second;
+	else
+	{
+		std::cout << "coud not get Object " << name << "\n";
+		return nullptr;
 	}
 }
 // --------------------------------------------------------------------------------

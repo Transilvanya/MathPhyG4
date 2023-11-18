@@ -7,6 +7,12 @@ GraphicObjectwithTexture::GraphicObjectwithTexture(std::string _name, Shader _sh
 	shaderProgram = _shaderProgram;
 
 	_texture = _text;
+	
+	
+	float v[12] = { 1.0f,0.0f,0.0f, 0,
+					0.0f,1.0f,0.0f, 0,
+					0.0f,0.0f,1.0f, 0,};
+	mtransform = Matrice34(v);
 
 
 	ElementToUpdate();
@@ -69,6 +75,10 @@ void GraphicObjectwithTexture::Draw(Camera camera)
 		0.0f, 0.0f, 0.0f, 1.0f);
 
 
+//	std::cout << mtransform.getValues(0) << " " << mtransform.getValues(1) << " " << mtransform.getValues(2) << " " << mtransform.getValues(3) << "\n";
+//	std::cout << mtransform.getValues(4) << " " << mtransform.getValues(5) << " " << mtransform.getValues(6) << " " << mtransform.getValues(7) << "\n";
+//	std::cout << mtransform.getValues(8) << " " << mtransform.getValues(9) << " " << mtransform.getValues(10) << " " << mtransform.getValues(11) << "\n\n";
+
 	glm::mat4x4 mat3 = glm::translate(glm::mat4x4(1.0f), glm::vec3(mtransform.getValues(3), mtransform.getValues(7), mtransform.getValues(11)));
 
 	mat = mat3 * mat2 * mat;
@@ -84,6 +94,7 @@ void GraphicObjectwithTexture::Draw(Camera camera)
 	GLuint arr[100];
 	std::copy(indices.begin(), indices.end(), arr);
 	glDrawElements(GL_TRIANGLES, sizeof(arr) / sizeof(int), GL_UNSIGNED_INT, 0); //draw the selected element
+
 }
 
 

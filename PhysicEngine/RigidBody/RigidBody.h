@@ -12,12 +12,12 @@ public:
 
 
 	//add a force on center of mass, no torque
-	void AddForce(Vector3D force);
+	virtual void AddForce(Vector3D force);
 	
 
 	//add a force applied to a point in global coordinate. generate force and torque
 	//add the force and torque to the sum
-	void AddForcePoint(Vector3D force, Vector3D applicationpoint);
+	virtual void AddForcePoint(Vector3D force, Vector3D applicationpoint);
 	/*
 	check that it create only torque and no force, check in local and global coordinates
 
@@ -38,16 +38,16 @@ public:
 	*/
 
 	//add a force to a point of the object. the coordinate will be transform in global coordinate before being applied, generate force and torque
-	void AddForceAtBodyPoint(Vector3D force, Vector3D applicationpoint);
+	virtual void AddForceAtBodyPoint(Vector3D force, Vector3D applicationpoint);
 
 
 
 
 	//reset ForceSum and TorqueSum
-	void Reset();
+	virtual void Reset();
 
 	//Intergrade the rigid body by modifying the position, orientation and velocity
-	void Intergrate(float dt);
+	virtual void integrade(float dt);
 
 	/*
 	|..		   .|.    ..|
@@ -65,23 +65,33 @@ public:
 
 	*/
 
-	RigidBody(Matrice33 _InverseTenseur, std::string _Type, float _inverseMasse, Vector3D _position, Vector3D _acceleration,Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName);
+	RigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration,Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName);
 
 
+	//appel a chaque frame
+//calcule le transformeMatrice
+//and normalize the orientation
+//create the transformMatrix using the orientation and the position
+	void CalculateDerivedData();
 
+	//get the Tenseur in global coordinate;
+		//check that it doesn't change at position(0,0,0) rotation (0,0,0)
+		//should not be affected by the position of the object
+	virtual Matrice33 GetInverseTenseur()
+	{
+		return InverseTenseur;
+	}
 
 	//getters, setters
 
+	virtual Matrice34 GettransformMatrix() 
+	{
+		return transformMatrix;
+	}
 
+	virtual std::string GetName() { return ObjectName; }
 
-	//used by GraphicEngine
-	virtual Vector3D getDeltaPosition();
-	virtual Vector3D getPrevPosition();
-
-	virtual Vector3D getDeltaRotation();
-	virtual Vector3D getPrevRotation();
-
-private:
+protected:
 	//sum of all the force at each tick
 	Vector3D ForceSum;
 	//sum of all the torque at each tick
@@ -89,8 +99,6 @@ private:
 
 	//to define during creation of rigidbody in physicengine
 	Matrice33 InverseTenseur;
-
-	std::string Type;
 
 	std::string ObjectName;
 
@@ -110,15 +118,31 @@ private:
 
 	Matrice34 transformMatrix;
 
-	//appel a chaque frame
-	//calcule le transformeMatrice
-	//and normalize the orientation
-	//create the transformMatrix using the orientation and the position
-	void CalculateDerivedData();
 
-	//get the Tenseur in global coordinate;
-		//check that it doesn't change at position(0,0,0) rotation (0,0,0)
-		//should not be affected by the position of the object
-	Matrice33 GetInverseTenseur();
 };
+
+
+
+class RigidSphere : public RigidBody
+{
+public:
+
+	RigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
+	{
+
+		float value = (2.0f / 5) * Masse * _Radius * _Radius;
+		float v[9] = {	value,	0.0f,	0.0f,
+						0.0f,	value,	0.0f,
+						0.0f,	0.0f,	value };
+
+		Matrice33 m(v);
+		InverseTenseur = m.Inverse();
+
+		Radius = _Radius;
+	}
+
+private:
+	float Radius = 0;
+};
+
 #endif // !MATHPHYG4_RIGIDBODY_H

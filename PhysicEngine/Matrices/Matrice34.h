@@ -11,8 +11,11 @@ class Matrice34
 public:
 
 	Matrice34();
+
 	Matrice34(float newVal[12]);
+
 	Matrice34(Matrice33 mat);
+
 	~Matrice34();
 
 	//combinaison d'une transformation affine

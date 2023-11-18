@@ -26,22 +26,18 @@ void SetupObject()
 {
 	GraphicEngine::GetInstance()->CreateSphereText("sphere3", "simpletext", "cattext", 0.6f);
 	GraphicEngine::GetInstance()->CreateSphereText("sphere7", "simpletext", "cattext", 0.6f);
-
 	GraphicEngine::GetInstance()->CreateSphereText("sphere4", "simpletext", "cattext", 0.6f);
 	 
 	
 
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(5, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), 200, "particule3");
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(5, 10, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), 100, "particule7");
-
-	
-	PhysicEngine::GetInstance()->CreateParticule(Vector3D(0, 5, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), 100, "particule4");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(10, 0, 0), Vector3D(1, 0, 0),Quaternion(0,1,0,0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule3");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 3, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule7");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(3, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "particule4");
 
 
-	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule3"), GraphicEngine::GetInstance()->GetGraphicObject("sphere3"), "entity3");
-	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule7"), GraphicEngine::GetInstance()->GetGraphicObject("sphere7"), "entity7");
-
-	MainEngine::GetInstance()->CreateEntity(PhysicEngine::GetInstance()->GetParticule("particule4"), GraphicEngine::GetInstance()->GetGraphicObject("sphere4"), "entity4");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("particule3"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere3"), "entity3");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("particule7"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere7"), "entity7");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("particule4"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere4"), "entity4");
 }
 
 /*

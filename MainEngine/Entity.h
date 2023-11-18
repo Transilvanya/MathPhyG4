@@ -4,6 +4,9 @@
 
 #include "../PhysicEngine/Particules/Particule.h"
 #include "../GraphicEngine/GraphicObject.h"
+#include "../GraphicEngine/GraphicObjectwithTexture.h"
+#include "../PhysicEngine/RigidBody/RigidBody.h"
+
 #include <string>
 
 class Entity
@@ -29,5 +32,27 @@ public:
 
 };
 
+class EntityRB
+{
+private:
+	std::string _name = "defaultRB";
+
+
+public:
+
+	EntityRB(RigidBody* RB, GraphicObjectwithTexture* GO, std::string name)
+	{
+		_name = name;
+		_PhysicObject = RB;
+		_GraphicObject = GO;
+	}
+
+	RigidBody* _PhysicObject = nullptr;
+	GraphicObjectwithTexture* _GraphicObject = nullptr;
+
+	std::string getName() { return _name; }
+	void SetName(std::string name) { _name = name; }
+
+};
 #endif
 
