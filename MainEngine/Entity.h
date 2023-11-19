@@ -2,13 +2,13 @@
 #ifndef ENTITY_CLASS_H
 #define ENTITY_CLASS_H
 
-#include "../PhysicEngine/Particules/Particule.h"
+//#include "../PhysicEngine/Particules/Particule.h"
 #include "../GraphicEngine/GraphicObject.h"
 #include "../GraphicEngine/GraphicObjectwithTexture.h"
 #include "../PhysicEngine/RigidBody/RigidBody.h"
 
 #include <string>
-
+/*
 class Entity
 {
 private:
@@ -31,7 +31,7 @@ public:
 	void SetName(std::string name) { _name = name; }
 
 };
-
+*/
 class EntityRB
 {
 private:

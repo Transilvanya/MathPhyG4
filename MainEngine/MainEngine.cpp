@@ -19,6 +19,7 @@ void MainEngine::Tick()
 
 void MainEngine::UpdateEntityPostion()
 {
+	/*
 	// Get an iterator pointing to the first element in the map
 	std::map<std::string, Entity*>::iterator it = _entities.begin();
 
@@ -33,6 +34,7 @@ void MainEngine::UpdateEntityPostion()
 
 
 	}
+	*/
 
 	// Get an iterator pointing to the first element in the map
 	std::map<std::string, EntityRB*>::iterator it2 = _entitiesRB.begin();
@@ -49,8 +51,9 @@ void MainEngine::UpdateEntityPostion()
 
 MainEngine::~MainEngine()
 {
-	_systems.empty();
-	_entities.empty();
+	_systems.clear();
+	_entitiesRB.clear();
+	//_entities.clear();
 }
 
 MainEngine::MainEngine()
@@ -64,7 +67,7 @@ void MainEngine::Init()
 
 	AddSystem(s);
 }
-
+/*
 Entity* MainEngine::GetEntity(std::string name)
 {
 
@@ -98,7 +101,7 @@ void MainEngine::RemoveEntity(std::string name)
 	}
 
 }
-
+*/
 
 void MainEngine::CreateEntityRB(RigidBody* RB, GraphicObjectwithTexture* GO, std::string name)
 {

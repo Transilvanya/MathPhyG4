@@ -7,7 +7,6 @@
 #include <iostream>
 #include "IForceRigid.h"
 #include "../vector/Vector3D.h"
-#include "../Particules/Particule.h"
 
 class SimpleForce : public IForceRigid
 {

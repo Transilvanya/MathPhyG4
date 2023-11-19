@@ -255,7 +255,6 @@
     <ClCompile Include="GraphicEngine\UI\InputControler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
-    <ClCompile Include="PhysicEngine\ForceRigid\ForceRegistryRigid.h" />
     <ClCompile Include="PhysicEngine\ForceRigid\ForceRegistryRigid.cpp" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
     <ClCompile Include="PhysicEngine\Matrices\Matrice33.cpp" />
@@ -305,6 +304,7 @@
     <ClInclude Include="PhysicEngine\ForceRigid\ForceBuoyancy.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceDrag.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceGravity.h" />
+    <ClInclude Include="PhysicEngine\ForceRigid\ForceRegistryRigid.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceSpring.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\ForceSpringFixed.h" />
     <ClInclude Include="PhysicEngine\ForceRigid\IForceRigid.h" />

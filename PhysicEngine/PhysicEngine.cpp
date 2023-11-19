@@ -28,7 +28,7 @@ void PhysicEngine::Integrade(float DTms)
 {
 
 
-	//_forceregistryRB.ApplyForces();
+	_forceregistryRB.ApplyForces();
 
 	std::map<std::string, RigidBody*>::iterator it2 = _physicobjectsRB.begin();
 
@@ -132,7 +132,7 @@ void PhysicEngine::CreateRigidBody(float Masse, Vector3D _position, Vector3D _vi
 {
 	RigidBody* RB = new RigidBody(Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
 	_physicobjectsRB.emplace(_ObjectName, RB);
-	//_forceregistryRB.AddRigidBody(RB);
+	_forceregistryRB.AddRigidBody(RB);
 }
 
 RigidBody* PhysicEngine::GetRigidBody(std::string name)
@@ -151,7 +151,7 @@ void PhysicEngine::RemoveRigidBody(std::string name)
 	{
 		RigidBody* temp = _physicobjectsRB.find(name)->second;
 		_physicobjectsRB.erase(name);
-		//_forceregistryRB.RemoveRigidBody(name);
+		_forceregistryRB.RemoveRigidBody(name);
 		delete(temp);
 	}
 	else
@@ -164,7 +164,7 @@ void PhysicEngine::CreateRigidSphere(float _Radius, float Masse, Vector3D _posit
 {
 	RigidSphere* RB = new RigidSphere(_Radius, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
 	_physicobjectsRB.emplace(_ObjectName, RB);
-	//_forceregistryRB.AddRigidBody(RB);
+	_forceregistryRB.AddRigidBody(RB);
 }
 RigidSphere* PhysicEngine::GetRigidSphere(std::string name)
 {
@@ -181,7 +181,7 @@ void PhysicEngine::CreateRigidCuboid(float _DX, float _DY, float _DZ, float Mass
 {
 	RigidCuboid* RB = new RigidCuboid(_DX, _DY, _DZ, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
 	_physicobjectsRB.emplace(_ObjectName, RB);
-	//_forceregistryRB.AddRigidBody(RB);
+	_forceregistryRB.AddRigidBody(RB);
 }
 RigidCuboid* PhysicEngine::GetRigidCuboid(std::string name)
 {
@@ -198,7 +198,7 @@ void PhysicEngine::CreateRigidCylinder(float _Radius, float _Height, float Masse
 {
 	RigidCylinder* RB = new RigidCylinder(_Radius, _Height, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
 	_physicobjectsRB.emplace(_ObjectName, RB);
-	//_forceregistryRB.AddRigidBody(RB);
+	_forceregistryRB.AddRigidBody(RB);
 }
 RigidCylinder* PhysicEngine::GetRigidCylinder(std::string name)
 {

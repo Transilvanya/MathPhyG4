@@ -37,16 +37,17 @@ private:
 	std::map<std::string, RigidBodyEntry> ForceEntries;
 
 public:
-	// clear ForceEntries and forces and destroy the pointer of the forces
-	~ForceRegistryRigid();
-
-
-	/* for every entry, call AddForce,AddForcePoint or AddForceAtBodyPoint from rigidbody */
-	void ApplyForces();
-
 	//create and remove an entry; the first parameter of the map is the name of the object
 	void AddRigidBody(RigidBody* object);
 	void RemoveRigidBody(std::string name);
+
+
+
+
+	//* for every entry, call AddForce,AddForcePoint or AddForceAtBodyPoint from rigidbody 
+	void ApplyForces();
+
+
 
 	//create a ForceApplication with the corresponding parameter; the first parameter of the map in forces is name
 	void AddForceToRigidBodyAtPoint(RigidBody* object, IForceRigid* force, Vector3D ApplicationPoint, std::string name, bool _isGlobalCoordinate);
@@ -62,7 +63,11 @@ public:
 
 
 
+
+
 	void AddForceGravityToRigidBody(RigidBody* rigidbody, std::string forcename);
+
+
 
 	void AddForceSimpleToRigidBody(Vector3D forcevector, RigidBody* rigidbody, std::string forcename);
 	void AddForceSimpleToRigidBodyAtPoint(Vector3D forcevector, RigidBody* rigidbody, std::string forcename, Vector3D ApplicationPoint, bool _isGlobalCoordinate);

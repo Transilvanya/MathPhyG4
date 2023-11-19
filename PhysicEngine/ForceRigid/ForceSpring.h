@@ -21,7 +21,17 @@ private:
 	float l0;
 
 public:
-	ForceSpring(RigidBody* _otherbody, Vector3D _otherAnchor,Vector3D _Anchor, float _k, float _l0, float _MaxLength, bool _BungeeSpring);
+	ForceSpring(RigidBody* _otherbody, Vector3D _otherAnchor, Vector3D _Anchor, float _k, float _l0, float _MaxLength, bool _BungeeSpring)
+	{
+		otherRigidbody = _otherbody;
+		otherAnchor = _otherAnchor;
+		Anchor = _Anchor;
+		k = _k;
+		l0 = _l0;
+		MaxLength = _MaxLength;
+		BungeeSpring = _BungeeSpring;
+	}
+
 	virtual std::string getType() { return "ForceSpring"; }
 	virtual OutValues ApplyForce(RigidBody* object)
 	{

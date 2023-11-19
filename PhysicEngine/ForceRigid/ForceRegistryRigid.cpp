@@ -1,9 +1,147 @@
 #include "ForceRegistryRigid.h"
 
-ForceRegistryRigid::~ForceRegistryRigid()
+void ForceRegistryRigid::AddRigidBody(RigidBody* object)
 {
+	RigidBodyEntry temp;
+	temp.rigidbody = object;
+	ForceEntries.emplace(object->getObjectName(), temp);
+}
+
+void ForceRegistryRigid::RemoveRigidBody(std::string name)
+{
+	if (ForceEntries.count(name))
+	{
+
+		std::list<std::string> forcelist = GetForcesOfRigidBody(name);
+
+		std::list<std::string>::iterator it = forcelist.begin();
+
+		// Iterate through the map and print the elements
+		while (it != forcelist.end())
+		{
+			RemoveForceFromRigidBody(name, *it);
+			++it;
+		}
+
+		ForceEntries.erase(name);
+	}
+	else
+	{
+		std::cout << "coud not remove ForceEntries " << name << "\n";
+	}
+}
+
+
+void ForceRegistryRigid::AddForceToRigidBodyAtPoint(RigidBody* object, IForceRigid* force, Vector3D ApplicationPoint, std::string name, bool _isGlobalCoordinate)
+{
+	if (ForceEntries.count(object->getObjectName()))
+	{
+		if (ForceEntries.find(object->getObjectName())->second.forces.count(name))
+		{
+			std::cout << "A force named " << name << " already existe in rigidbody " << object->getObjectName() << "\n";
+		}
+		else
+		{
+			ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, ApplicationPoint, false, _isGlobalCoordinate });
+		}
+	}
+	else
+	{
+		AddRigidBody(object);
+		ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, ApplicationPoint, false, _isGlobalCoordinate });
+	}
 
 }
+
+void ForceRegistryRigid::AddForceToRigidBody(RigidBody* object, IForceRigid* force, std::string name)
+{
+	if (ForceEntries.count(object->getObjectName()))
+	{
+		if (ForceEntries.find(object->getObjectName())->second.forces.count(name))
+		{
+			std::cout << "A force named " << name << " already existe in rigidbody " << object->getObjectName() << "\n";
+		}
+		else
+		{
+			ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, Vector3D(0,0,0), true, false });
+		}
+	}
+	else
+	{
+		AddRigidBody(object);
+		ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, Vector3D(0,0,0), true, false });
+	}
+}
+
+void ForceRegistryRigid::RemoveForceFromRigidBody(std::string nameObject, std::string nameForce)
+{
+	if (ForceEntries.count(nameObject))
+	{
+		if (ForceEntries.find(nameObject)->second.forces.count(nameForce))
+		{
+			//std::cout << nameObject <<" remove " << nameForce << "\n";
+			IForceRigid* temp = ForceEntries.find(nameObject)->second.forces.find(nameForce)->second.force;
+			delete(temp);
+			ForceEntries.find(nameObject)->second.forces.erase(nameForce);
+
+		}
+		else
+		{
+			std::cout << "coud not remove Force " << nameForce << "\n";
+		}
+	}
+	else
+	{
+		std::cout << "coud not find ForceEntries " << nameObject << "\n";
+	}
+}
+
+IForceRigid* ForceRegistryRigid::GetForce(std::string nameObject, std::string nameForce)
+{
+	IForceRigid* output = nullptr;
+
+	if (ForceEntries.count(nameObject))
+	{
+		if (ForceEntries.find(nameObject)->second.forces.count(nameObject))
+		{
+			output = ForceEntries.find(nameObject)->second.forces.find(nameObject)->second.force;
+		}
+		else
+		{
+			std::cout << "coud not find Force " << nameForce << "\n";
+		}
+	}
+	else
+	{
+		std::cout << "coud not find ForceEntries " << nameObject << "\n";
+	}
+
+	return output;
+}
+
+std::list<std::string> ForceRegistryRigid::GetForcesOfRigidBody(std::string name)
+{
+	std::list<std::string> output;
+
+	if (ForceEntries.count(name))
+	{
+		std::map<std::string, ForceApplication>::iterator it = ForceEntries.find(name)->second.forces.begin();
+
+		while (it != ForceEntries.find(name)->second.forces.end())
+		{
+			output.push_back(it->first);
+			++it;
+		}
+	}
+	else
+	{
+		std::cout << "coud not find ForceEntries " << name << "\n";
+	}
+
+	return output;
+}
+
+
 
 void ForceRegistryRigid::ApplyForces()
 {
@@ -53,158 +191,19 @@ void ForceRegistryRigid::ApplyForces()
 	}
 }
 
-void ForceRegistryRigid::AddRigidBody(RigidBody* object)
-{
-	RigidBodyEntry temp;
-	temp.rigidbody = object;
-	ForceEntries.emplace(object->getObjectName(), temp);
-}
-
-void ForceRegistryRigid::RemoveRigidBody(std::string name)
-{
-	if (ForceEntries.count(name))
-	{
-
-		std::list<std::string> forcelist = GetForcesOfRigidBody(name);
-
-		std::list<std::string>::iterator it = forcelist.begin();
-
-		// Iterate through the map and print the elements
-		while (it != forcelist.end())
-		{
-			RemoveForceFromRigidBody(name, *it);
-			++it;
-		}
-
-		ForceEntries.erase(name);
-	}
-	else
-	{
-		std::cout << "coud not remove ForceEntries " << name << "\n";
-	}
-}
-
-void ForceRegistryRigid::AddForceToRigidBodyAtPoint(RigidBody* object, IForceRigid* force, Vector3D ApplicationPoint, std::string name, bool _isGlobalCoordinate)
-{
-	if (ForceEntries.count(object->getObjectName()))
-	{
-		if (ForceEntries.find(object->getObjectName())->second.forces.count(name))
-		{
-			std::cout << "A force named " << name << " already existe in rigidbody " << object->getObjectName() << "\n";
-		}
-		else
-		{
-			ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, ApplicationPoint, false, _isGlobalCoordinate });
-		}
-	}
-	else
-	{
-		AddRigidBody(object);
-		ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, ApplicationPoint, false, _isGlobalCoordinate });
-	}
-
-}
-
-void ForceRegistryRigid::AddForceToRigidBody(RigidBody* object, IForceRigid* force, std::string name)
-{
-	if (ForceEntries.count(object->getObjectName()))
-	{
-		if (ForceEntries.find(object->getObjectName())->second.forces.count(name))
-		{
-			std::cout << "A force named " << name << " already existe in rigidbody " << object->getObjectName() << "\n";
-		}
-		else 
-		{
-			ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, Vector3D(0,0,0), true, false });
-		}
-	}
-	else 
-	{
-		AddRigidBody(object);
-		ForceEntries.find(object->getObjectName())->second.forces.emplace(name, ForceApplication{ force, Vector3D(0,0,0), true, false });
-	}
-}
-
-void ForceRegistryRigid::RemoveForceFromRigidBody(std::string nameObject, std::string nameForce)
-{
-	if (ForceEntries.count(nameObject))
-	{
-		if (ForceEntries.find(nameObject)->second.forces.count(nameForce))
-		{
-			//std::cout << nameObject <<" remove " << nameForce << "\n";
-			IForceRigid* temp = ForceEntries.find(nameObject)->second.forces.find(nameForce)->second.force;
-			delete(temp);
-			ForceEntries.find(nameObject)->second.forces.erase(nameForce);
-
-		}
-		else
-		{
-			std::cout << "coud not remove Force " << nameForce << "\n";
-		}
-	}
-	else
-	{
-		std::cout << "coud not find ForceEntries " << nameObject << "\n";
-	}
-}
-
-IForceRigid* ForceRegistryRigid::GetForce(std::string nameObject, std::string nameForce)
-{
-	IForceRigid* output = nullptr;
-
-	if (ForceEntries.count(nameObject)) 
-	{
-		if (ForceEntries.find(nameObject)->second.forces.count(nameObject)) 
-		{
-			output = ForceEntries.find(nameObject)->second.forces.find(nameObject)->second.force;
-		}
-		else 
-		{
-			std::cout << "coud not find Force " << nameForce << "\n";
-		}
-	}
-	else 
-	{
-		std::cout << "coud not find ForceEntries " << nameObject << "\n";
-	}
-
-	return output;
-}
-
-std::list<std::string> ForceRegistryRigid::GetForcesOfRigidBody(std::string name)
-{
-	std::list<std::string> output;
-
-	if (ForceEntries.count(name))
-	{
-		std::map<std::string, ForceApplication>::iterator it = ForceEntries.find(name)->second.forces.begin();
-
-		while (it != ForceEntries.find(name)->second.forces.end())
-		{
-			output.push_back(it->first);
-			++it;
-		}
-	}
-	else
-	{
-		std::cout << "coud not find ForceEntries " << name << "\n";
-	}
-
-	return output;	
-}
-
 void ForceRegistryRigid::AddForceGravityToRigidBody(RigidBody* rigidbody, std::string forcename)
 {
 	if (rigidbody == NULL)
 	{
 		std::cout << "Error Creation Force, a rigidbody is incorrect\n";
 	}
-	else 
+	else
 	{
 		ForceGravity* f = new ForceGravity;
 		AddForceToRigidBody(rigidbody, f, forcename);
 	}
 }
+
 
 void ForceRegistryRigid::AddForceSimpleToRigidBody(Vector3D forcevector, RigidBody* rigidbody, std::string forcename)
 {
@@ -286,7 +285,6 @@ void ForceRegistryRigid::AddForceSpringToRigidBody(float k, float l0, float maxl
 		AddForceToRigidBody(rigidbody2, f1, forcename);
 	}
 }
-
 
 
 

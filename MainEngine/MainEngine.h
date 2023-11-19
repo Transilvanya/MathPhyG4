@@ -38,11 +38,11 @@ public :
 	ISystem* GetSystem(std::string name);
 	void AddSystem(ISystem* system);
 	void RemoveSystem(std::string name);
-
+	/*
 	Entity* GetEntity(std::string name);
 	void CreateEntity(Particule* PO, GraphicObject* GO, std::string name);
 	void RemoveEntity(std::string name);
-
+	*/
 	EntityRB* GetEntityRB(std::string name);
 	void CreateEntityRB(RigidBody* RB, GraphicObjectwithTexture* GO, std::string name);
 	void RemoveEntityRB(std::string name);
@@ -64,7 +64,7 @@ public :
 		return output;
 
 	}
-
+	/*
 	std::list<std::string> GetEntities()
 	{
 		std::list<std::string> output;
@@ -83,7 +83,7 @@ public :
 		return output;
 
 	}
-
+	*/
 	std::list<std::string> GetEntitiesRB()
 	{
 		std::list<std::string> output;
@@ -106,7 +106,7 @@ public :
 private:
 
 	std::map<std::string, ISystem*> _systems;
-	std::map<std::string, Entity*> _entities;
+	//std::map<std::string, Entity*> _entities;
 	std::map<std::string, EntityRB*> _entitiesRB;
 
 
