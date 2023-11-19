@@ -266,7 +266,7 @@ void ForceRegistryRigid::AddForceSpringFixedToRigidBody(Vector3D anchor, float k
 	else
 	{
 		ForceSpringFixed* f = new ForceSpringFixed(anchor, _Anchor, k, l0, maxlength, bungeespring);
-		AddForceToRigidBody(rigidbody, f, forcename);
+		AddForceToRigidBodyAtPoint(rigidbody, f, _Anchor, forcename, false);
 	}
 }
 
@@ -281,8 +281,8 @@ void ForceRegistryRigid::AddForceSpringToRigidBody(float k, float l0, float maxl
 		ForceSpring* f1 = new ForceSpring(rigidbody1, _Anchor1, _Anchor2, k, l0, maxlength, bungeespring);
 		ForceSpring* f2 = new ForceSpring(rigidbody2, _Anchor2, _Anchor1, k, l0, maxlength, bungeespring);
 
-		AddForceToRigidBody(rigidbody1, f2, forcename);
-		AddForceToRigidBody(rigidbody2, f1, forcename);
+		AddForceToRigidBodyAtPoint(rigidbody1, f2, _Anchor1,forcename, false);
+		AddForceToRigidBodyAtPoint(rigidbody2, f1, _Anchor2, forcename , false);
 	}
 }
 

@@ -37,6 +37,11 @@ public:
 	float getY() const { return value[2]; }
 	float getZ() const { return value[3]; }
 
+	void setW(float f) { value[0] = f; }
+	void setX(float f) { value[1] = f; }
+	void setY(float f) { value[2] = f; }
+	void setZ(float f) { value[3] = f; }
+
 private:
 	float value[4];
 

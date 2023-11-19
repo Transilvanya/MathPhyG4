@@ -20,75 +20,75 @@ GraphicEngine* GraphicEngine::_graphicengineptr = NULL;
 
 
 */
+std::vector<GLfloat> CubeVertex =
+{  //     COORDINATES     /        COLORS      /   TexCoord  //
+	-2.0f, -0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+	-2.0f, -0.5f,  2.0f,	0.83f, 0.70f, 0.44f,	0, 10,
+	 2.0f, -0.5f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+	 2.0f, -0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
 
+	-2.0f, 0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+	-2.0f, 0.5f,  2.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
+	 2.0f, 0.5f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+	 2.0f, 0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
+};
+std::vector<GLuint> CubeIndice =
+{
+	0, 1, 2,
+	0, 2, 3,
+
+	4,5,6,
+	4,6,7,
+
+	0,4,5,
+	0,5,1,
+
+	6,5,1,
+	6,1,2,
+
+	7,6,2,
+	7,2,3,
+
+	4,7,0,
+	7,0,3,
+};
+
+std::vector<GLfloat> CylinderVertex =
+{  //     COORDINATES     /        COLORS      /   TexCoord  //
+	-1.0f, -1.5f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+	 1.0f, -1.5f,  0.0f,		0.83f, 0.70f, 0.44f,	0, 10,
+	 0.0f, -1.5f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+	 0.0f, -1.5f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
+
+	-1.0f, 1.5f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+	 1.0f, 1.5f,  0.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
+	 0.0f, 1.5f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+	 0.0f, 1.5f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
+};
+std::vector<GLuint> CylinderIndice =
+{
+	0,1,2,
+	0,1,3,
+
+	4,5,6,
+	4,5,7,
+
+	0,3,4,
+	4,7,3,
+
+	1,3,7,
+	7,5,1,
+
+	1,2,5,
+	5,6,2,
+
+	0,2,6,
+	6,4,0,
+};
 
 void SetupObject()
 {
-	std::vector<GLfloat> CubeVertex =
-	{  //     COORDINATES     /        COLORS      /   TexCoord  //
-		-2.0f, 0.0f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		-2.0f, 0.0f,  2.0f,	0.83f, 0.70f, 0.44f,	0, 10,
-		 2.0f, 0.0f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 2.0f, 0.0f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
 
-		-2.0f, 1.0f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		-2.0f, 1.0f,  2.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
-		 2.0f, 1.0f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 2.0f, 1.0f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
-	};
-	std::vector<GLuint> CubeIndice =
-	{
-		0, 1, 2,
-		0, 2, 3,
-
-		4,5,6,
-		4,6,7,
-
-		0,4,5,
-		0,5,1,
-
-		6,5,1,
-		6,1,2,
-
-		7,6,2,
-		7,2,3,
-
-		4,7,0,
-		7,0,3,
-	};
-
-	std::vector<GLfloat> CylinderVertex =
-	{  //     COORDINATES     /        COLORS      /   TexCoord  //
-		-1.0f, 0.0f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		 1.0f, 0.0f,  0.0f,		0.83f, 0.70f, 0.44f,	0, 10,
-		 0.0f, 0.0f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 0.0f, 0.0f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
-
-		-1.0f, 3.0f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		 1.0f, 3.0f,  0.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
-		 0.0f, 3.0f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 0.0f, 3.0f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
-	};
-	std::vector<GLuint> CylinderIndice =
-	{
-		0,1,2,
-		0,1,3,
-
-		4,5,6,
-		4,5,7,
-
-		0,3,4,
-		4,7,3,
-
-		1,3,7,
-		7,5,1,
-
-		1,2,5,
-		5,6,2,
-
-		0,2,6,
-		6,4,0,
-	};
 
 	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.6f);
 	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
@@ -114,71 +114,31 @@ void SetupObject()
 
 void SetupObject2()
 {
-	std::vector<GLfloat> CubeVertex =
-	{  //     COORDINATES     /        COLORS      /   TexCoord  //
-		-2.0f, -0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		-2.0f, -0.5f,  2.0f,	0.83f, 0.70f, 0.44f,	0, 10,
-		 2.0f, -0.5f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 2.0f, -0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
 
-		-2.0f, 0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		-2.0f, 0.5f,  2.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
-		 2.0f, 0.5f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 2.0f, 0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
-	};
-	std::vector<GLuint> CubeIndice =
-	{
-		0, 1, 2,
-		0, 2, 3,
 
-		4,5,6,
-		4,6,7,
+	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.6f);
+	GraphicEngine::GetInstance()->CreatePolygonText("polygon", "simpletext", "cattext", CylinderIndice, CylinderVertex, 0, 0, 0);
 
-		0,4,5,
-		0,5,1,
 
-		6,5,1,
-		6,1,2,
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+	PhysicEngine::GetInstance()->CreateRigidCylinder(1, 3, 100, Vector3D(3, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "polygonRB");
 
-		7,6,2,
-		7,2,3,
 
-		4,7,0,
-		7,0,3,
-	};
 
-	std::vector<GLfloat> CylinderVertex =
-	{  //     COORDINATES     /        COLORS      /   TexCoord  //
-		-1.0f, -1.5f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		 1.0f, -1.5f,  0.0f,		0.83f, 0.70f, 0.44f,	0, 10,
-		 0.0f, -1.5f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 0.0f, -1.5f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
 
-		-1.0f, 1.5f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		 1.0f, 1.5f,  0.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
-		 0.0f, 1.5f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 0.0f, 1.5f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
-	};
-	std::vector<GLuint> CylinderIndice =
-	{
-		0,1,2,
-		0,1,3,
 
-		4,5,6,
-		4,5,7,
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere"), "entity1");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("polygon"), "entity3");
 
-		0,3,4,
-		4,7,3,
 
-		1,3,7,
-		7,5,1,
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0,-10,0), PhysicEngine::GetInstance()->GetRigidBody("sphereRB"),"force1", Vector3D(3,0,0),true);
 
-		1,2,5,
-		5,6,2,
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force5", Vector3D(4, 0, 0), false);
+}
 
-		0,2,6,
-		6,4,0,
-	};
+void SetupObject3()
+{
+
 
 	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.6f);
 	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "cattext", CubeIndice, CubeVertex, 0, 0, 0);
@@ -198,56 +158,52 @@ void SetupObject2()
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("polygon"), "entity3");
 
 
-	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0,-10,0), PhysicEngine::GetInstance()->GetRigidBody("sphereRB"),"force1", Vector3D(3,0,0),true);
-	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), "force2", Vector3D(-3, 0, 0), true);
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), "force1", Vector3D(3, 0, 0), false);
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), "force2", Vector3D(-3, 0, 0), false);
 
-	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force3", Vector3D(1, 0, 0), true);
-	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force4", Vector3D(-1, 0, 0), true);
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force3", Vector3D(1, 0, 0), false);
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force4", Vector3D(-1, 0, 0), false);
 
-	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force5", Vector3D(4, 0, 0), false);
-	//PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force6", Vector3D(2, 0, 0), true);
+//	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force5", Vector3D(4, 0, 0), true);
+//	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force6", Vector3D(2, 0, 0), true);
+
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force5", Vector3D(4, 0, 0), true);
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force6", Vector3D(2, 0, 0), true);
 }
 
 
-void SetupObject3()
+void SetupObject4()
 {
 
-	std::vector<GLfloat> CylinderVertex =
-	{  //     COORDINATES     /        COLORS      /   TexCoord  //
-		-1.0f, -1.5f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		 1.0f, -1.5f,  0.0f,		0.83f, 0.70f, 0.44f,	0, 10,
-		 0.0f, -1.5f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 0.0f, -1.5f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
 
-		-1.0f, 1.5f,  0.0f,   0.83f, 0.70f, 0.44f,	0, 0,
-		 1.0f, 1.5f,  0.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
-		 0.0f, 1.5f,  1.0f,   0.83f, 0.70f, 0.44f,	10, 10,
-		 0.0f, 1.5f, -1.0f,   0.83f, 0.70f, 0.44f,	10, 0,
-	};
-	std::vector<GLuint> CylinderIndice =
-	{
-		0,1,2,
-		0,1,3,
 
-		4,5,6,
-		4,5,7,
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "cattext", CubeIndice, CubeVertex, 0, 0, 0);
 
-		0,3,4,
-		4,7,3,
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 10, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
 
-		1,3,7,
-		7,5,1,
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid"), "entity2");
+	
 
-		1,2,5,
-		5,6,2,
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSpringFixedToRigidBody(Vector3D(0, 15, 0), 10, 5, 100, true, PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), Vector3D(2, 0, 0), "force1");
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceGravityToRigidBody(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force2");
+}
 
-		0,2,6,
-		6,4,0,
-	};
+
+
+void SetupObject5()
+{
+
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "cattext", CubeIndice, CubeVertex, 0, 0, 0);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 10, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid"), "entity2");
+
+
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force1", Vector3D(1, 5, 1), true);
+	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, -10, 0), PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), "force2", Vector3D(-1, 5, -1), true);
+
+
 	GraphicEngine::GetInstance()->CreatePolygonText("polygon", "simpletext", "cattext", CylinderIndice, CylinderVertex, 0, 0, 0);
-
-	PhysicEngine::GetInstance()->CreateRigidCylinder(1, 3, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "polygonRB");
-
+	PhysicEngine::GetInstance()->CreateRigidCylinder(1, 3, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, -1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "polygonRB");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("polygon"), "entity3");
 
 	PhysicEngine::GetInstance()->GetForceRegistryRB()->AddForceSimpleToRigidBodyAtPoint(Vector3D(0, 10, 0), PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), "force5", Vector3D(1, 0, 0), true);
@@ -504,15 +460,20 @@ int main()
 			else if(GraphicEngine::GetInstance()->Bool4())
 			{
 
+				SetupObject4();
 			}
 			else if(GraphicEngine::GetInstance()->Bool5())
 			{
 
+				SetupObject5();
 			}
 			else
 			{
 
 			}
+			PhysicEngine::GetInstance()->Integrade(0);
+
+			MainEngine::GetInstance()->UpdateEntityPostion();
 		}
 
 		//tick the system
