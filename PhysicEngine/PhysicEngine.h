@@ -3,12 +3,16 @@
 #define PHYSICENGINE_CLASS_H
 #include <map>
 #include <string>
-#include "Particules/Particule.h"
 #include <iostream>
+
+/*
+#include "Particules/Particule.h"
 #include "Forces/ForceRegistry.h"
 #include "Contact/ContactRegistry.h"
-#include "Matrices/Matrice33.h"
+*/
 
+#include "vector/Vector3D.h"
+#include "Matrices/Matrice33.h"
 #include "RigidBody/RigidBody.h"
 #include "ForceRigid/ForceRegistryRigid.h"
 
@@ -54,8 +58,9 @@ public:
 	RigidCylinder* GetRigidCylinder(std::string name);
 
 
+	ForceRegistryRigid* GetForceRegistryRB();
 
-
+	/*
 	// --------------------------------------------------------------------------------
 	void CreateParticule(Vector3D newPosition, Vector3D newVitesse, Vector3D newAcceleration, float masse, std::string name);
 	Particule* GetParticule(std::string name);
@@ -65,15 +70,20 @@ public:
 
 	ForceRegistry* GetForceRegistry();
 	
+	
 	ContactRegistry* GetContactRegistry() { return &_contactregistry; }
+	*/
 private:
 
-	std::map<std::string, Particule*> _physicobjects;
+	
 	std::map<std::string, RigidBody*> _physicobjectsRB;
 
+	/*
+	std::map<std::string, Particule*> _physicobjects;
 	ContactRegistry _contactregistry;
 	ForceRegistry _forceregistry;
-	//ForceRegistryRigid _forceregistryRB;
+	*/
+	ForceRegistryRigid _forceregistryRB;
 };
 
 #endif

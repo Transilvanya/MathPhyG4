@@ -8,19 +8,41 @@ PhysicEngine::~PhysicEngine()
 
 void PhysicEngine::Delete()
 {
+	/*
 	std::map<std::string, Particule*>::iterator it = _physicobjects.begin();
 	while (it != _physicobjects.end())
 	{
 		delete(it->second);
 		++it;
 	}
-
-	
+	*/
+	std::map<std::string, RigidBody*>::iterator it = _physicobjectsRB.begin();
+	while (it != _physicobjectsRB.end())
+	{
+		delete(it->second);
+		++it;
+	}
 }
 
 void PhysicEngine::Integrade(float DTms)
 {
-	//std::cout << "start integrade\n";
+
+
+	//_forceregistryRB.ApplyForces();
+
+	std::map<std::string, RigidBody*>::iterator it2 = _physicobjectsRB.begin();
+
+	while (it2 != _physicobjectsRB.end())
+	{
+		it2->second->integrade(DTms / 1000);
+		++it2;
+	}
+
+
+
+
+	/*
+		//std::cout << "start integrade\n";
 	//apply all forces to all particules
 	_forceregistry.ApplyForces();
 
@@ -43,22 +65,7 @@ void PhysicEngine::Integrade(float DTms)
 	//std::cout << "\n";
 
 
-
-	//_forceregistryRB.ApplyForces();
-
-	std::map<std::string, RigidBody*>::iterator it2 = _physicobjectsRB.begin();
-
-	while (it2 != _physicobjectsRB.end())
-	{
-		it2->second->integrade(DTms / 1000);
-		++it2;
-	}
-
-
-
-
-
-
+	
 	int loopindex = 0;
 
 	bool contactdetected = _contactregistry.AddContacts(_physicobjects);
@@ -78,12 +85,13 @@ void PhysicEngine::Integrade(float DTms)
 	}//std::cout << "end integrade\n";
 	
 	_contactregistry.ApplyAnchors();
-
+	*/
 }
 
 
 
 // --------------------------------------------------------------------------------
+/*
 void PhysicEngine::CreateParticule(Vector3D newPosition, Vector3D newVitesse, Vector3D newAcceleration, float masse , std::string name)
 {
 	Particule* PO = new Particule(newPosition, newVitesse, newAcceleration, masse, name);
@@ -117,6 +125,7 @@ void PhysicEngine::RemoveParticule(std::string name)
 	}
 }
 
+*/
 // --------------------------------------------------------------------------------
 
 void PhysicEngine::CreateRigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
@@ -204,4 +213,5 @@ RigidCylinder* PhysicEngine::GetRigidCylinder(std::string name)
 // --------------------------------------------------------------------------------
 
 
-ForceRegistry* PhysicEngine::GetForceRegistry() { return &_forceregistry; }
+//ForceRegistry* PhysicEngine::GetForceRegistry() { return &_forceregistry; }
+ForceRegistryRigid* PhysicEngine::GetForceRegistryRB() { return &_forceregistryRB; }

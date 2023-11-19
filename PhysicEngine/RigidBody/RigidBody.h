@@ -91,8 +91,12 @@ public:
 		return transformMatrix;
 	}
 
-	virtual std::string GetName() { return ObjectName; }
+	virtual std::string getObjectName() { return ObjectName; }
 
+	virtual float getMasse() { return 1 / inverseMasse; }
+
+	virtual Vector3D getPosition() { return position; }
+	virtual Vector3D getVitesse() { return vitesse; }
 protected:
 	//sum of all the force at each tick
 	Vector3D ForceSum;
