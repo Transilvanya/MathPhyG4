@@ -162,4 +162,69 @@ private:
 	float Radius = 0;
 };
 
+
+
+class RigidCuboid : public RigidBody
+{
+public:
+
+	RigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
+	{
+
+		float value1 = (1.0f / 12) * Masse * (_DY * _DY + _DZ * _DZ);
+		float value2 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
+		float value3 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
+
+		float v[9] = { value1,	0.0f,	0.0f,
+						0.0f,	value2,	0.0f,
+						0.0f,	0.0f,	value3 };
+
+		Matrice33 m(v);
+
+		InverseTenseur = m.Inverse();
+
+		DX = _DX;
+		DY = _DY;
+		DZ = _DZ;
+	}
+
+private:
+	float DX = 0;
+	float DY = 0;
+	float DZ = 0;
+};
+
+
+
+class RigidCylinder : public RigidBody
+{
+public:
+
+	RigidCylinder(float _Radius, float _Height, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
+	{
+
+		float value13 = (1.0f / 4) * Masse * _Radius * _Radius + (1.0f / 12) * Masse * _Height * _Height;
+		float value2 = (1.0f / 2) * Masse * _Radius * _Radius;
+
+		float v[9] = { value13,	0.0f,	0.0f,
+						0.0f,	value2,	0.0f,
+						0.0f,	0.0f,	value13 };
+
+		Matrice33 m(v);
+
+
+
+		InverseTenseur = m.Inverse();
+
+
+		Radius = _Radius;
+		Height = _Height;
+	}
+
+private:
+	float Radius = 0;
+	float Height = 0;
+};
+
+
 #endif // !MATHPHYG4_RIGIDBODY_H

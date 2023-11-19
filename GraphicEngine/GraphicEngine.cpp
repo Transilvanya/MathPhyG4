@@ -169,8 +169,12 @@ void GraphicEngine::DisplayUI()
 	}ImGui::InputFloat("Speed", &simulationspeed, 0.01f, 1.0f, "%.3f");
 
 	ImGui::Checkbox("Pause", &pauseapp);
-	ImGui::Checkbox("Force or Contact", &settoForce);
 
+	ImGui::Checkbox("1", &bool1);
+	ImGui::Checkbox("2", &bool2);
+	ImGui::Checkbox("3", &bool3);
+	ImGui::Checkbox("4", &bool4);
+	ImGui::Checkbox("5", &bool5);
 
 	ImGui::End();
 

@@ -427,19 +427,40 @@ public:
 	bool shouldReset() {return ToReset;}
 	void setReset(bool v) { ToReset = v; }
 
-	bool isForce() {
-		return settoForce;}
-	
 	float GetSimulationSpeed()
 	{
 		return simulationspeed;
 	}
+
+
+	bool Bool1() { return bool1; }
+	void setBool1(bool v) { bool1 = v; }
+
+	bool Bool2() { return bool2; }
+	void setBool2(bool v) { bool2 = v; }
+
+	bool Bool3() { return bool3; }
+	void setBool3(bool v) { bool3 = v; }
+
+	bool Bool4() { return bool4; }
+	void setBool4(bool v) { bool4 = v; }
+
+	bool Bool5() { return bool5; }
+	void setBool5(bool v) { bool5 = v; }
 private:
 
 
 	bool pauseapp = true;
 	bool ToReset = false;
-	bool settoForce = false;
+
+
+
+	bool bool1 = true;
+	bool bool2 = false;
+	bool bool3 = false;
+	bool bool4 = false;
+	bool bool5 = false;
+
 	float simulationspeed = 1.0f;
 
 	void InitUI();

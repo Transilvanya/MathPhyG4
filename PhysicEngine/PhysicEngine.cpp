@@ -119,9 +119,9 @@ void PhysicEngine::RemoveParticule(std::string name)
 
 // --------------------------------------------------------------------------------
 
-void PhysicEngine::CreateRigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+void PhysicEngine::CreateRigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
 {
-	RigidBody* RB = new RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName);
+	RigidBody* RB = new RigidBody(Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
 	_physicobjectsRB.emplace(_ObjectName, RB);
 	//_forceregistryRB.AddRigidBody(RB);
 }
@@ -138,9 +138,9 @@ RigidBody* PhysicEngine::GetRigidBody(std::string name)
 }
 void PhysicEngine::RemoveRigidBody(std::string name)
 {
-	if (_physicobjects.count(name))
+	if (_physicobjectsRB.count(name))
 	{
-		Particule* temp = _physicobjects.find(name)->second;
+		RigidBody* temp = _physicobjectsRB.find(name)->second;
 		_physicobjectsRB.erase(name);
 		//_forceregistryRB.RemoveRigidBody(name);
 		delete(temp);
@@ -150,9 +150,10 @@ void PhysicEngine::RemoveRigidBody(std::string name)
 		std::cout << "coud not remove Object " << name << "\n";
 	}
 }
-void PhysicEngine::CreateRigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+
+void PhysicEngine::CreateRigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
 {
-	RigidSphere* RB = new RigidSphere(_Radius, Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName);
+	RigidSphere* RB = new RigidSphere(_Radius, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
 	_physicobjectsRB.emplace(_ObjectName, RB);
 	//_forceregistryRB.AddRigidBody(RB);
 }
@@ -160,6 +161,40 @@ RigidSphere* PhysicEngine::GetRigidSphere(std::string name)
 {
 	if (_physicobjectsRB.count(name))
 		return (RigidSphere*)_physicobjectsRB.find(name)->second;
+	else
+	{
+		std::cout << "coud not get Object " << name << "\n";
+		return nullptr;
+	}
+}
+
+void PhysicEngine::CreateRigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+{
+	RigidCuboid* RB = new RigidCuboid(_DX, _DY, _DZ, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
+	_physicobjectsRB.emplace(_ObjectName, RB);
+	//_forceregistryRB.AddRigidBody(RB);
+}
+RigidCuboid* PhysicEngine::GetRigidCuboid(std::string name)
+{
+	if (_physicobjectsRB.count(name))
+		return (RigidCuboid*)_physicobjectsRB.find(name)->second;
+	else
+	{
+		std::cout << "coud not get Object " << name << "\n";
+		return nullptr;
+	}
+}
+
+void PhysicEngine::CreateRigidCylinder(float _Radius, float _Height, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+{
+	RigidCylinder* RB = new RigidCylinder(_Radius, _Height, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
+	_physicobjectsRB.emplace(_ObjectName, RB);
+	//_forceregistryRB.AddRigidBody(RB);
+}
+RigidCylinder* PhysicEngine::GetRigidCylinder(std::string name)
+{
+	if (_physicobjectsRB.count(name))
+		return (RigidCylinder*)_physicobjectsRB.find(name)->second;
 	else
 	{
 		std::cout << "coud not get Object " << name << "\n";

@@ -11,20 +11,34 @@ void RigidBody::AddForcePoint(Vector3D force, Vector3D applicationpoint)
 {
 
 	Vector3D torque = applicationpoint * force;
-	AddForce(force);
 
-
+	this->TorqueSum = TorqueSum + torque;
+	this->ForceSum = ForceSum + force;
 }
 
 void RigidBody::AddForceAtBodyPoint(Vector3D force, Vector3D applicationpoint)
 {
+	std::cout << ObjectName << "\n";
+	//	std::cout << "force " << ForceSum.getX() << " " << ForceSum.getY() << " " << ForceSum.getZ() << "\n";
+	//	std::cout << "Torque " << TorqueSum.getX() << " " << TorqueSum.getY() << " " << TorqueSum.getZ() << "\n";
 
-	Vector3D applicationPosition = applicationpoint - this->position;
+	std::cout << "angularacceleration " << angularacceleration.getX() << " " << angularacceleration.getY() << " " << angularacceleration.getZ() << "\n";
+
+	/*
+	std::cout << transformMatrix.getValues(0) << " " << transformMatrix.getValues(1) << " " << transformMatrix.getValues(2) << " " << transformMatrix.getValues(3) << "\n";
+	std::cout << transformMatrix.getValues(4) << " " << transformMatrix.getValues(5) << " " << transformMatrix.getValues(6) << " " << transformMatrix.getValues(7) << "\n";
+	std::cout << transformMatrix.getValues(8) << " " << transformMatrix.getValues(9) << " " << transformMatrix.getValues(10) << " " << transformMatrix.getValues(11) << "\n\n";
+	*/
+
+
+	std::cout << "_______________\n\n";
+
+
+	Vector3D applicationPosition = transformMatrix * applicationpoint;
 	Vector3D torque = applicationPosition * force;
-	AddForce(force);
 
-
-
+	this->TorqueSum = TorqueSum + torque;
+	this->ForceSum = ForceSum + force;
 }
 
 void RigidBody::Reset()
@@ -45,11 +59,26 @@ void RigidBody::integrade(float dt)
 	*/
 //	"_ _ _ _ _ _ _ _ _ _ _ _ _ _ _\n\n";
 
-	CalculateDerivedData();
+	
+	std::cout << ObjectName << "\n";
+//	std::cout << "force " << ForceSum.getX() << " " << ForceSum.getY() << " " << ForceSum.getZ() << "\n";
+//	std::cout << "Torque " << TorqueSum.getX() << " " << TorqueSum.getY() << " " << TorqueSum.getZ() << "\n";
+
+	std::cout << "angularacceleration " << angularacceleration.getX() << " " << angularacceleration.getY() << " " << angularacceleration.getZ() << "\n";
+
+	/*
+	std::cout << transformMatrix.getValues(0) << " " << transformMatrix.getValues(1) << " " << transformMatrix.getValues(2) << " " << transformMatrix.getValues(3) << "\n";
+	std::cout << transformMatrix.getValues(4) << " " << transformMatrix.getValues(5) << " " << transformMatrix.getValues(6) << " " << transformMatrix.getValues(7) << "\n";
+	std::cout << transformMatrix.getValues(8) << " " << transformMatrix.getValues(9) << " " << transformMatrix.getValues(10) << " " << transformMatrix.getValues(11) << "\n\n";
+	*/
+	
+
+	std::cout << "_______________\n\n";
 
 	position = position + vitesse * dt;
-
 	orientation = orientation +  (Quaternion(0, rotation.getX(), rotation.getY(), rotation.getZ()) * orientation) * (dt / 2);
+
+	CalculateDerivedData();
 
 	/*
 	std::cout << InverseTenseur.getValues(0) << " " << InverseTenseur.getValues(1) << " " << InverseTenseur.getValues(2) << "\n";
@@ -58,8 +87,8 @@ void RigidBody::integrade(float dt)
 	*/
 
 	float v[9] = {	transformMatrix.getValues(0),	transformMatrix.getValues(1),	transformMatrix.getValues(2),
-					transformMatrix.getValues(3),	transformMatrix.getValues(4),	transformMatrix.getValues(5),
-					transformMatrix.getValues(6),	transformMatrix.getValues(7),	transformMatrix.getValues(8) };
+					transformMatrix.getValues(4),	transformMatrix.getValues(5),	transformMatrix.getValues(6),
+					transformMatrix.getValues(8),	transformMatrix.getValues(9),	transformMatrix.getValues(10) };
 
 	Matrice33 RotationMatrix(v);
 
@@ -83,12 +112,14 @@ void RigidBody::integrade(float dt)
 	acceleration = ForceSum * inverseMasse ;
 	angularacceleration = inverseTenseurDerived * TorqueSum;
 
+	
+
 	vitesse = vitesse + (acceleration * dt);
 	rotation = rotation + (angularacceleration * dt);
 
 	Reset();
-	
-	//std::cout << "_______________\n\n";
+
+	//std::cout << " _________ \n\n";
 }
 
 RigidBody::RigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
