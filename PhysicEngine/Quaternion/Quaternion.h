@@ -15,6 +15,7 @@ public:
 	Quaternion(float w, float x, float y, float z);
 	~Quaternion();
 
+
 	//normalise en multipliant le quaternion par l'inverse de sa magnitude
 	void Normalized();
 

@@ -110,6 +110,27 @@ Matrice34 Matrice34::Inverse()
 	return result;
 }
 
+
+float roundfloat(float var, int precision)
+{
+	// 37.66666 * 100 =3766.66
+	// 3766.66 + .5 =3767.16    for rounding off value
+	// then type cast to int so value is 3767
+	// then divided by 100 so the value converted into 37.67
+	float value = (int)(var * precision + .5);
+
+	if (var < 0)
+	{
+		value = (int)(var * precision - .5);
+	}
+	else
+	{
+		value = (int)(var * precision + .5);
+	}
+
+	return (float)value / precision;
+}
+
 void Matrice34::SetOrientationAndPosition(const Quaternion& q, const Vector3D& pos)
 {
 	Vector3D vecteur = pos;
@@ -127,6 +148,11 @@ void Matrice34::SetOrientationAndPosition(const Quaternion& q, const Vector3D& p
 	values[9] = 2 * (q.getY() * q.getZ() - q.getW() * q.getX());
 	values[10] = 1 - 2 * (q.getX() * q.getX() + q.getY() * q.getY());
 	values[11] = vecteur.getZ();
+	
+	for (int i = 0; i < 12; i++)
+	{
+		values[i] = roundfloat(values[i], 100000);
+	}
 }
 
 Vector3D Matrice34::TransformPosition(const Vector3D& v)

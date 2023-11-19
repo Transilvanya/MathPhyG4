@@ -447,10 +447,14 @@ public:
 
 	bool Bool5() { return bool5; }
 	void setBool5(bool v) { bool5 = v; }
+
+	bool StepApp() { return stepapp; }
+	void setStepApp(bool v) { stepapp = v; }
 private:
 
 
 	bool pauseapp = true;
+	bool stepapp = true;
 	bool ToReset = false;
 
 

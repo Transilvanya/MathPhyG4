@@ -156,11 +156,19 @@ void ForceRegistryRigid::ApplyForces()
 			std::list<std::string> ForcetoRemove;
 
 			std::map<std::string, ForceApplication>::iterator it2 = it->second.forces.begin();
+
+			//std::cout << it->first << "\n";
+
 			while (it2 != it->second.forces.end())
 			{
 				if (it2->second.force->IsForceApplied())
 				{
 					IForceRigid::OutValues outValue = it2->second.force->ApplyForce(it->second.rigidbody);
+
+
+					Vector3D force = outValue.outVector;
+					Vector3D applicationpoint = it2->second.ApplicationPoint;
+
 
 					if (it2->second.IsGlobalForce) {
 						it->second.rigidbody->AddForce(outValue.outVector);
@@ -189,6 +197,9 @@ void ForceRegistryRigid::ApplyForces()
 		}
 		++it;
 	}
+
+
+//	std::cout << "end force registry\n\n";
 }
 
 void ForceRegistryRigid::AddForceGravityToRigidBody(RigidBody* rigidbody, std::string forcename)

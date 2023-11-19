@@ -9,24 +9,39 @@ void RigidBody::AddForce(Vector3D force)
 
 void RigidBody::AddForcePoint(Vector3D force, Vector3D applicationpoint)
 {
-	std::cout << "force " << force.getX() << "\t" << force.getY() << "\t" << force.getZ() << "\n";
-	std::cout << "applicationpoint " << applicationpoint.getX() << "\t" << applicationpoint.getY() << "\t" << applicationpoint.getZ() << "\n";
+
 
 	Vector3D torque = applicationpoint * force;
 
 	this->TorqueSum = TorqueSum + torque;
 	this->ForceSum = ForceSum + force;
+
 }
 
 void RigidBody::AddForceAtBodyPoint(Vector3D force, Vector3D applicationpoint)
 {
 
+
 	Vector3D applicationPosition = transformMatrix * applicationpoint;
-	Vector3D transformedforce = transformMatrix * force;
+
+
+
+	float v[9] = { transformMatrix.getValues(0) ,	transformMatrix.getValues(1)  ,	transformMatrix.getValues(2)  ,
+					transformMatrix.getValues(4)  ,	transformMatrix.getValues(5) ,	transformMatrix.getValues(6)  ,
+					transformMatrix.getValues(8)  ,	transformMatrix.getValues(9) ,	transformMatrix.getValues(10) };
+
+
+
+	Matrice33 RotationMatrix(v);
+
+	Vector3D transformedforce = RotationMatrix * force;
+	
 	Vector3D torque = applicationPosition * transformedforce;
 
 	this->TorqueSum = TorqueSum + torque;
 	this->ForceSum = ForceSum + transformedforce;
+
+
 }
 
 void RigidBody::Reset()
@@ -50,7 +65,7 @@ void RigidBody::integrade(float dt)
 	std::cout << "position " << position.getX() << " " << position.getY() << " " << position.getZ() << "\n";
 	std::cout << "orientation " << orientation.getW() << " " << orientation.getX() << " " << orientation.getY() << " " << orientation.getZ() << "\n";
 
-
+	
 	
 
 
@@ -59,21 +74,14 @@ void RigidBody::integrade(float dt)
 
 	CalculateDerivedData();
 
-	/*
-
+	
+	
 	std::cout << "transformMatrix\n";
 	std::cout << transformMatrix.getValues(0) << " " << transformMatrix.getValues(1) << " " << transformMatrix.getValues(2) << " " << transformMatrix.getValues(3) << "\n";
 	std::cout << transformMatrix.getValues(4) << " " << transformMatrix.getValues(5) << " " << transformMatrix.getValues(6) << " " << transformMatrix.getValues(7) << "\n";
 	std::cout << transformMatrix.getValues(8) << " " << transformMatrix.getValues(9) << " " << transformMatrix.getValues(10) << " " << transformMatrix.getValues(11) << "\n\n";
 
-	std::cout << InverseTenseur.getValues(0) << " " << InverseTenseur.getValues(1) << " " << InverseTenseur.getValues(2) << "\n";
-	std::cout << InverseTenseur.getValues(3) << " " << InverseTenseur.getValues(4) << " " << InverseTenseur.getValues(5) << "\n";
-	std::cout << InverseTenseur.getValues(6) << " " << InverseTenseur.getValues(7) << " " << InverseTenseur.getValues(8) << "\n\n";
-
-		float v[9] = { (int)(transformMatrix.getValues(0) * 1000) / 1000.0f,	(int)(transformMatrix.getValues(1) * 1000) / 1000.0f ,	(int)(transformMatrix.getValues(2) * 1000) / 1000.0f ,
-					(int)(transformMatrix.getValues(4) * 1000) / 1000.0f ,	(int)(transformMatrix.getValues(5) * 1000) / 1000.0f ,	(int)(transformMatrix.getValues(6) * 1000) / 1000.0f ,
-					(int)(transformMatrix.getValues(8) * 1000) / 1000.0f ,	(int)(transformMatrix.getValues(9) * 1000) / 1000.0f ,	(int)(transformMatrix.getValues(10) * 1000) / 1000.0f };
-	*/
+	
 
 	float v[9] = { transformMatrix.getValues(0) ,	transformMatrix.getValues(1)  ,	transformMatrix.getValues(2)  ,
 					transformMatrix.getValues(4)  ,	transformMatrix.getValues(5) ,	transformMatrix.getValues(6)  ,
@@ -81,18 +89,18 @@ void RigidBody::integrade(float dt)
 
 
 
-	Matrice33 RotationMatrix(v);  ///////// <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+	Matrice33 RotationMatrix(v); 
 
 
 
 
 	Matrice33 inverseTenseurDerived(InverseTenseur);
 
-	
-	inverseTenseurDerived = RotationMatrix * inverseTenseurDerived * RotationMatrix.Inverse();
+	inverseTenseurDerived = RotationMatrix.Inverse() * inverseTenseurDerived * RotationMatrix;
+	//inverseTenseurDerived = RotationMatrix * inverseTenseurDerived * RotationMatrix.Inverse();
 	
 	// <<<<<<<<<
-	/*
+	
 	std::cout << "InverseTenseur\n";
 	std::cout << InverseTenseur.getValues(0) << " " << InverseTenseur.getValues(1) << " " << InverseTenseur.getValues(2) << "\n";
 	std::cout << InverseTenseur.getValues(3) << " " << InverseTenseur.getValues(4) << " " << InverseTenseur.getValues(5) << "\n";
@@ -108,23 +116,25 @@ void RigidBody::integrade(float dt)
 	std::cout << inverseTenseurDerived.getValues(3) << " " << inverseTenseurDerived.getValues(4) << " " << inverseTenseurDerived.getValues(5) << "\n";
 	std::cout << inverseTenseurDerived.getValues(6) << " " << inverseTenseurDerived.getValues(7) << " " << inverseTenseurDerived.getValues(8) << "\n\n";
 	
-	*/
-
+	
+	
 
 	acceleration = ForceSum * inverseMasse ;
 	angularacceleration = inverseTenseurDerived * TorqueSum;
 
-
-	//std::cout << "angularacceleration " << angularacceleration.getX() << " " << angularacceleration.getY() << " " << angularacceleration.getZ() << "\n\n";
-
-	
 
 	vitesse = vitesse + (acceleration * dt);
 	rotation = rotation + (angularacceleration * dt);
 
 	Reset();
 
+
+
+	
+	std::cout << "acceleration " << acceleration.getX() << " " << acceleration.getY() << " " << acceleration.getZ() << "\n";
+	std::cout << "angularacceleration " << angularacceleration.getX() << " " << angularacceleration.getY() << " " << angularacceleration.getZ() << "\n";
 	std::cout << "_______________\n\n";
+	
 }
 
 RigidBody::RigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
@@ -149,11 +159,9 @@ RigidBody::RigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3
 
 
 
-
 void RigidBody::CalculateDerivedData()
 {
 	Quaternion q = orientation;
-	
 	q.Normalized();
 
 	transformMatrix.SetOrientationAndPosition(q, position);

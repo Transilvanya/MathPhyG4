@@ -169,6 +169,8 @@ void GraphicEngine::DisplayUI()
 	}ImGui::InputFloat("Speed", &simulationspeed, 0.01f, 1.0f, "%.3f");
 
 	ImGui::Checkbox("Pause", &pauseapp);
+	
+	ImGui::Checkbox("Step", &stepapp);
 
 	ImGui::Checkbox("1", &bool1);
 	ImGui::Checkbox("2", &bool2);

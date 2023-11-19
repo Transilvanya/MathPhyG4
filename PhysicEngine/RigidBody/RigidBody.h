@@ -20,24 +20,7 @@ public:
 	//add a force applied to a point in global coordinate. generate force and torque
 	//add the force and torque to the sum
 	virtual void AddForcePoint(Vector3D force, Vector3D applicationpoint);
-	/*
-	check that it create only torque and no force, check in local and global coordinates
 
-		  |->
-		  |     
-		<-|
-
-	check that it create torque and force
-	|->
-	|
-	|
-
-	check that that it create force but that the torque negate each other
-	|->
-	|
-	|->
-
-	*/
 
 	//add a force to a point of the object. the coordinate will be transform in global coordinate before being applied, generate force and torque
 	virtual void AddForceAtBodyPoint(Vector3D force, Vector3D applicationpoint);
@@ -51,21 +34,7 @@ public:
 	//Intergrade the rigid body by modifying the position, orientation and velocity
 	virtual void integrade(float dt);
 
-	/*
-	|..		   .|.    ..|
-	|..->   => .|. => ..|
-	|..		   .|.    ..|
-	*/
 
-
-	/*
-	test rotation, apply force in global coordinate and local coordinate
-
-		  |->
-		  |     =>  -----
-		<-|
-
-	*/
 
 	RigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration,Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName);
 
@@ -142,7 +111,6 @@ public:
 						0.0f,	0.0f,	value };
 
 		Matrice33 m(v);
-	//	std::cout << "____ _ _ _ \n\n";
 
 		std::cout << "\n";
 		std::cout << m.getValues(0) << " " << m.getValues(1) << " " << m.getValues(2) << "\n";
@@ -177,7 +145,7 @@ public:
 
 		float value1 = (1.0f / 12) * Masse * (_DY * _DY + _DZ * _DZ);
 		float value2 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
-		float value3 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
+		float value3 = (1.0f / 12) * Masse * (_DX * _DX + _DY * _DY);
 
 		float v[9] = { value1,	0.0f,	0.0f,
 						0.0f,	value2,	0.0f,
