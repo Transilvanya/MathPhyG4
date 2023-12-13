@@ -8,6 +8,12 @@
 
 #include <iostream>
 
+enum TypeRigidBody {
+	CUBOID,
+	SPHERE,
+	CYLINDER
+};
+
 class RigidBody
 {
 public:
@@ -66,6 +72,8 @@ public:
 
 	virtual Vector3D getPosition() { return position; }
 	virtual Vector3D getVitesse() { return vitesse; }
+	virtual TypeRigidBody getType();
+
 protected:
 	//sum of all the force at each tick
 	Vector3D ForceSum;
@@ -130,6 +138,11 @@ public:
 		Radius = _Radius;
 	}
 
+	TypeRigidBody getType() override
+	{
+		return SPHERE;
+	}
+
 private:
 	float Radius = 0;
 };
@@ -158,6 +171,25 @@ public:
 		DX = _DX;
 		DY = _DY;
 		DZ = _DZ;
+	}
+
+	TypeRigidBody getType() override
+	{
+		return CUBOID;
+	}
+
+	Vector3D getAxis(int x) {
+		switch (x)
+		{
+		case 0:
+			return Vector3D(transformMatrix.getValues(0), transformMatrix.getValues(1), transformMatrix.getValues(2));
+		case 1:
+			return Vector3D(transformMatrix.getValues(4), transformMatrix.getValues(5), transformMatrix.getValues(6));
+		case 2:
+			return Vector3D(transformMatrix.getValues(8), transformMatrix.getValues(9), transformMatrix.getValues(10));
+		default:
+			return Vector3D(0, 0, 0);
+		}
 	}
 
 private:
@@ -191,6 +223,11 @@ public:
 
 		Radius = _Radius;
 		Height = _Height;
+	}
+
+	TypeRigidBody getType() override
+	{
+		return CYLINDER;
 	}
 
 private:
