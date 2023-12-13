@@ -8,6 +8,7 @@
 #include "GraphicEngine/GraphicEngine.h"
 #include "PhysicEngine/Matrices/Matrice34.h"
 
+
 /* -- static init -- */
 
 MainEngine* MainEngine::_mainmanagerptr = NULL;
@@ -89,14 +90,14 @@ std::vector<GLuint> CylinderIndice =
 void SetupObject()
 {
 
-
+	/*
 	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.6f);
 	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
 	GraphicEngine::GetInstance()->CreatePolygonText("polygon", "simpletext", "cattext", CylinderIndice, CylinderVertex, 0, 0, 0);
 
 
 	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0),Quaternion(0,1,0,0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 3, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 3, 0), Vector3D(0, 100, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
 	PhysicEngine::GetInstance()->CreateRigidCylinder(1, 3, 100, Vector3D(3, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "polygonRB");
 
 
@@ -106,8 +107,10 @@ void SetupObject()
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere"), "entity1");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid"), "entity2");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("polygonRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("polygon"), "entity3");
-
-
+	*/
+	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.6f);
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere"), "entity1");
 
 }
 
@@ -176,7 +179,7 @@ void SetupObject4()
 
 	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "cattext", CubeIndice, CubeVertex, 0, 0, 0);
 
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 10, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid"), "entity2");
 	
@@ -231,9 +234,21 @@ void SwitchPerspective()
 	GraphicEngine::GetInstance()->SwitchPersp();
 }
 
+
+void Testfct1()
+{
+	std::cout << "1\n";
+}
+
+
+void Testfct2()
+{
+	std::cout << ((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetTime() <<" 2\n";
+}
+
+
 int main()
 {
-
 
 	GraphicEngine::GetInstance()->Init();
 
@@ -267,6 +282,15 @@ int main()
 
 
 	SetupObject();
+
+	
+
+	GraphicEngine::GetInstance()->UIList.emplace("Testfct1", Testfct1);
+	GraphicEngine::GetInstance()->UIList.emplace("Testfct2", Testfct2);
+
+	GraphicEngine::GetInstance()->UIList.emplace("DeleteObject", DeleteObject);
+
+
 
 
 
@@ -316,14 +340,24 @@ int main()
 		//std::cout << ((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetDeltaT() << "\n";
 
 		
-		if (!GraphicEngine::GetInstance()->isPaused() || GraphicEngine::GetInstance()->StepApp())
+		if (!GraphicEngine::GetInstance()->isPaused())
 		{
-			GraphicEngine::GetInstance()->setStepApp(false);
-
 			//Physic
 			PhysicEngine::GetInstance()->Integrade(((TimeSystem*)MainEngine::GetInstance()->GetSystem("TimeSystem"))->GetDeltaT()* GraphicEngine::GetInstance()->GetSimulationSpeed());
 
 			MainEngine::GetInstance()->UpdateEntityPostion();
+		}
+		else
+		{
+			if (GraphicEngine::GetInstance()->StepApp())
+			{
+				GraphicEngine::GetInstance()->setStepApp(false);
+
+				//Physic
+				PhysicEngine::GetInstance()->Integrade(1000 * GraphicEngine::GetInstance()->GetSimulationSpeed());
+
+				MainEngine::GetInstance()->UpdateEntityPostion();
+			}
 		}
 		//Graphic
 		GraphicEngine::GetInstance()->Display();

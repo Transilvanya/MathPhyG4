@@ -66,6 +66,11 @@ public:
 
 	virtual Vector3D getPosition() { return position; }
 	virtual Vector3D getVitesse() { return vitesse; }
+
+	virtual float GetVolume() { return 1; }
+	virtual void setPosition(Vector3D v) { position = v; }
+	virtual float getInverseMasse() { return inverseMasse; }
+	virtual void setVitesse(Vector3D v) { vitesse = v; }
 protected:
 	//sum of all the force at each tick
 	Vector3D ForceSum;
@@ -101,6 +106,8 @@ protected:
 class RigidSphere : public RigidBody
 {
 public:
+
+	virtual float GetVolume() { return Radius * Radius * Radius * 3.14 * 4/3; }
 
 	RigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
@@ -140,6 +147,9 @@ class RigidCuboid : public RigidBody
 {
 public:
 
+	virtual float GetVolume() { return DX * DY * DZ; }
+
+
 	RigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
 
@@ -171,6 +181,7 @@ private:
 class RigidCylinder : public RigidBody
 {
 public:
+	virtual float GetVolume() { return Radius * Radius * 3.14 * Height; }
 
 	RigidCylinder(float _Radius, float _Height, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{

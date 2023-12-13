@@ -154,6 +154,7 @@ void GraphicEngine::DisplayElements()
 
 void GraphicEngine::DisplayUI()
 {
+
 	ImGui::Begin("Debug");
 	if (ImGui::CollapsingHeader("Help"))
 	{
@@ -162,11 +163,29 @@ void GraphicEngine::DisplayUI()
 		ImGui::BulletText("The rotation of the camera will be fixed at the center\n of the screen but will keep rotation we the mouse reach the edges.");
 		ImGui::BulletText("The blue shape indicape the forces applied to the particule");
 	}
+
+
+	map<std::string, void (*)()>::iterator it = UIList.begin();
+
+	while (it != UIList.end())
+	{
+
+		
+		if (ImGui::Button(it->first.c_str()))
+		{
+			it->second();
+		}
+
+		it++;
+	}
+
+
+
 	if (ImGui::Button("Reset"))
 	{
 		ToReset = !ToReset;
-
-	}ImGui::InputFloat("Speed", &simulationspeed, 0.01f, 1.0f, "%.3f");
+	}
+	ImGui::InputFloat("Speed", &simulationspeed, 0.01f, 1.0f, "%.3f");
 
 	ImGui::Checkbox("Pause", &pauseapp);
 	

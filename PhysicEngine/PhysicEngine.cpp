@@ -43,7 +43,7 @@ void PhysicEngine::Integrade(float DTms)
 
 	/*
 		//std::cout << "start integrade\n";
-	//apply all forces to all particules
+	//apply all forces to all rigidbodies
 	_forceregistry.ApplyForces();
 
 	//std::cout << "\n ______________________ Start PHY\n\n";

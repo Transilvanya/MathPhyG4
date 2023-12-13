@@ -70,6 +70,11 @@ class GraphicEngine
 {
 public:
 	
+	map<std::string, void (*)()> UIList;
+
+	void (*f1)() ;
+	int (*f2)();
+	void (*f3)(int, float);
 
 	static GraphicEngine* _graphicengineptr;
 

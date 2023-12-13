@@ -27,7 +27,7 @@ public:
 		float ObjectVolume = 0.0f;
 
 		MaxDepth = 1;
-		ObjectVolume = (4.0f / 3) * 3.14;
+		ObjectVolume = object->GetVolume();
 
 
 

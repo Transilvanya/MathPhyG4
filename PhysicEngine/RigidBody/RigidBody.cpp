@@ -57,7 +57,7 @@ void RigidBody::integrade(float dt)
 {
 
 
-	
+	/*
 	std::cout << ObjectName << "\n";
 	std::cout << "force " << ForceSum.getX() << " " << ForceSum.getY() << " " << ForceSum.getZ() << "\n";
 	std::cout << "Torque " << TorqueSum.getX() << " " << TorqueSum.getY() << " " << TorqueSum.getZ() << "\n";
@@ -65,22 +65,46 @@ void RigidBody::integrade(float dt)
 	std::cout << "position " << position.getX() << " " << position.getY() << " " << position.getZ() << "\n";
 	std::cout << "orientation " << orientation.getW() << " " << orientation.getX() << " " << orientation.getY() << " " << orientation.getZ() << "\n";
 
-	
+	*/
 	
 
+	//std::cout << ObjectName << "\n";
+	//std::cout << "position " << position.getX() << " " << position.getY() << " " << position.getZ() << "\n";
+	//std::cout << "orientation " << orientation.getW() << " " << orientation.getX() << " " << orientation.getY() << " " << orientation.getZ() << "\n";
+	//std::cout << "vitesse " << vitesse.getX() << " " << vitesse.getY() << " " << vitesse.getZ() << "\n";
+	//std::cout << "rotation " << rotation.getX() << " " << rotation.getY() << " " << rotation.getZ() << "\n";
+	//std::cout << "\n";
 
 	position = position + vitesse * dt;
 	orientation = orientation +  (Quaternion(0, rotation.getX(), rotation.getY(), rotation.getZ()) * orientation) * (dt / 2);
 
+	while (orientation.getW() > 100)
+		orientation.setW(orientation.getW() - 100.0f);
+	while (orientation.getX() > 100)
+		orientation.setX(orientation.getX() - 100.0f);
+	while (orientation.getY() > 100)
+		orientation.setY(orientation.getY() - 100.0f);
+	while (orientation.getZ() > 100)
+		orientation.setZ(orientation.getZ() - 100.0f);
+
+	while (orientation.getW() < -100)
+		orientation.setW(orientation.getW() + 100.0f);
+	while (orientation.getX() < -100)
+		orientation.setX(orientation.getX() + 100.0f);
+	while (orientation.getY() < -100)
+		orientation.setY(orientation.getY() + 100.0f);
+	while (orientation.getZ() < -100)
+		orientation.setZ(orientation.getZ() + 100.0f);
+
 	CalculateDerivedData();
 
 	
-	
+	/*
 	std::cout << "transformMatrix\n";
 	std::cout << transformMatrix.getValues(0) << " " << transformMatrix.getValues(1) << " " << transformMatrix.getValues(2) << " " << transformMatrix.getValues(3) << "\n";
 	std::cout << transformMatrix.getValues(4) << " " << transformMatrix.getValues(5) << " " << transformMatrix.getValues(6) << " " << transformMatrix.getValues(7) << "\n";
 	std::cout << transformMatrix.getValues(8) << " " << transformMatrix.getValues(9) << " " << transformMatrix.getValues(10) << " " << transformMatrix.getValues(11) << "\n\n";
-
+	*/
 	
 
 	float v[9] = { transformMatrix.getValues(0) ,	transformMatrix.getValues(1)  ,	transformMatrix.getValues(2)  ,
@@ -101,6 +125,7 @@ void RigidBody::integrade(float dt)
 	
 	// <<<<<<<<<
 	
+	/*
 	std::cout << "InverseTenseur\n";
 	std::cout << InverseTenseur.getValues(0) << " " << InverseTenseur.getValues(1) << " " << InverseTenseur.getValues(2) << "\n";
 	std::cout << InverseTenseur.getValues(3) << " " << InverseTenseur.getValues(4) << " " << InverseTenseur.getValues(5) << "\n";
@@ -115,7 +140,7 @@ void RigidBody::integrade(float dt)
 	std::cout << inverseTenseurDerived.getValues(0) << " " << inverseTenseurDerived.getValues(1) << " " << inverseTenseurDerived.getValues(2) << "\n";
 	std::cout << inverseTenseurDerived.getValues(3) << " " << inverseTenseurDerived.getValues(4) << " " << inverseTenseurDerived.getValues(5) << "\n";
 	std::cout << inverseTenseurDerived.getValues(6) << " " << inverseTenseurDerived.getValues(7) << " " << inverseTenseurDerived.getValues(8) << "\n\n";
-	
+	*/
 	
 	
 
@@ -124,17 +149,34 @@ void RigidBody::integrade(float dt)
 
 
 	vitesse = vitesse + (acceleration * dt);
+
+	vitesse.setX(max(vitesse.getX(), -100.0f));
+	vitesse.setY(max(vitesse.getY(), -100.0f));
+	vitesse.setZ(max(vitesse.getZ(), -100.0f));
+
+	vitesse.setX(min(vitesse.getX(),  100.0f));
+	vitesse.setY(min(vitesse.getY(),  100.0f));
+	vitesse.setZ(min(vitesse.getZ(),  100.0f));
+
 	rotation = rotation + (angularacceleration * dt);
+
+	rotation.setX(max(rotation.getX(), -100.0f));
+	rotation.setY(max(rotation.getY(), -100.0f));
+	rotation.setZ(max(rotation.getZ(), -100.0f));
+
+	rotation.setX(min(rotation.getX(),  100.0f));
+	rotation.setY(min(rotation.getY(),  100.0f));
+	rotation.setZ(min(rotation.getZ(),  100.0f));
 
 	Reset();
 
 
 
-	
+	/*
 	std::cout << "acceleration " << acceleration.getX() << " " << acceleration.getY() << " " << acceleration.getZ() << "\n";
 	std::cout << "angularacceleration " << angularacceleration.getX() << " " << angularacceleration.getY() << " " << angularacceleration.getZ() << "\n";
 	std::cout << "_______________\n\n";
-	
+	*/
 }
 
 RigidBody::RigidBody(float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
