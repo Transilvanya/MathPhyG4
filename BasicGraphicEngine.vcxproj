@@ -255,6 +255,7 @@
     <ClCompile Include="GraphicEngine\UI\InputControler.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MainEngine\MainEngine.cpp" />
+    <ClCompile Include="PhysicEngine\ContactRigid\NarrowPhase.cpp" />
     <ClCompile Include="PhysicEngine\ForceRigid\ForceRegistryRigid.cpp" />
     <ClCompile Include="PhysicEngine\Forces\ForceRegistry.cpp" />
     <ClCompile Include="PhysicEngine\Matrices\Matrice33.cpp" />
@@ -293,8 +294,16 @@
     <ClInclude Include="MainEngine\ISystem.h" />
     <ClInclude Include="MainEngine\MainEngine.h" />
     <ClInclude Include="MainEngine\TimeSystem.h" />
-    <ClInclude Include="PhysicEngine\ContactRigid\ContactSolverRigid.h" />
-    <ClInclude Include="PhysicEngine\ContactRigid\RigidBodyContact.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Contacts\EdgeEdge.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Contacts\EdgeFace.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Contacts\FaceFace.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Contacts\VertexFace.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Primitive\Box.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Contacts\Contact.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Primitive\Plane.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Primitive\Primitive.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\NarrowPhase.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\Primitive\Sphere.h" />
     <ClInclude Include="PhysicEngine\Contact\ContactGenerator.h" />
     <ClInclude Include="PhysicEngine\Contact\ContactRegistry.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleAnchor.h" />
