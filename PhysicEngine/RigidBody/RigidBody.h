@@ -66,7 +66,9 @@ public:
 
 	virtual Vector3D getPosition() { return position; }
 	virtual Vector3D getVitesse() { return vitesse; }
+	virtual Vector3D getRotation() { return rotation; }
 
+	virtual void setRotation(Vector3D value) { rotation = value; }
 	virtual float GetVolume() { return 1; }
 	virtual void setPosition(Vector3D v) { position = v; }
 	virtual float getInverseMasse() { return inverseMasse; }
