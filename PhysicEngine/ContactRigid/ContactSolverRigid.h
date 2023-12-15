@@ -71,8 +71,8 @@ public:
 			Vector3D newvitesse0 = it->rigidbodies[0]->getVitesse() - it->contactNormal * k * it->rigidbodies[0]->getInverseMasse();
 			Vector3D newrotation0 = it->rigidbodies[0]->getRotation() - it->rigidbodies[0]->GetInverseTenseur() * (r0 * (it->contactNormal*k)) ;
 
-			Vector3D newvitesse1 = it->rigidbodies[1]->getVitesse() - it->contactNormal * k * it->rigidbodies[1]->getInverseMasse();
-			Vector3D newrotation1 = it->rigidbodies[1]->getRotation() - it->rigidbodies[1]->GetInverseTenseur() * (r1 * (it->contactNormal * k));
+			Vector3D newvitesse1 = it->rigidbodies[1]->getVitesse() + it->contactNormal * k * it->rigidbodies[1]->getInverseMasse();
+			Vector3D newrotation1 = it->rigidbodies[1]->getRotation() + it->rigidbodies[1]->GetInverseTenseur() * (r1 * (it->contactNormal * k));
 
 			it->rigidbodies[0]->setVitesse(newvitesse0);
 			it->rigidbodies[0]->setRotation(newrotation0);
