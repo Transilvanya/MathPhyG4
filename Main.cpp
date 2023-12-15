@@ -7,6 +7,8 @@
 #include "PhysicEngine/PhysicEngine.h"
 #include "GraphicEngine/GraphicEngine.h"
 #include "PhysicEngine/Matrices/Matrice34.h"
+#include "PhysicEngine/ContactRigid/Contacts/Contact.h"
+#include "PhysicEngine/ContactRigid/NarrowPhase.h"
 
 /* -- static init -- */
 
@@ -241,7 +243,7 @@ int main()
 
 	MainEngine::GetInstance()->Init();
 
-	std::vector<GLfloat> groundvertice2 =
+	/*std::vector<GLfloat> groundvertice2 =
 	{  //     COORDINATES     /        COLORS      /   TexCoord  //
 		-20.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0, 0,
 		- 20.0f, 0.0f,  0.0f,	0.83f, 0.70f, 0.44f,	0, 10,
@@ -333,8 +335,27 @@ int main()
 
 
 	GraphicEngine::GetInstance()->Delete();
-	delete(GraphicEngine::GetInstance());
+	delete(GraphicEngine::GetInstance());*/
 
+	// Créez deux sphères pour le test
+	std::list<std::array<RigidBody*, 2>> rigidBodies;
+	// Initialisation des objets pour le test
+	//RigidSphere sphere1(1.0f, 1.0f, Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Quaternion(), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), "Sphere1");
+
+	//RigidSphere sphere2(1.0f, 1.0f, Vector3D(1.5f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Quaternion(), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), "Sphere2");
+	
+	RigidCuboid cuboid(1.0f, 1.0f, 1.0f, 1.0f, Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Quaternion(), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), "Cuboid");
+	RigidSphere sphere3(1.0f, 1.0f, Vector3D(1.5f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), Quaternion(), Vector3D(0.0f, 0.0f, 0.0f), Vector3D(0.0f, 0.0f, 0.0f), "Sphere");
+
+	//std::array<RigidBody*, 2> pairRigidbodies = { &sphere1, &sphere2 };
+	
+	//rigidBodies.push_back(pairRigidbodies);
+	std::array<RigidBody*, 2> pairRigidbodies = { &cuboid, &sphere3 };
+	rigidBodies.push_back(pairRigidbodies);
+	std::list<Contact*> contacts;
+	NarrowPhase narrowPhase(rigidBodies);
+	contacts = narrowPhase.getContacts();
+	
 
 	return 0;
 

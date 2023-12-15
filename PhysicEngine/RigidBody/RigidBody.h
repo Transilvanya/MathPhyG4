@@ -68,11 +68,11 @@ public:
 
 	virtual std::string getObjectName() { return ObjectName; }
 
-	virtual float getMasse() { return 1 / inverseMasse; }
+	float getMasse() { return 1 / inverseMasse; }
 
-	virtual Vector3D getPosition() { return position; }
-	virtual Vector3D getVitesse() { return vitesse; }
-	virtual TypeRigidBody getType();
+	Vector3D getPosition() { return position; }
+	Vector3D getVitesse() { return vitesse; }
+	virtual TypeRigidBody getType() { return type; };
 
 protected:
 	//sum of all the force at each tick
@@ -96,6 +96,7 @@ protected:
 	//angular speed
 	Vector3D rotation;
 	Vector3D angularacceleration;
+	TypeRigidBody type;
 
 
 
@@ -112,7 +113,7 @@ public:
 
 	RigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
-
+		type = SPHERE;
 		float value = (2.0f / 5) * Masse * _Radius * _Radius;
 		float v[9] = {	value,	0.0f,	0.0f,
 						0.0f,	value,	0.0f,
@@ -138,11 +139,7 @@ public:
 		Radius = _Radius;
 	}
 
-	TypeRigidBody getType() override
-	{
-		return SPHERE;
-	}
-
+	float getRadius() { return Radius; }
 private:
 	float Radius = 0;
 };
@@ -155,7 +152,7 @@ public:
 
 	RigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
-
+		type = CUBOID;
 		float value1 = (1.0f / 12) * Masse * (_DY * _DY + _DZ * _DZ);
 		float value2 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
 		float value3 = (1.0f / 12) * Masse * (_DX * _DX + _DY * _DY);
@@ -173,10 +170,6 @@ public:
 		DZ = _DZ;
 	}
 
-	TypeRigidBody getType() override
-	{
-		return CUBOID;
-	}
 
 	Vector3D getAxis(int x) {
 		switch (x)
@@ -192,6 +185,10 @@ public:
 		}
 	}
 
+	float getDX() { return DX; }
+	float getDY() { return DY; }
+	float getDZ() { return DZ; }
+
 private:
 	float DX = 0;
 	float DY = 0;
@@ -206,7 +203,7 @@ public:
 
 	RigidCylinder(float _Radius, float _Height, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
-
+		type = CYLINDER;
 		float value13 = (1.0f / 4) * Masse * _Radius * _Radius + (1.0f / 12) * Masse * _Height * _Height;
 		float value2 = (1.0f / 2) * Masse * _Radius * _Radius;
 
@@ -225,10 +222,6 @@ public:
 		Height = _Height;
 	}
 
-	TypeRigidBody getType() override
-	{
-		return CYLINDER;
-	}
 
 private:
 	float Radius = 0;

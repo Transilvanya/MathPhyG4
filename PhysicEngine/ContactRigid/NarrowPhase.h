@@ -8,42 +8,44 @@
 
 #include "Contacts/Contact.h"
 
-struct CollisionData
+typedef struct CollisionData
 {
 	Contact* contacts;
-	unsigned contactsLeft;
-};
+	unsigned int contactsLeft;
+} CollisionData;
 
 class NarrowPhase
 {
 private:
-	std::list<RigidBody[2]> pairRigidbodies;
-	std::list<Contact> contacts;
-
-public:
-	std::list<Contact> narrowPhase(std::list<RigidBody[2]> pairRigidbodies);
+	std::list<std::array<RigidBody*, 2>> pairRigidbodies;
+	std::list<Contact*> contacts;
 	void generateContacts(
-		const Primitive& firstPrimitive,
-		const Primitive& secondPrimitive,
+		const Primitive* firstPrimitive,
+		const Primitive* secondPrimitive,
 		CollisionData* data);
 	unsigned sphereAndSphere(
-		const Sphere& firstPrimitive,
-		const Sphere& secondPrimitive,
+		Sphere* firstPrimitive,
+		Sphere* secondPrimitive,
 		CollisionData* data);
 	unsigned sphereAndHalfSpace(
-		const Sphere& sphere,
-		Plane& plane,
+		Sphere* sphere,
+		Plane* plane,
 		CollisionData* data);
 	unsigned boxPlane(
-		const Box& box,
-		const Plane& plane,
+		Box* box,
+		Plane* plane,
 		CollisionData* data);
 	unsigned boxAndSphere(
-		const Box& box,
-		const Sphere& sphere,
+		Box* box,
+		Sphere* sphere,
 		CollisionData* data);
 	unsigned boxAndBox(
-		const Box& firstBox,
-		const Box& secondBox,
+		Box* firstBox,
+		Box* secondBox,
 		CollisionData* data);
+
+public:
+	NarrowPhase(std::list<std::array<RigidBody*, 2>> pairRigidbodies);
+	std::list<Contact*> getContacts() { return contacts; }
+	
 };

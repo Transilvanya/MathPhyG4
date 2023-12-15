@@ -16,5 +16,6 @@ public:
 		PLANE
 	};
 	PrimitiveType type;
+	~Primitive(){}
 
 };

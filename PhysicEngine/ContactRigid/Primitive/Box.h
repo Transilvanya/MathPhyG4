@@ -6,6 +6,7 @@ class Box : public Primitive
 public:
 	RigidCuboid* body;
 	Vector3D halfSize;
+	
 
 	float transformToAxis(const Box& box, Vector3D& axis)
 	{
