@@ -1,4 +1,6 @@
 #include "PhysicEngine.h"
+#include "ContactRigid/NarrowPhase.h"
+#include "ContactRigid/ContactSolverRigid.h"
 
 
 PhysicEngine::~PhysicEngine()
@@ -37,6 +39,57 @@ void PhysicEngine::Integrade(float DTms)
 		it2->second->integrade(DTms / 1000);
 		++it2;
 	}
+
+	NarrowPhase n;
+
+	std::list<std::pair<RigidBody*, RigidBody*>> listbodies;
+
+	std::map<std::string, RigidBody*>::iterator it = _physicobjectsRB.begin();
+	while (it != _physicobjectsRB.end())
+	{
+		std::map<std::string, RigidBody*>::iterator it3 = it;
+		it3++;
+		while (it3 != _physicobjectsRB.end())
+		{
+			
+
+			listbodies.push_back( { it->second, it3->second });
+			it3++;
+		}
+		it++;
+	}
+	
+	std::vector<Contact> contacts = n.narrowPhase(listbodies);
+
+	ContactSolverRigid CSV;
+	CSV.SolveImpulsion(contacts);
+	CSV.SolvePenetration(contacts);
+	
+
+
+	/*
+	int loopindex = 0;
+
+	bool contactdetected = _contactregistry.AddContacts(_physicobjects);
+
+	while (contactdetected && loopindex < 1)
+	{
+		//std::cout << "is contact " << _contactregistry.DetectContact(_physicobjects) << "\n";
+//create list of contact
+		//_contactregistry.DetectContact(_physicobjects);
+		//move particule and apply impulsion
+		_contactregistry.SolveContact();
+		_contactregistry.ApplyAnchors();
+
+		contactdetected = _contactregistry.AddContacts(_physicobjects);
+		//std::cout << "end integrade\n";
+		loopindex++;
+	}//std::cout << "end integrade\n";
+
+	_contactregistry.ApplyAnchors();
+	*/
+
+
 
 
 

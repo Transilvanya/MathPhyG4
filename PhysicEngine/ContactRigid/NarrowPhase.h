@@ -7,6 +7,7 @@
 #include "Primitive/Sphere.h"
 
 #include "Contacts/Contact.h"
+#include <vector>
 
 struct CollisionData
 {
@@ -17,33 +18,26 @@ struct CollisionData
 class NarrowPhase
 {
 private:
-	std::list<RigidBody[2]> pairRigidbodies;
-	std::list<Contact> contacts;
+	std::vector<Contact> contacts;
 
 public:
-	std::list<Contact> narrowPhase(std::list<RigidBody[2]> pairRigidbodies);
+	std::vector<Contact> narrowPhase(std::list<std::pair<RigidBody*, RigidBody*> > pairRigidbodies);
 	void generateContacts(
 		const Primitive& firstPrimitive,
-		const Primitive& secondPrimitive,
-		CollisionData* data);
+		const Primitive& secondPrimitive);
 	unsigned sphereAndSphere(
 		const Sphere& firstPrimitive,
-		const Sphere& secondPrimitive,
-		CollisionData* data);
+		const Sphere& secondPrimitive);
 	unsigned sphereAndHalfSpace(
 		const Sphere& sphere,
-		Plane& plane,
-		CollisionData* data);
+		Plane& plane);
 	unsigned boxPlane(
 		const Box& box,
-		const Plane& plane,
-		CollisionData* data);
+		const Plane& plane);
 	unsigned boxAndSphere(
 		const Box& box,
-		const Sphere& sphere,
-		CollisionData* data);
+		const Sphere& sphere);
 	unsigned boxAndBox(
 		const Box& firstBox,
-		const Box& secondBox,
-		CollisionData* data);
+		const Box& secondBox);
 };

@@ -5,10 +5,13 @@
 class Contact
 {
 public:
+
+	Contact() {};
+
 	Vector3D contactPoint;
 	Vector3D contactNormal;
 	float penetration;
 	float restitution;
 	float friction;
-	std::array<RigidBody,2> rigidbodies;
+	std::pair<RigidBody*, RigidBody*> rigidbodies;
 };

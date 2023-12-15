@@ -294,6 +294,7 @@
     <ClInclude Include="MainEngine\ISystem.h" />
     <ClInclude Include="MainEngine\MainEngine.h" />
     <ClInclude Include="MainEngine\TimeSystem.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\ContactSolverRigid.h" />
     <ClInclude Include="PhysicEngine\ContactRigid\Contacts\EdgeEdge.h" />
     <ClInclude Include="PhysicEngine\ContactRigid\Contacts\EdgeFace.h" />
     <ClInclude Include="PhysicEngine\ContactRigid\Contacts\FaceFace.h" />
@@ -304,6 +305,7 @@
     <ClInclude Include="PhysicEngine\ContactRigid\Primitive\Primitive.h" />
     <ClInclude Include="PhysicEngine\ContactRigid\NarrowPhase.h" />
     <ClInclude Include="PhysicEngine\ContactRigid\Primitive\Sphere.h" />
+    <ClInclude Include="PhysicEngine\ContactRigid\RigidBodyContact.h" />
     <ClInclude Include="PhysicEngine\Contact\ContactGenerator.h" />
     <ClInclude Include="PhysicEngine\Contact\ContactRegistry.h" />
     <ClInclude Include="PhysicEngine\Contact\ParticleAnchor.h" />

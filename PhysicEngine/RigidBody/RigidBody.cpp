@@ -68,12 +68,12 @@ void RigidBody::integrade(float dt)
 	*/
 	
 
-	//std::cout << ObjectName << "\n";
+	std::cout << "\t\t" << ObjectName << "\n";
 	//std::cout << "position " << position.getX() << " " << position.getY() << " " << position.getZ() << "\n";
 	//std::cout << "orientation " << orientation.getW() << " " << orientation.getX() << " " << orientation.getY() << " " << orientation.getZ() << "\n";
 	//std::cout << "vitesse " << vitesse.getX() << " " << vitesse.getY() << " " << vitesse.getZ() << "\n";
-	//std::cout << "rotation " << rotation.getX() << " " << rotation.getY() << " " << rotation.getZ() << "\n";
-	//std::cout << "\n";
+	std::cout << "\t\t" << "rotation " << rotation.getX() << " " << rotation.getY() << " " << rotation.getZ() << "\n";
+	std::cout << "\t\t" << "\n";
 
 	position = position + vitesse * dt;
 	orientation = orientation +  (Quaternion(0, rotation.getX(), rotation.getY(), rotation.getZ()) * orientation) * (dt / 2);

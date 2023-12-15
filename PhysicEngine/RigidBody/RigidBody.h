@@ -11,7 +11,8 @@
 enum TypeRigidBody {
 	CUBOID,
 	SPHERE,
-	CYLINDER
+	CYLINDER,
+	DEFAULT,
 };
 
 class RigidBody
@@ -79,7 +80,8 @@ public:
 	virtual void setPosition(Vector3D v) { position = v; }
 	virtual float getInverseMasse() { return inverseMasse; }
 	virtual void setVitesse(Vector3D v) { vitesse = v; }
-	virtual TypeRigidBody getType();
+	virtual TypeRigidBody getType() { return DEFAULT; };
+	virtual bool getIsStatic() { return false; }
 
 protected:
 	//sum of all the force at each tick
@@ -147,11 +149,12 @@ public:
 		Radius = _Radius;
 	}
 
-	TypeRigidBody getType() override
+	virtual TypeRigidBody getType()
 	{
 		return SPHERE;
 	}
 
+	float getRadius() { return Radius; }
 private:
 	float Radius = 0;
 };
@@ -185,7 +188,7 @@ public:
 		DZ = _DZ;
 	}
 
-	TypeRigidBody getType() override
+	virtual TypeRigidBody getType()
 	{
 		return CUBOID;
 	}
@@ -238,7 +241,7 @@ public:
 		Height = _Height;
 	}
 
-	TypeRigidBody getType() override
+	virtual TypeRigidBody getType()
 	{
 		return CYLINDER;
 	}

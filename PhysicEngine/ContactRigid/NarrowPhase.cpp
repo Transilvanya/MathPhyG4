@@ -1,111 +1,110 @@
 #include "NarrowPhase.h"
 
-std::list<Contact> NarrowPhase::narrowPhase(std::list<RigidBody[2]> pairRigidbodies)
+std::vector<Contact> NarrowPhase::narrowPhase(std::list<std::pair<RigidBody*, RigidBody*> > pairRigidbodies)
 {
 	Primitive firstPrimitive;
 	Primitive secondPrimitive;
-	for (auto pair : pairRigidbodies)
+	for (std::pair<RigidBody*, RigidBody*> pair : pairRigidbodies)
 	{
-		firstPrimitive.body = &pair[0];
-		secondPrimitive.body = &pair[1];
-		firstPrimitive.offset = pair[0].GettransformMatrix();
-		secondPrimitive.offset = pair[1].GettransformMatrix();
-		if (pair[0].getType() == TypeRigidBody::CUBOID)
+		firstPrimitive.body = pair.first;
+		secondPrimitive.body = pair.second;
+		firstPrimitive.offset = pair.first->GettransformMatrix();
+		secondPrimitive.offset = pair.second->GettransformMatrix();
+		if (pair.first->getType() == TypeRigidBody::CUBOID)
 		{
-			if(pair[0].getIsStatic() == true)
+			if(pair.first->getIsStatic() == true)
 				firstPrimitive.type = Primitive::PLANE;
-			else if (pair[0].getIsStatic() == false)
+			else if (pair.first->getIsStatic() == false)
 			firstPrimitive.type = Primitive::BOX;
 		}
-		else if (pair[0].getType() == TypeRigidBody::SPHERE)
+		else if (pair.first->getType() == TypeRigidBody::SPHERE)
 		{
 			firstPrimitive.type = Primitive::SPHERE;
 		}
 
-		if (pair[1].getType() == TypeRigidBody::CUBOID)
+		if (pair.second->getType() == TypeRigidBody::CUBOID)
 		{
 			secondPrimitive.type = Primitive::BOX;
 		}
-		else if (pair[1].getType() == TypeRigidBody::SPHERE)
+		else if (pair.second->getType() == TypeRigidBody::SPHERE)
 		{
 			secondPrimitive.type = Primitive::SPHERE;
 		}
 
-		generateContacts (firstPrimitive, secondPrimitive, nullptr);
+		generateContacts (firstPrimitive, secondPrimitive);
 	}
+	return contacts;
 }
 
-void NarrowPhase::generateContacts(const Primitive& firstPrimitive, const Primitive& secondPrimitive, CollisionData* data)
+void NarrowPhase::generateContacts(const Primitive& firstPrimitive, const Primitive& secondPrimitive)
 {
 	if (firstPrimitive.body == nullptr || secondPrimitive.body == nullptr)
 		return;
 	if (firstPrimitive.type == Primitive::SPHERE && secondPrimitive.type == Primitive::SPHERE)
 	{
-		sphereAndSphere((Sphere&)firstPrimitive, (Sphere&)secondPrimitive, data);
+
+		sphereAndSphere((Sphere&)firstPrimitive, (Sphere&)secondPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::SPHERE && secondPrimitive.type == Primitive::PLANE)
 	{
-		sphereAndHalfSpace((Sphere&)firstPrimitive, (Plane&)secondPrimitive, data);
+		sphereAndHalfSpace((Sphere&)firstPrimitive, (Plane&)secondPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::PLANE && secondPrimitive.type == Primitive::SPHERE)
 	{
-		sphereAndHalfSpace((Sphere&)secondPrimitive, (Plane&)firstPrimitive, data);
+		sphereAndHalfSpace((Sphere&)secondPrimitive, (Plane&)firstPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::BOX && secondPrimitive.type == Primitive::PLANE)
 	{
-		boxPlane((Box&)firstPrimitive, (Plane&)secondPrimitive, data);
+		boxPlane((Box&)firstPrimitive, (Plane&)secondPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::PLANE && secondPrimitive.type == Primitive::BOX)
 	{
-		boxPlane((Box&)secondPrimitive, (Plane&)firstPrimitive, data);
+		boxPlane((Box&)secondPrimitive, (Plane&)firstPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::BOX && secondPrimitive.type == Primitive::SPHERE)
 	{
-		boxAndSphere((Box&)firstPrimitive, (Sphere&)secondPrimitive, data);
+		boxAndSphere((Box&)firstPrimitive, (Sphere&)secondPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::SPHERE && secondPrimitive.type == Primitive::BOX)
 	{
-		boxAndSphere((Box&)secondPrimitive, (Sphere&)firstPrimitive, data);
+		boxAndSphere((Box&)secondPrimitive, (Sphere&)firstPrimitive);
 	}
 	else if (firstPrimitive.type == Primitive::BOX && secondPrimitive.type == Primitive::BOX)
 	{
-		boxAndBox((Box&)firstPrimitive, (Box&)secondPrimitive, data);
+		boxAndBox((Box&)firstPrimitive, (Box&)secondPrimitive);
 	}
 
 }
 
 unsigned NarrowPhase::sphereAndSphere(
 	const Sphere& firstPrimitive,
-	const Sphere& secondPrimitive,
-	CollisionData* data) {
-	if (data->contactsLeft == 0)
-		return 0;
+	const Sphere& secondPrimitive) {
 
 	Vector3D positionOne = firstPrimitive.body->getPosition();
 	Vector3D positionTwo = secondPrimitive.body->getPosition();
 
 	Vector3D midline = positionOne - positionTwo;
 	float size = midline.distance();
+	float distance = ((RigidSphere*)firstPrimitive.body)->getRadius() + ((RigidSphere*)secondPrimitive.body)->getRadius();
 
-	if(size <= 0.0f || size >= firstPrimitive.radius + secondPrimitive.radius)
+	if(size <= 0.0f || size >= distance)
 		return 0;
 
 	Vector3D normal = midline * (1.0f / size);
 
-	Contact* contact = data->contacts;
-	contact->rigidbodies[0] = *firstPrimitive.body;
-	contact->rigidbodies[1] = *secondPrimitive.body;
+	Contact* contact = new Contact();
+	contact->rigidbodies.first = firstPrimitive.body;
+	contact->rigidbodies.second = secondPrimitive.body;
+	contact->restitution = 1;
 	contact->contactNormal = normal;
 	contact->contactPoint = positionOne + midline * 0.5f;
-	contact->penetration = (firstPrimitive.radius + secondPrimitive.radius - size);
+	contact->penetration = (distance - size);
 	contacts.push_back(*contact);
 	return 1;
 }
 
-unsigned NarrowPhase::sphereAndHalfSpace(const Sphere& sphere, Plane& plane, CollisionData* data)
+unsigned NarrowPhase::sphereAndHalfSpace(const Sphere& sphere, Plane& plane)
 {
-	if(data->contactsLeft == 0)
-		return 0;
 	Vector3D positionOne = sphere.body->getPosition();
 	
 	float distance = (positionOne&plane.normal) - sphere.radius - plane.offset;
@@ -113,9 +112,10 @@ unsigned NarrowPhase::sphereAndHalfSpace(const Sphere& sphere, Plane& plane, Col
 	if(distance >= 0.0f)
 		return 0;
 	//create the contact
-	Contact* contact = data->contacts;
-	contact->rigidbodies[0] = *sphere.body;
-	contact->rigidbodies[1] = *plane.body;
+
+	Contact* contact = new Contact();
+	contact->rigidbodies.first = sphere.body;
+	contact->rigidbodies.second = plane.body;
 	contact->contactNormal = plane.normal;
 	contact->penetration = -distance;
 	contact->contactPoint = positionOne - (plane.normal * (distance + sphere.radius));
@@ -123,10 +123,8 @@ unsigned NarrowPhase::sphereAndHalfSpace(const Sphere& sphere, Plane& plane, Col
 	return 1;
 }
 
-unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane, CollisionData* data)
+unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 {
-	if(data->contactsLeft == 0)
-		return 0;
 	Vector3D vertex[8] = {
 		Vector3D(-box.halfSize.getX(), -box.halfSize.getY(),-box.halfSize.getZ()),
 		Vector3D(-box.halfSize.getX(), -box.halfSize.getY(), box.halfSize.getZ()),
@@ -148,9 +146,9 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane, CollisionData
 		float distance = vertex[i] & plane.normal;
 		if (distance <= plane.offset)
 		{
-			Contact* contact = data->contacts;
-			contact->rigidbodies[0] = *box.body;
-			contact->rigidbodies[1] = *plane.body;
+			Contact* contact = new Contact();
+			contact->rigidbodies.first = box.body;
+			contact->rigidbodies.second = plane.body;
 			contact->contactNormal = plane.normal;
 			contact->penetration = plane.offset - distance;
 			contact->contactPoint = vertex[i];
@@ -161,7 +159,7 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane, CollisionData
 	return 1;
 }
 
-unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere, CollisionData* data)
+unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 {
 	Vector3D center = sphere.body->getPosition();
 	Vector3D relativeCenter = box.offset * center;
@@ -200,9 +198,9 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere, Collisi
 	// Compile the contact
 	Vector3D closestPtWorld = box.offset * closestPt;
 
-	Contact* contact = data->contacts;
-	contact->rigidbodies[0] = *box.body;
-	contact->rigidbodies[1] = *sphere.body;
+	Contact* contact = new Contact();
+	contact->rigidbodies.first = box.body;
+	contact->rigidbodies.second = sphere.body;
 	Vector3D normal = closestPtWorld - center;
 	normal.setX(normal.getX() / normal.distance());
 	normal.setY(normal.getY() / normal.distance());
@@ -211,12 +209,12 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere, Collisi
 	contact->contactPoint = closestPtWorld;
 	contact->penetration = sphere.radius - dist;
 	contacts.push_back(*contact);
+
+
 	return 1;
 }
 
-unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox, CollisionData* data)
+unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 {
-	if(data->contactsLeft == 0)
-		return 0;
 	return 0;
 }
