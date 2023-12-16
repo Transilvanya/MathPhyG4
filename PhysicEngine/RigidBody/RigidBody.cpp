@@ -56,24 +56,32 @@ void RigidBody::Reset()
 void RigidBody::integrade(float dt)
 {
 
-
-	/*
-	std::cout << ObjectName << "\n";
+	/*	std::cout << ObjectName << "\n";
 	std::cout << "force " << ForceSum.getX() << " " << ForceSum.getY() << " " << ForceSum.getZ() << "\n";
 	std::cout << "Torque " << TorqueSum.getX() << " " << TorqueSum.getY() << " " << TorqueSum.getZ() << "\n";
 
 	std::cout << "position " << position.getX() << " " << position.getY() << " " << position.getZ() << "\n";
 	std::cout << "orientation " << orientation.getW() << " " << orientation.getX() << " " << orientation.getY() << " " << orientation.getZ() << "\n";
-
+	std::cout << "\n";
 	*/
 	
 
-	std::cout << "\t\t" << ObjectName << "\n";
+	//std::cout << "\t\t" << ObjectName << "\n";
 	//std::cout << "position " << position.getX() << " " << position.getY() << " " << position.getZ() << "\n";
 	//std::cout << "orientation " << orientation.getW() << " " << orientation.getX() << " " << orientation.getY() << " " << orientation.getZ() << "\n";
 	//std::cout << "vitesse " << vitesse.getX() << " " << vitesse.getY() << " " << vitesse.getZ() << "\n";
-	std::cout << "\t\t" << "rotation " << rotation.getX() << " " << rotation.getY() << " " << rotation.getZ() << "\n";
-	std::cout << "\t\t" << "\n";
+	//std::cout << "\t\t" << "rotation " << rotation.getX() << " " << rotation.getY() << " " << rotation.getZ() << "\n";
+	//std::cout << "\t\t" << "\n";
+
+
+	if (IsStatic)
+	{
+		
+		CalculateDerivedData();
+		return;
+	}
+
+
 
 	position = position + vitesse * dt;
 	orientation = orientation +  (Quaternion(0, rotation.getX(), rotation.getY(), rotation.getZ()) * orientation) * (dt / 2);
@@ -126,10 +134,7 @@ void RigidBody::integrade(float dt)
 	// <<<<<<<<<
 	
 	/*
-	std::cout << "InverseTenseur\n";
-	std::cout << InverseTenseur.getValues(0) << " " << InverseTenseur.getValues(1) << " " << InverseTenseur.getValues(2) << "\n";
-	std::cout << InverseTenseur.getValues(3) << " " << InverseTenseur.getValues(4) << " " << InverseTenseur.getValues(5) << "\n";
-	std::cout << InverseTenseur.getValues(6) << " " << InverseTenseur.getValues(7) << " " << InverseTenseur.getValues(8) << "\n\n";
+
 
 	std::cout << "RotationMatrix\n";
 	std::cout << RotationMatrix.getValues(0) << " " << RotationMatrix.getValues(1) << " " << RotationMatrix.getValues(2) << "\n";

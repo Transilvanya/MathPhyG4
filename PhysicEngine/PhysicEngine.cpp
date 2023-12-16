@@ -62,8 +62,9 @@ void PhysicEngine::Integrade(float DTms)
 	std::vector<Contact> contacts = n.narrowPhase(listbodies);
 
 	ContactSolverRigid CSV;
-	CSV.SolveImpulsion(contacts);
-	CSV.SolvePenetration(contacts);
+	//CSV.SolvePenetration(contacts);
+	//CSV.SolveImpulsion(contacts);
+	
 	
 
 
@@ -230,9 +231,9 @@ RigidSphere* PhysicEngine::GetRigidSphere(std::string name)
 	}
 }
 
-void PhysicEngine::CreateRigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName)
+void PhysicEngine::CreateRigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion _orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName, bool _IsPlane)
 {
-	RigidCuboid* RB = new RigidCuboid(_DX, _DY, _DZ, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName);
+	RigidCuboid* RB = new RigidCuboid(_DX, _DY, _DZ, Masse, _position, _vitesse, _acceleration, _orientation, _rotation, _angularacceleration, _ObjectName, _IsPlane);
 	_physicobjectsRB.emplace(_ObjectName, RB);
 	_forceregistryRB.AddRigidBody(RB);
 }

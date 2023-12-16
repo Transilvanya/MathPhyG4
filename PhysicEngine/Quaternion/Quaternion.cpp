@@ -87,14 +87,11 @@ Quaternion Quaternion::operator+(const Quaternion& q)
 void Quaternion::RotateByVector(const Vector3D& q)
 {
 
-	Quaternion multiplie;
-	Vector3D vecteur = q;
-	multiplie.value[0] = 0;
-	for (int i = 0; i < 3; i++)
-	{
-		multiplie.value[i + 1] = vecteur.getVector()[i];
-	}
+	//Quaternion multiplie (0, q.getX(), q.getY(), q.getZ());
+	Quaternion multiplie(1, q.getX(), q.getY(), q.getZ());
+
 	Quaternion result = *this * multiplie;
+
 	this->value[0] = result.getW();
 	this->value[1] = result.getX();
 	this->value[2] = result.getY();

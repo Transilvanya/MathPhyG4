@@ -1,4 +1,5 @@
 #include "Matrice33.h"
+#include <iostream>
 
 
 Matrice33::Matrice33()
@@ -37,8 +38,13 @@ Vector3D Matrice33::operator*(const Vector3D& v) const
 {
 	Vector3D result = Vector3D(0,0,0);
 	for (int i = 0; i < 3; i++) {
+		//std::cout << result.getX() << " " << values[i] << " " << v.getX()  << " | " << v.getVector()[i] << "\n";
 		result.setX(result.getX() + this->values[i] * v.getVector()[i]);
+		
+		//std::cout << result.getY() << " " << values[i+3] << " " << v.getX() << " | " << v.getVector()[i] << "\n";
 		result.setY(result.getY() + this->values[i+3] * v.getVector()[i]);
+
+		//std::cout << result.getZ() << " " << values[i+6] << " " << v.getX() << " | " << v.getVector()[i] << "\n";
 		result.setZ(result.getZ() + this->values[i+6] * v.getVector()[i]);
 	}
 	return result;

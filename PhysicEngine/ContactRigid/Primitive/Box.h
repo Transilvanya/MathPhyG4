@@ -4,11 +4,11 @@
 class Box : public Primitive
 {
 public:
-	RigidCuboid* body;
 	Vector3D halfSize;
-
+	/*
 	float transformToAxis(const Box& box, Vector3D& axis)
 	{
+		
 		return
 			box.halfSize.getX() * abs(axis & box.body->getAxis(0)) +
 			box.halfSize.getY() * abs(axis & box.body->getAxis(1)) +
@@ -26,4 +26,5 @@ public:
 
 		return (distance < firstProjection + secondProjection);
 	}
+	*/
 };

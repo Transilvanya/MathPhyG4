@@ -33,6 +33,20 @@ std::vector<GLfloat> CubeVertex =
 	 2.0f, 0.5f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
 	 2.0f, 0.5f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
 };
+
+std::vector<GLfloat> PlaneVertex =
+{  //     COORDINATES     /        COLORS      /   TexCoord  //
+	-2.0f, -5.05f, -2.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+	-2.0f, -5.05f,  2.0f,	0.83f, 0.70f, 0.44f,	0, 10,
+	 2.0f, -5.05f,  2.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+	 2.0f, -5.05f, -2.0f,   0.83f, 0.70f, 0.44f,	10, 0,
+
+	-3.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	0, 0,
+	-20.0f, 0.0f,  20.0f,	 0.83f, 0.70f, 0.44f,	0, 10,
+	 20.0f, 0.0f,  20.0f,   0.83f, 0.70f, 0.44f,	10, 10,
+	 3.0f, 0.0f, -20.0f,   0.83f, 0.70f, 0.44f,	10, 0,
+};
+
 std::vector<GLuint> CubeIndice =
 {
 	0, 1, 2,
@@ -95,7 +109,7 @@ void SetupObject() //sphere sphere
 	GraphicEngine::GetInstance()->CreateSphereText("sphere1", "simpletext", "cattext", 0.6f);
 
 
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0),Quaternion(0,1,0,0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), "sphereRB0");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0),Quaternion(0,1,0,0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB0");
 	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(1, 5, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB1");
 
 
@@ -103,8 +117,7 @@ void SetupObject() //sphere sphere
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere0"), "entity0");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB1"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere1"), "entity1");
-	
-	std::cout << "test\n";
+
 }
 
 
@@ -113,15 +126,22 @@ void SetupObject2() //sphere plane
 
 
 	GraphicEngine::GetInstance()->CreateSphereText("sphere", "simpletext", "cattext", 0.6f);
-	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "brick", CubeIndice, PlaneVertex, 0, 0, 0);
 
 
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(1, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 10, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
-
-
-
-
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(-1, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+	
+	//invert X ?
+	std::cout << "invert X V to fix, dot product of vector product? \n*\n*\n\n";
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0.5f), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB", true);
+	
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB", true);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 0.96,0.29, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB", true);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB", true);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, -0.28, 0.81, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB", true);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(-0.5, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB", true);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(-1.3, 0.25, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB", true);
+	
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere"), "entity1");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid"), "entity2");
@@ -134,13 +154,14 @@ void SetupObject3() //box plane
 
 
 	GraphicEngine::GetInstance()->CreatePolygonText("cuboid0", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
-	GraphicEngine::GetInstance()->CreatePolygonText("cuboid1", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid1", "simpletext", "cattext", CubeIndice, PlaneVertex, 0, 0, 0);
 
 
 
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0");
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 10, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1");
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(1, 0, -1), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
 
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", true);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 0.96, 0.29, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", true);
 
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
@@ -157,8 +178,8 @@ void SetupObject4()//box sphere
 	GraphicEngine::GetInstance()->CreatePolygonText("cuboid", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
 
 
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(1, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 10, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(2.5f, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB", false);
 
 
 
@@ -181,9 +202,9 @@ void SetupObject5() //box box
 
 
 	
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 0, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0");
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 10, 0), Vector3D(0, -3, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1");
-
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(1, 5, 0), Vector3D(0, -3, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
+	
 
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
@@ -242,6 +263,7 @@ void Testfct2()
 
 int main()
 {
+
 
 	GraphicEngine::GetInstance()->Init();
 

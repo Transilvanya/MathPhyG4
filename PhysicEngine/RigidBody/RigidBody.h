@@ -81,9 +81,16 @@ public:
 	virtual float getInverseMasse() { return inverseMasse; }
 	virtual void setVitesse(Vector3D v) { vitesse = v; }
 	virtual TypeRigidBody getType() { return DEFAULT; };
-	virtual bool getIsStatic() { return false; }
+	
+	virtual bool getIsStatic() { return IsStatic; }
+	virtual void SetIsStatic(bool value) { IsStatic = value; }
+
+	virtual void setOrientation(Quaternion value) { orientation = value; }
+	virtual Quaternion getOrientation() { return orientation; }
 
 protected:
+	bool IsStatic = false;
+
 	//sum of all the force at each tick
 	Vector3D ForceSum;
 	//sum of all the torque at each tick
@@ -167,29 +174,45 @@ public:
 
 	virtual float GetVolume() { return DX * DY * DZ; }
 
-
-	RigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
+	RigidCuboid(float _DX, float _DY, float _DZ, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName, bool _IsPlane) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
+		IsStatic = _IsPlane;
+		if (_IsPlane)
+		{
+			position = Vector3D(0, position.getY(), 0);
+			float v[9] = { 1,	0.0f,	0.0f,
+				0.0f,	1,	0.0f,
+				0.0f,	0.0f,	1 };
 
-		float value1 = (1.0f / 12) * Masse * (_DY * _DY + _DZ * _DZ);
-		float value2 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
-		float value3 = (1.0f / 12) * Masse * (_DX * _DX + _DY * _DY);
+			Matrice33 m(v);
+			inverseMasse = 1;
+			InverseTenseur = m.Inverse();
+		}
+		else
+		{
 
-		float v[9] = { value1,	0.0f,	0.0f,
-						0.0f,	value2,	0.0f,
-						0.0f,	0.0f,	value3 };
 
-		Matrice33 m(v);
+			float value1 = (1.0f / 12) * Masse * (_DY * _DY + _DZ * _DZ);
+			float value2 = (1.0f / 12) * Masse * (_DX * _DX + _DZ * _DZ);
+			float value3 = (1.0f / 12) * Masse * (_DX * _DX + _DY * _DY);
 
-		InverseTenseur = m.Inverse();
+			float v[9] = { value1,	0.0f,	0.0f,
+							0.0f,	value2,	0.0f,
+							0.0f,	0.0f,	value3 };
 
-		DX = _DX;
-		DY = _DY;
-		DZ = _DZ;
+			Matrice33 m(v);
+
+			InverseTenseur = m.Inverse();
+
+			DX = _DX;
+			DY = _DY;
+			DZ = _DZ;
+		}
 	}
 
 	virtual TypeRigidBody getType()
 	{
+		
 		return CUBOID;
 	}
 
@@ -207,6 +230,62 @@ public:
 		}
 	}
 
+	float getOffset()
+	{
+			return transformMatrix.getValues(7);
+			
+	}
+
+	Vector3D getNormal() {
+
+		
+		float newVal[9]
+		{
+			transformMatrix.getValues(0), transformMatrix.getValues(1), transformMatrix.getValues(2),
+			transformMatrix.getValues(4), transformMatrix.getValues(5), transformMatrix.getValues(6),
+			transformMatrix.getValues(8), transformMatrix.getValues(9), transformMatrix.getValues(10)
+		};
+
+		Matrice33 m(newVal);
+		
+		/*
+
+		Vector3D v1 = m * Vector3D(1, 0, 0);
+		Vector3D v2 = m * Vector3D(0, 1, 0);
+		Vector3D v3 = m * Vector3D(0, 0, 1);
+		std::cout << "v1 \t" << v1.getX() << "\t" << v1.getY() << "\t" << v1.getZ() << "\n";
+		std::cout << "v2 \t" << v2.getX() << "\t" << v2.getY() << "\t" << v2.getZ() << "\n";
+		std::cout << "v3 \t" << v3.getX() << "\t" << v3.getY() << "\t" << v3.getZ() << "\n";
+		
+
+		v1 = m * Vector3D(-1, 0, 0);
+		v2 = m * Vector3D(0, -1, 0);
+		v3 = m * Vector3D(0, 0, -1);
+		std::cout << "v1 \t" << v1.getX() << "\t" << v1.getY() << "\t" << v1.getZ() << "\n";
+		std::cout << "v2 \t" << v2.getX() << "\t" << v2.getY() << "\t" << v2.getZ() << "\n";
+		std::cout << "v3 \t" << v3.getX() << "\t" << v3.getY() << "\t" << v3.getZ() << "\n";
+
+		v1 = m * Vector3D(1, 1, 0);
+		v2 = m * Vector3D(0, 1, 1);
+		v3 = m * Vector3D(1, 0, 1);
+		std::cout << "v1 \t" << v1.getX() << "\t" << v1.getY() << "\t" << v1.getZ() << "\n";
+		std::cout << "v2 \t" << v2.getX() << "\t" << v2.getY() << "\t" << v2.getZ() << "\n";
+		std::cout << "v3 \t" << v3.getX() << "\t" << v3.getY() << "\t" << v3.getZ() << "\n";
+
+		*/
+
+		Vector3D v = m * Vector3D(0, 1, 0);
+
+		v = v * (1 / v.getNorm());
+
+		//v.setX(-v.getX());
+
+		return v;
+	}
+
+	float getDX() { return DX; }
+	float getDY() { return DY; }
+	float getDZ() { return DZ; }
 private:
 	float DX = 0;
 	float DY = 0;
