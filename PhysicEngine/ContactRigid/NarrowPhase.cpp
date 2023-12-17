@@ -4,8 +4,12 @@ std::vector<Contact> NarrowPhase::narrowPhase(std::list<std::pair<RigidBody*, Ri
 {
 	Primitive firstPrimitive;
 	Primitive secondPrimitive;
+
+	contacts.clear();
+
 	for (std::pair<RigidBody*, RigidBody*> pair : pairRigidbodies)
 	{
+		
 		firstPrimitive.body = pair.first;
 		secondPrimitive.body = pair.second;
 		firstPrimitive.offset = pair.first->GettransformMatrix();
@@ -81,15 +85,17 @@ void NarrowPhase::generateContacts(const Primitive& firstPrimitive, const Primit
 }
 
 
-//done
+//validate
 unsigned NarrowPhase::sphereAndSphere(
 	const Sphere& firstPrimitive,
 	const Sphere& secondPrimitive) {
 
+	
+
 	Vector3D positionOne = firstPrimitive.body->getPosition();
 	Vector3D positionTwo = secondPrimitive.body->getPosition();
 
-	Vector3D midline = positionOne - positionTwo;
+	Vector3D midline = positionTwo -  positionOne;
 	float size = midline.distance();
 	float distance = ((RigidSphere*)firstPrimitive.body)->getRadius() + ((RigidSphere*)secondPrimitive.body)->getRadius();
 
@@ -105,7 +111,11 @@ unsigned NarrowPhase::sphereAndSphere(
 	contact->contactNormal = normal;
 	contact->contactPoint = positionOne + midline * 0.5f;
 	contact->penetration = (distance - size);
+	
+
 	contacts.push_back(*contact);
+
+	
 	return 1;
 }
 
@@ -143,12 +153,12 @@ unsigned NarrowPhase::sphereAndHalfSpace(const Sphere& sphere, Plane& plane)
 	//create the contact
 
 	Contact* contact = new Contact();
-	contact->rigidbodies.first = sphere.body;
-	contact->rigidbodies.second = plane.body;
+	contact->rigidbodies.first = plane.body;
+	contact->rigidbodies.second = sphere.body;
 	contact->contactNormal = PlaneNormal;
 	contact->penetration = -distancecentresphere;
 	contact->restitution = 1;
-	contact->contactPoint = positionOne - (PlaneNormal * (distancecentresphere + ((RigidSphere*)sphere.body)->getRadius()));
+	contact->contactPoint = sphere.body->getPosition() - (PlaneNormal * ((RigidSphere*)sphere.body)->getRadius());
 	contacts.push_back(*contact);
 	return 1;
 }
@@ -167,20 +177,30 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 
 	Vector3D RBCPos = RBC->getPosition();
 
+
+
+	float newVal[9]
+	{
+		RBC->GettransformMatrix().getValues(0), RBC->GettransformMatrix().getValues(1), RBC->GettransformMatrix().getValues(2),
+		RBC->GettransformMatrix().getValues(4), RBC->GettransformMatrix().getValues(5), RBC->GettransformMatrix().getValues(6),
+		RBC->GettransformMatrix().getValues(8), RBC->GettransformMatrix().getValues(9), RBC->GettransformMatrix().getValues(10)
+	};
+	Matrice33 m(newVal);
+
 	Vector3D listpoints[8] =
 	{
-		(Vector3D(x , y, z) + RBCPos),
-		(Vector3D(x , y, -z) + RBCPos),
+		(m*Vector3D(x , y, z) + RBCPos),
+		(m*Vector3D(x , y, -z) + RBCPos),
 
-		(Vector3D(x , -y, z) + RBCPos),
-		(Vector3D(x , -y, -z) + RBCPos),
+		(m*Vector3D(x , -y, z) + RBCPos),
+		(m*Vector3D(x , -y, -z) + RBCPos),
 
 
-		(Vector3D(-x ,y , z) + RBCPos),
-		(Vector3D(-x ,y , -z) + RBCPos),
+		(m*Vector3D(-x ,y , z) + RBCPos),
+		(m*Vector3D(-x ,y , -z) + RBCPos),
 
-		(Vector3D(-x ,-y , z) + RBCPos),
-		(Vector3D(-x ,-y , -z) + RBCPos)
+		(m*Vector3D(-x ,-y , z) + RBCPos),
+		(m*Vector3D(-x ,-y , -z) + RBCPos)
 	};
 		
 	for (int i = 0; i < 8; i++)
@@ -199,9 +219,11 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 
 		float distancecentresphere = (positionOne & PlaneNormal);
 
+		//std::cout << "distance to axe\t" << (positionOne & PlaneNormal) << "\n";
+
 		if (i == 4)
 		{
-			std::cout << "distance to axe\t" << (positionOne & PlaneNormal) << "\n";
+	//		std::cout << "distance to axe\t" << (positionOne & PlaneNormal) << "\n";
 		}
 
 		if (distancecentresphere < 0.0f)
@@ -209,18 +231,18 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 			//create the contact
 
 			Contact* contact = new Contact();
-			contact->rigidbodies.first = box.body;
-			contact->rigidbodies.second = plane.body;
+			contact->rigidbodies.first = plane.body;
+			contact->rigidbodies.second = box.body ;
 			contact->contactNormal = PlaneNormal;
 			contact->penetration = -distancecentresphere;
-			contact->restitution = 1;
-			contact->contactPoint = listpoints[i] - (PlaneNormal * distancecentresphere );
+			contact->restitution = 0;
+			contact->contactPoint = listpoints[i];
 
-			std::cout << "positionBox \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
-			std::cout << "positionOne \t" << listpoints[i].getX() << "\t" << listpoints[i].getY() << "\t" << listpoints[i].getZ() << "\n";
+		//	std::cout << "positionBox \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
+		//	std::cout << "positionOne \t" << listpoints[i].getX() << "\t" << listpoints[i].getY() << "\t" << listpoints[i].getZ() << "\n";
 
-			std::cout << "pen \t" << contact->penetration << "\n";
-			std::cout << "normal \t" << PlaneNormal.getX() << "\t" << PlaneNormal.getY() << "\t" << PlaneNormal.getZ() << "\n";
+		//	std::cout << "pen \t" << contact->penetration << "\n";
+		//	std::cout << "normal \t" << PlaneNormal.getX() << "\t" << PlaneNormal.getY() << "\t" << PlaneNormal.getZ() << "\n";
 
 			contacts.push_back(*contact);
 		}
@@ -305,19 +327,28 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 
 	Vector3D RBCPos = RBC->getPosition();
 
+
+	float newVal[9]
+	{
+		RBC->GettransformMatrix().getValues(0), RBC->GettransformMatrix().getValues(1), RBC->GettransformMatrix().getValues(2),
+		RBC->GettransformMatrix().getValues(4), RBC->GettransformMatrix().getValues(5), RBC->GettransformMatrix().getValues(6),
+		RBC->GettransformMatrix().getValues(8), RBC->GettransformMatrix().getValues(9), RBC->GettransformMatrix().getValues(10)
+	};
+	Matrice33 m(newVal);
+
 	Vector3D listpoints[8] =
 	{
-		(Vector3D(x , y, z)),
-		(Vector3D(x , y, -z)),
-		(Vector3D(x , -y, z)),
-		(Vector3D(x , -y, -z)),
-		(Vector3D(-x ,y , z)),
-		(Vector3D(-x ,y , -z)),
-		(Vector3D(-x ,-y , z)),
-		(Vector3D(-x ,-y , -z))
+		m*(Vector3D(x , y, z)),
+		m*(Vector3D(x , y, -z)),
+		m*(Vector3D(x , -y, z)),
+		m*(Vector3D(x , -y, -z)),
+		m*(Vector3D(-x ,y , z)),
+		m*(Vector3D(-x ,y , -z)),
+		m*(Vector3D(-x ,-y , z)),
+		m*(Vector3D(-x ,-y , -z))
 	};
 
-	Vector3D relCenter = RBS->getPosition() - RBC->getPosition();
+	Vector3D relCenter = m*(RBS->getPosition() - RBC->getPosition());
 
 	
 	// Early-out check to see if we can exclude the contact.
@@ -377,11 +408,11 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 	contact->restitution = 1;
 	contact->friction = 1;
 
-	std::cout << "pen \t" << contact->penetration << "\n";
-	std::cout << "normal \t" << normal.getX() << "\t" << normal.getY() << "\t" << normal.getZ() << "\n";
-	std::cout << "contact \t" << closestPtWorld.getX() << "\t" << closestPtWorld.getY() << "\t" << closestPtWorld.getZ() << "\n";
-	std::cout << " RBS->getPosition() \t" << RBS->getPosition().getX() << "\t" << RBS->getPosition().getY() << "\t" << RBS->getPosition().getZ() << "\n";
-	std::cout << " RBC->getPosition() \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
+//	std::cout << "pen \t" << contact->penetration << "\n";
+//std::cout << "normal \t" << normal.getX() << "\t" << normal.getY() << "\t" << normal.getZ() << "\n";
+//	std::cout << "contact \t" << closestPtWorld.getX() << "\t" << closestPtWorld.getY() << "\t" << closestPtWorld.getZ() << "\n";
+//std::cout << " RBS->getPosition() \t" << RBS->getPosition().getX() << "\t" << RBS->getPosition().getY() << "\t" << RBS->getPosition().getZ() << "\n";
+//	std::cout << " RBC->getPosition() \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
 
 	contacts.push_back(*contact);
 
@@ -395,6 +426,74 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 
 	RigidCuboid* RBC0 = (RigidCuboid*)firstBox.body;
 	RigidCuboid* RBC1 = (RigidCuboid*)secondBox.body;
+
+
+	float x0 = RBC0->getDX();
+	float y0 = RBC0->getDY();
+	float z0 = RBC0->getDZ();
+
+	Vector3D RBCPos0 = RBC0->getPosition();
+
+	float newVal0[9]
+	{
+		RBC0->GettransformMatrix().getValues(0), RBC0->GettransformMatrix().getValues(1), RBC0->GettransformMatrix().getValues(2),
+		RBC0->GettransformMatrix().getValues(4), RBC0->GettransformMatrix().getValues(5), RBC0->GettransformMatrix().getValues(6),
+		RBC0->GettransformMatrix().getValues(8), RBC0->GettransformMatrix().getValues(9), RBC0->GettransformMatrix().getValues(10)
+	};
+	Matrice33 m0(newVal0);
+
+	Vector3D listpoints0[8] =
+	{
+		(m0 * Vector3D(x0 , y0, z0) + RBCPos0),
+		(m0 * Vector3D(x0 , y0, -z0) + RBCPos0),
+		
+		(m0 * Vector3D(x0 , -y0, z0) + RBCPos0),
+		(m0 * Vector3D(x0 , -y0, -z0) + RBCPos0),
+
+
+		(m0 * Vector3D(-x0 ,y0 , z0) + RBCPos0),
+		(m0 * Vector3D(-x0 ,y0 , -z0) + RBCPos0),
+
+		(m0 * Vector3D(-x0 ,-y0 , z0) + RBCPos0),
+		(m0 * Vector3D(-x0 ,-y0 , -z0) + RBCPos0)
+	};
+
+	float x = RBC1->getDX();
+	float y = RBC1->getDY();
+	float z = RBC1->getDZ();
+
+	Vector3D RBCPos1 = RBC1->getPosition();
+
+	float newVal1[9]
+	{
+		RBC1->GettransformMatrix().getValues(0), RBC1->GettransformMatrix().getValues(1), RBC1->GettransformMatrix().getValues(2),
+		RBC1->GettransformMatrix().getValues(4), RBC1->GettransformMatrix().getValues(5), RBC1->GettransformMatrix().getValues(6),
+		RBC1->GettransformMatrix().getValues(8), RBC1->GettransformMatrix().getValues(9), RBC1->GettransformMatrix().getValues(10)
+	};
+	Matrice33 m1(newVal1);
+
+	Vector3D listpoints1[8] =
+	{
+		(m1 * Vector3D(x , y, z) + RBCPos1),
+		(m1 * Vector3D(x , y, -z) + RBCPos1),
+
+		(m1 * Vector3D(x , -y, z) + RBCPos1),
+		(m1 * Vector3D(x , -y, -z) + RBCPos1),
+
+
+		(m1 * Vector3D(-x ,y , z) + RBCPos1),
+		(m1 * Vector3D(-x ,y , -z) + RBCPos1),
+
+		(m1 * Vector3D(-x ,-y , z) + RBCPos1),
+		(m1 * Vector3D(-x ,-y , -z) + RBCPos1)
+	};
+
+
+
+
+
+
+
 
 	Vector3D v[15];
 	v[0] = RBC0->getAxis(0);
@@ -445,144 +544,26 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 
 	//Check for Pont Face
 
+	for (int i = 0; i < 8; i++)
+	{
+		//std::cout << "listpoints0\t" << listpoints0[i].getX() << "\t" << listpoints0[i].getY() << "\t" << listpoints0[i].getZ() << "\n";
+	boxAndPoint(secondBox, listpoints0[i], firstBox);
+	//std::cout << boxAndPoint(secondBox, listpoints0[i], firstBox) << "\n";
+	}
+	//std::cout << "\n";
+	for (int i = 0; i < 8; i++)
+	{
+		//std::cout << "listpoints1\t" << listpoints1[i].getX() << "\t" << listpoints1[i].getY() << "\t" << listpoints1[i].getZ() << "\n";
+		//std::cout << boxAndPoint(firstBox, listpoints1[i], secondBox) << "\n";
+		boxAndPoint(firstBox, listpoints1[i], secondBox);
+	}
+
+
 
 
 
 	//Check for Edge Edge
 
-	/*
-
-	RigidCuboid* RBC = (RigidCuboid*)box.body;
-	RigidSphere* RBS = (RigidSphere*)sphere.body;
-
-	float x = RBC->getDX();
-	float y = RBC->getDY();
-	float z = RBC->getDZ();
-
-	Vector3D RBCPos = RBC->getPosition();
-
-	Vector3D listpoints[8] =
-	{
-		(Vector3D(x , y, z)),
-		(Vector3D(x , y, -z)),
-		(Vector3D(x , -y, z)),
-		(Vector3D(x , -y, -z)),
-		(Vector3D(-x ,y , z)),
-		(Vector3D(-x ,y , -z)),
-		(Vector3D(-x ,-y , z)),
-		(Vector3D(-x ,-y , -z))
-	};
-
-	Vector3D relCenter = RBS->getPosition() - RBC->getPosition();
-
-
-	// Early-out check to see if we can exclude the contact.
-	if (abs(relCenter.getX()) - RBS->getRadius() > x ||
-		abs(relCenter.getY()) - RBS->getRadius() > y ||
-		abs(relCenter.getZ()) - RBS->getRadius() > z)
-	{
-		return 0;
-	}
-
-	Vector3D closestPt(0, 0, 0);
-
-	// Clamp each coordinate to the box.
-	float	dist = relCenter.getX();
-	if (dist > x) dist = x;
-	if (dist < -x) dist = -x;
-	closestPt.setX(dist);
-
-	dist = relCenter.getY();
-	if (dist > y) dist = y;
-	if (dist < -y) dist = -y;
-	closestPt.setY(dist);
-
-	dist = relCenter.getZ();
-	if (dist > z) dist = z;
-	if (dist < -z) dist = -z;
-	closestPt.setZ(dist);
-
-	x* x + y * y + z * z;
-
-	Vector3D tempvect = (closestPt - relCenter);
-	// Check we’re in contact.
-	dist = tempvect.getX() * tempvect.getX() + tempvect.getY() * tempvect.getY() + tempvect.getZ() * tempvect.getZ();
-
-	if (dist > RBS->getRadius() * RBS->getRadius()) return 0;
-
-	//Compile the contact.
-	Vector3D closestPtWorld = closestPt + RBCPos;
-	Contact* contact = new Contact();
-
-	//contact->contactNormal = (RBS->getPosition() - closestPtWorld);
-
-	Vector3D normal = RBS->getPosition() - closestPtWorld;
-
-
-
-	normal.setX(normal.getX() / normal.distance());
-	normal.setY(normal.getY() / normal.distance());
-	normal.setZ(normal.getZ() / normal.distance());
-	contact->contactNormal = normal;
-
-	contact->contactPoint = closestPtWorld;
-	contact->penetration = RBS->getRadius() - sqrt(dist);
-	// Write the appropriate data.
-	contact->rigidbodies.first = box.body;
-	contact->rigidbodies.second = sphere.body;
-	contact->restitution = 1;
-	contact->friction = 1;
-
-	std::cout << "pen \t" << contact->penetration << "\n";
-	std::cout << "normal \t" << normal.getX() << "\t" << normal.getY() << "\t" << normal.getZ() << "\n";
-	std::cout << "contact \t" << closestPtWorld.getX() << "\t" << closestPtWorld.getY() << "\t" << closestPtWorld.getZ() << "\n";
-	std::cout << " RBS->getPosition() \t" << RBS->getPosition().getX() << "\t" << RBS->getPosition().getY() << "\t" << RBS->getPosition().getZ() << "\n";
-	std::cout << " RBC->getPosition() \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
-
-	contacts.push_back(*contact);
-	/*
-
-	for (int i = 0; i < 8; i++)
-	{
-		Vector3D positionOne = listpoints[i];//sphere.body->getPosition();
-
-
-		Vector3D PlaneNormal = ((RigidCuboid*)plane.body)->getNormal();
-
-		float offset = ((RigidCuboid*)plane.body)->getOffset();
-
-		positionOne = positionOne - Vector3D(0, offset, 0); // if gety > 0 work
-
-		if (PlaneNormal.getY() < 0)
-			offset = -offset;
-
-		float distancecentresphere = (positionOne & PlaneNormal);
-
-		if (i == 4)
-		{
-			std::cout << "distance to axe\t" << (positionOne & PlaneNormal) << "\n";
-		}
-
-		if (distancecentresphere < 0.0f)
-		{
-			//create the contact
-
-			Contact* contact = new Contact();
-			contact->rigidbodies.first = box.body;
-			contact->rigidbodies.second = plane.body;
-			contact->contactNormal = PlaneNormal;
-			contact->penetration = -distancecentresphere;
-			contact->restitution = 1;
-			contact->contactPoint = listpoints[i] - (PlaneNormal * distancecentresphere);
-
-			std::cout << "positionBox \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
-			std::cout << "positionOne \t" << listpoints[i].getX() << "\t" << listpoints[i].getY() << "\t" << listpoints[i].getZ() << "\n";
-
-			contacts.push_back(*contact);
-		}
-	}
-
-	*/
 
 
 	return 1;

@@ -20,6 +20,7 @@ class NarrowPhase
 private:
 	std::vector<Contact> contacts;
 
+	bool endabledisplay = false;
 
 	float transformToAxis(const Box& box,
 		Vector3D& axis)
@@ -74,9 +75,9 @@ private:
 
 		std::cout << "_______________________\n";
 		*/
-		std::cout << "distance\t" << distance << "\n";
-		std::cout << "oneProject + twoProject\t" << oneProject + twoProject << "\n";
-		std::cout << "\n";
+		//std::cout << "distance\t" << distance << "\n";
+		//std::cout << "oneProject + twoProject\t" << oneProject + twoProject << "\n";
+		//std::cout << "\n";
 
 
 		return (distance < oneProject + twoProject);
@@ -86,7 +87,7 @@ private:
 	unsigned boxAndPoint(
 		const Box& box,
 		Vector3D& point,
-		CollisionData* data
+		const Box& otherbox
 	)
 	{
 		RigidCuboid* RBC = (RigidCuboid*)box.body;
@@ -96,15 +97,26 @@ private:
 		float y = RBC->getDY();
 		float z = RBC->getDZ();
 
+
+
+
+		float newVal[9]
+		{
+			box.body->GettransformMatrix().getValues(0), box.body->GettransformMatrix().getValues(1), box.body->GettransformMatrix().getValues(2),
+			box.body->GettransformMatrix().getValues(4), box.body->GettransformMatrix().getValues(5), box.body->GettransformMatrix().getValues(6),
+			box.body->GettransformMatrix().getValues(8), box.body->GettransformMatrix().getValues(9), box.body->GettransformMatrix().getValues(10)
+		};
+		Matrice33 rotm(newVal);
+
 		// Transform the point into box coordinates.
-		Vector3D relPt = point - box.body->getPosition();
+		Vector3D relPt = rotm * (point - box.body->getPosition());
 		Vector3D normal;
 		// Check each axis, looking for the axis on which the
 			// penetration is least deep.
 		float min_depth = x - abs(relPt.getX());
-		
 		if (min_depth < 0) return 0;
 		normal = RBC->getAxis(0) * ((relPt.getX() < 0) ? -1 : 1);
+		
 		float depth = y - abs(relPt.getY());
 		if (depth < 0) return 0;
 		else if (depth < min_depth)
@@ -112,6 +124,7 @@ private:
 			min_depth = depth;
 			normal = RBC->getAxis(1) * ((relPt.getY() < 0) ? -1 : 1);
 		}
+
 		depth = z - abs(relPt.getZ());
 		if (depth < 0) return 0;
 		else if (depth < min_depth)
@@ -120,7 +133,7 @@ private:
 			normal = RBC->getAxis(2) * ((relPt.getZ() < 0) ? -1 : 1);
 		}
 		// Compile the contact.
-		Contact* contact = data->contacts;
+		Contact* contact = new Contact();
 		contact->contactNormal = normal;
 		contact->contactPoint = point;
 		contact->penetration = min_depth;
@@ -129,9 +142,26 @@ private:
 		// Note that we don’t know what rigid body the point
 		// belongs to, so we just use NULL. Where this is called
 		// this value can be left, or filled in.
-		contact->rigidbodies.second = NULL;
+		contact->rigidbodies.second = otherbox.body;
 		contact->restitution = 1;
 		contact->friction = 1;
+
+		if (endabledisplay)
+		{
+			std::cout << "_______________________\n";
+
+			std::cout << "RBC->getAxis(0)\t" << RBC->getAxis(0).getX() << "\t" << RBC->getAxis(0).getY() << "\t" << RBC->getAxis(0).getZ() << "\n";
+			std::cout << "RBC->getAxis(1)\t" << RBC->getAxis(1).getX() << "\t" << RBC->getAxis(1).getY() << "\t" << RBC->getAxis(1).getZ() << "\n";
+			std::cout << "RBC->getAxis(2)\t" << RBC->getAxis(2).getX() << "\t" << RBC->getAxis(2).getY() << "\t" << RBC->getAxis(2).getZ() << "\n";
+			std::cout << "RBC0->getPosition()\t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
+			std::cout << "Box of point\t" << otherbox.body->getPosition().getX() << "\t" << otherbox.body->getPosition().getY() << "\t" << otherbox.body->getPosition().getZ() << "\n";
+			std::cout << "point\t" << point.getX() << "\t" << point.getY() << "\t" << point.getZ() << "\n";
+
+			std::cout << "_______________________\n";
+
+		}
+
+		contacts.push_back(*contact);
 		return 1;
 	}
 

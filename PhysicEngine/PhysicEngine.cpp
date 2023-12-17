@@ -45,8 +45,19 @@ void PhysicEngine::Integrade(float DTms)
 	std::list<std::pair<RigidBody*, RigidBody*>> listbodies;
 
 	std::map<std::string, RigidBody*>::iterator it = _physicobjectsRB.begin();
+
+	std::cout << "_____________________ objects\n";
+
 	while (it != _physicobjectsRB.end())
 	{
+		std::cout << it->second->getObjectName() << "\n";
+		std::cout << "Position :\t" << it->second->getPosition().getX() << "\t" << it->second->getPosition().getY() << "\t" << it->second->getPosition().getZ() << "\n";
+		std::cout << "Orientation :\t" << it->second->getOrientation().getW() << "\t" << it->second->getOrientation().getX() << "\t" << it->second->getOrientation().getY() << "\t" << it->second->getOrientation().getZ() << "\n";
+		std::cout << "Vitesse :\t" << it->second->getVitesse().getX() << "\t" << it->second->getVitesse().getY() << "\t" << it->second->getVitesse().getZ() << "\n";
+		std::cout << "Rotation :\t" << it->second->getRotation().getX() << "\t" << it->second->getRotation().getY() << "\t" << it->second->getRotation().getZ() << "\n";
+		std::cout << "\n";
+
+
 		std::map<std::string, RigidBody*>::iterator it3 = it;
 		it3++;
 		while (it3 != _physicobjectsRB.end())
@@ -58,15 +69,58 @@ void PhysicEngine::Integrade(float DTms)
 		}
 		it++;
 	}
-	
+	std::cout << "_____________________ \n";
+
 	std::vector<Contact> contacts = n.narrowPhase(listbodies);
 
 	ContactSolverRigid CSV;
-	//CSV.SolvePenetration(contacts);
-	//CSV.SolveImpulsion(contacts);
-	
-	
 
+	std::vector<Contact>::iterator itc = contacts.begin();
+	if(contacts.size()!=0)
+		std::cout << "______\n";
+	while (itc != contacts.end())
+	{
+
+		std::cout <<"contactpoint\t" << itc->contactPoint.getX() << " " << itc->contactPoint.getY() << " " << itc->contactPoint.getZ() << "\n";
+		std::cout <<"penetration\t" << itc->penetration << "\n";
+		std::cout << "contactNormal\t" << itc->contactNormal.getX() << " " << itc->contactNormal.getY() << " " << itc->contactNormal.getZ() << "\n";
+		std::cout << "\n";
+		itc++;
+	}
+	if (contacts.size() != 0)
+		std::cout << "______\n";
+	
+	/*
+	std::vector<Contact>::iterator it = Contacts.begin();
+	while (it != Contacts.end())
+	{
+		it++;
+	}
+	*/
+	
+int loopindex = 0;
+bool contactdetected = contacts.size() > 0;
+
+while (contactdetected && loopindex < 1)
+{	
+		
+
+//		std::vector<Contact>::iterator it = contacts.begin();
+//		while (it != contacts.end())
+		
+			CSV.SolvePenetration(contacts.front());
+			//CSV.SolveImpulsion(contacts.front());
+		//	it++;
+		
+			contacts = n.narrowPhase(listbodies);
+			contactdetected = contacts.size() > 0;
+	
+		//std::cout << contacts.size()<<"\n";
+
+		loopindex++;
+	}
+
+	
 
 	/*
 	int loopindex = 0;
