@@ -228,6 +228,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="PhysicEngine\BSP\Tree\Node.cpp" />
+    <ClCompile Include="PhysicEngine\BSP\BSP.cpp" />
     <ClCompile Include="GraphicEngine\GraphicEngine.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObject.cpp" />
     <ClCompile Include="GraphicEngine\GraphicObjectwithTexture.cpp" />
@@ -264,8 +266,11 @@
     <ClCompile Include="PhysicEngine\Quaternion\Quaternion.cpp" />
     <ClCompile Include="PhysicEngine\RigidBody\RigidBody.cpp" />
     <ClCompile Include="PhysicEngine\vector\Vector3D.cpp" />
+    <ClCompile Include="PhysicEngine\BSP\Plan.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PhysicEngine\BSP\Tree\Node.h" />
+    <ClInclude Include="PhysicEngine\BSP\BSP.h" />
     <ClInclude Include="GraphicEngine\GraphicEngine.h" />
     <ClInclude Include="GraphicEngine\GraphicObject.h" />
     <ClInclude Include="GraphicEngine\GraphicObjectwithTexture.h" />
@@ -324,6 +329,7 @@
     <ClInclude Include="PhysicEngine\Quaternion\Quaternion.h" />
     <ClInclude Include="PhysicEngine\RigidBody\RigidBody.h" />
     <ClInclude Include="PhysicEngine\vector\Vector3D.h" />
+    <ClInclude Include="PhysicEngine\BSP\Plan.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="GraphicEngine\ImGui\imgui.natstepfilter" />
