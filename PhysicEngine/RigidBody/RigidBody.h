@@ -101,6 +101,7 @@ protected:
 class RigidSphere : public RigidBody
 {
 public:
+	float Radius = 0;
 
 	RigidSphere(float _Radius, float Masse, Vector3D _position, Vector3D _vitesse, Vector3D _acceleration, Quaternion orientation, Vector3D _rotation, Vector3D _angularacceleration, std::string _ObjectName) : RigidBody(Masse, _position, _vitesse, _acceleration, orientation, _rotation, _angularacceleration, _ObjectName)
 	{
@@ -131,7 +132,7 @@ public:
 	}
 
 private:
-	float Radius = 0;
+	
 };
 
 
@@ -160,6 +161,17 @@ public:
 		DZ = _DZ;
 	}
 
+	float getDX() {
+		return DX;
+	}
+
+	float getDY() {
+		return DY;
+	}
+
+	float getDZ() {
+		return DZ;
+	}
 private:
 	float DX = 0;
 	float DY = 0;
@@ -191,6 +203,13 @@ public:
 
 		Radius = _Radius;
 		Height = _Height;
+	}
+
+	float getRadius() {
+		return Radius;
+	}
+	float getHeight() {
+		return Height;
 	}
 
 private:
