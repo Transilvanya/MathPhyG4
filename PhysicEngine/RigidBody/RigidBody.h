@@ -75,7 +75,7 @@ public:
 	virtual Vector3D getVitesse() { return vitesse; }
 	virtual Vector3D getRotation() { return rotation; }
 
-	virtual void setRotation(Vector3D value) { rotation = value; }
+	
 	virtual float GetVolume() { return 1; }
 	virtual void setPosition(Vector3D v) { position = v; }
 	virtual float getInverseMasse() { return inverseMasse; }
@@ -85,7 +85,9 @@ public:
 	virtual bool getIsStatic() { return IsStatic; }
 	virtual void SetIsStatic(bool value) { IsStatic = value; }
 
-	virtual void setOrientation(Quaternion value) { orientation = value; }
+	virtual void setOrientation(Quaternion value) { orientation = value; CalculateDerivedData();}
+	virtual void setRotation(Vector3D value) { rotation = value; CalculateDerivedData(); }
+
 	virtual Quaternion getOrientation() { return orientation; }
 
 protected:

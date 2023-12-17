@@ -160,7 +160,7 @@ void SetupObject3() //box plane
 
 
 
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(1, 0, -1), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(1, 0, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(1, 0, -1), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
 
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", true);
 	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 0.1f, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 0.96, 0.29, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", true);
@@ -183,9 +183,10 @@ void SetupObject4()//box sphere
 	// V error
 	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(-2, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
 	
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(2, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
-	
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 5, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0.5f, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB", false);
+	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 1, Vector3D(2, 0, 0), Vector3D(-1, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 1, Vector3D(2, 0, 1), Vector3D(-1, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 1, Vector3D(0, 2, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0.1f, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB", false);
 
 
 
@@ -210,8 +211,10 @@ void SetupObject5() //box box
 	
 	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 5, 1), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 2.5f, 1), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
-
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 2.5f, 1), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
+	
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 5, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(1, 5, 1), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB1"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid1"), "entity1");
@@ -233,8 +236,17 @@ void SetupObject6() //box box
 
 	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 5, 1), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 2, 3), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(-1, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
+	
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(-1, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
+	
 
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 1, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
+
+
+//	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
+	
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB1"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid1"), "entity1");
@@ -242,6 +254,36 @@ void SetupObject6() //box box
 
 }
 
+
+void SetupObject7() //box box
+{
+
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid0", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid1", "simpletext", "cattext", CubeIndice, CubeVertex, 0, 0, 0);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
+
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
+
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB1"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid1"), "entity1");
+
+
+}
+void SetupObject8() //box box
+{
+
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid0", "simpletext", "brick", CubeIndice, CubeVertex, 0, 0, 0);
+	GraphicEngine::GetInstance()->CreatePolygonText("cuboid1", "simpletext", "cattext", CubeIndice, CubeVertex, 0, 0, 0);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 0, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB0", false);
+
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
+
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB1"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid1"), "entity1");
+
+
+}
 
 void DeleteObject()
 {
@@ -292,6 +334,9 @@ void Testfct2()
 
 int main()
 {
+
+
+
 
 
 	GraphicEngine::GetInstance()->Init();
@@ -350,14 +395,17 @@ int main()
 			if (GraphicEngine::GetInstance()->Bool1())
 			{
 				SetupObject();
+				//SetupObject6();
 			}
 			else if (GraphicEngine::GetInstance()->Bool2())
 			{
 				SetupObject2();
+				//SetupObject7();
 			}
 			else if(GraphicEngine::GetInstance()->Bool3())
 			{
 				SetupObject3();
+				//SetupObject8();
 			}
 			else if(GraphicEngine::GetInstance()->Bool4())
 			{

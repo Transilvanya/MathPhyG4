@@ -46,36 +46,49 @@ void PhysicEngine::Integrade(float DTms)
 
 	std::map<std::string, RigidBody*>::iterator it = _physicobjectsRB.begin();
 
-	std::cout << "_____________________ objects\n";
+	//std::cout << "_____________________ objects\n";
 
 	while (it != _physicobjectsRB.end())
 	{
-		std::cout << it->second->getObjectName() << "\n";
-		std::cout << "Position :\t" << it->second->getPosition().getX() << "\t" << it->second->getPosition().getY() << "\t" << it->second->getPosition().getZ() << "\n";
-		std::cout << "Orientation :\t" << it->second->getOrientation().getW() << "\t" << it->second->getOrientation().getX() << "\t" << it->second->getOrientation().getY() << "\t" << it->second->getOrientation().getZ() << "\n";
-		std::cout << "Vitesse :\t" << it->second->getVitesse().getX() << "\t" << it->second->getVitesse().getY() << "\t" << it->second->getVitesse().getZ() << "\n";
-		std::cout << "Rotation :\t" << it->second->getRotation().getX() << "\t" << it->second->getRotation().getY() << "\t" << it->second->getRotation().getZ() << "\n";
-		std::cout << "\n";
+
+		//std::cout << it->second->getObjectName() << "\n";
+		//std::cout << "Position :\t" << it->second->getPosition().getX() << "\t" << it->second->getPosition().getY() << "\t" << it->second->getPosition().getZ() << "\n";
+		//std::cout << "Orientation :\t" << it->second->getOrientation().getW() << "\t" << it->second->getOrientation().getX() << "\t" << it->second->getOrientation().getY() << "\t" << it->second->getOrientation().getZ() << "\n";
+		//std::cout << "Vitesse :\t" << it->second->getVitesse().getX() << "\t" << it->second->getVitesse().getY() << "\t" << it->second->getVitesse().getZ() << "\n";
+		//std::cout << "Rotation :\t" << it->second->getRotation().getX() << "\t" << it->second->getRotation().getY() << "\t" << it->second->getRotation().getZ() << "\n";
+		//std::cout << "\n";
 
 
 		std::map<std::string, RigidBody*>::iterator it3 = it;
 		it3++;
 		while (it3 != _physicobjectsRB.end())
 		{
-			
 
-			listbodies.push_back( { it->second, it3->second });
+
+			listbodies.push_back({ it->second, it3->second });
 			it3++;
 		}
 		it++;
 	}
-	std::cout << "_____________________ \n";
+
+	listbodies = BroadPhase(listbodies);
+
+	//std::cout << "_____________________ \n";
 
 	std::vector<Contact> contacts = n.narrowPhase(listbodies);
+
+
+
+
+	//return;
+
+
+
 
 	ContactSolverRigid CSV;
 
 	std::vector<Contact>::iterator itc = contacts.begin();
+	/*
 	if(contacts.size()!=0)
 		std::cout << "______\n";
 	while (itc != contacts.end())
@@ -89,7 +102,7 @@ void PhysicEngine::Integrade(float DTms)
 	}
 	if (contacts.size() != 0)
 		std::cout << "______\n";
-	
+	*/
 	/*
 	std::vector<Contact>::iterator it = Contacts.begin();
 	while (it != Contacts.end())
@@ -97,30 +110,132 @@ void PhysicEngine::Integrade(float DTms)
 		it++;
 	}
 	*/
-	
-int loopindex = 0;
-bool contactdetected = contacts.size() > 0;
 
-while (contactdetected && loopindex < 1)
-{	
-		
+	int loopindex = 0;
+	bool contactdetected = contacts.size() > 0;
 
-//		std::vector<Contact>::iterator it = contacts.begin();
-//		while (it != contacts.end())
-		
-			CSV.SolvePenetration(contacts.front());
-			//CSV.SolveImpulsion(contacts.front());
-		//	it++;
-		
-			contacts = n.narrowPhase(listbodies);
-			contactdetected = contacts.size() > 0;
-	
+	while (contactdetected && loopindex < 10)
+	{
+
+		std::vector<Contact>::iterator it = contacts.begin();
+		Contact tempcontact = contacts.front();
+		float maxpen = -1;
+
+		while (it != contacts.end())
+		{
+			//std::cout << "pen " << it->penetration << " " << it->contactPoint.getX() << " " << it->contactPoint.getY() << " " << it->contactPoint.getZ() << "\n";
+
+			if (it->penetration > maxpen)
+			{
+				maxpen = it->penetration;
+				tempcontact = *it;
+			}
+			it++;
+		}
+
+		if (maxpen > 0.01)
+		{
+			//std::cout << "\n" << loopindex << " pen " << maxpen << "\t" << tempcontact.contactPoint.getX() << "\t" << tempcontact.contactPoint.getY() << "\t" << tempcontact.contactPoint.getZ() << "\n\n";
+				
+
+			//std::cout << "positionOne \t" << tempcontact.rigidbodies.first->getPosition().getX() << "\t" << tempcontact.rigidbodies.first->getPosition().getY() << "\t" << tempcontact.rigidbodies.first->getPosition().getZ() << "\n";
+			//std::cout << "positionSecond \t" << tempcontact.rigidbodies.second->getPosition().getX() << "\t" << tempcontact.rigidbodies.second->getPosition().getY() << "\t" << tempcontact.rigidbodies.second->getPosition().getZ() << "\n";
+			CSV.SolvePenetration(tempcontact);
+			//std::cout << "positionOne \t" << tempcontact.rigidbodies.first->getPosition().getX() << "\t" << tempcontact.rigidbodies.first->getPosition().getY() << "\t" << tempcontact.rigidbodies.first->getPosition().getZ() << "\n";
+			//std::cout << "positionSecond \t" << tempcontact.rigidbodies.second->getPosition().getX() << "\t" << tempcontact.rigidbodies.second->getPosition().getY() << "\t" << tempcontact.rigidbodies.second->getPosition().getZ() << "\n";
+
+		}
+		else
+		{
+			loopindex = 100;
+		}
+
+
+
+		contacts = n.narrowPhase(listbodies);
+		contactdetected = contacts.size() > 0;
+
 		//std::cout << contacts.size()<<"\n";
 
 		loopindex++;
 	}
-
 	
+	//if(loopindex!=0)
+		//std::cout << "\n";
+
+	contacts = n.narrowPhase(listbodies);
+
+	itc = contacts.begin();
+	/*
+	if(contacts.size()!=0)
+		std::cout << "______\n";
+	while (itc != contacts.end())
+	{
+
+		std::cout <<"contactpoint\t" << itc->contactPoint.getX() << " " << itc->contactPoint.getY() << " " << itc->contactPoint.getZ() << "\n";
+		std::cout <<"penetration\t" << itc->penetration << "\n";
+		std::cout << "contactNormal\t" << itc->contactNormal.getX() << " " << itc->contactNormal.getY() << " " << itc->contactNormal.getZ() << "\n";
+		std::cout << "\n";
+		itc++;
+	}
+	if (contacts.size() != 0)
+		std::cout << "______\n";
+	*/
+	/*
+	std::vector<Contact>::iterator it = Contacts.begin();
+	while (it != Contacts.end())
+	{
+		it++;
+	}
+	*/
+
+	loopindex = 0;
+	contactdetected = contacts.size() > 0;
+
+	while (contactdetected && loopindex < 10)
+	{
+
+		std::vector<Contact>::iterator it = contacts.begin();
+		Contact tempcontact = contacts.front();
+		Vector3D r0 = it->contactPoint - it->rigidbodies.first->getPosition();
+		Vector3D r1 = it->contactPoint - it->rigidbodies.second->getPosition();
+		Vector3D ObjectSpeed0 = it->rigidbodies.first->getVitesse() + it->rigidbodies.first->getRotation() * r0;
+		Vector3D ObjectSpeed1 = it->rigidbodies.second->getVitesse() + it->rigidbodies.second->getRotation() * r1;
+		float speeddif = (ObjectSpeed0 & it->contactNormal) - (ObjectSpeed1 & it->contactNormal);
+		float max = speeddif;
+
+		while (it != contacts.end())
+		{
+			r0 = it->contactPoint - it->rigidbodies.first->getPosition();
+			r1 = it->contactPoint - it->rigidbodies.second->getPosition();
+			ObjectSpeed0 = it->rigidbodies.first->getVitesse() + it->rigidbodies.first->getRotation() * r0;
+			ObjectSpeed1 = it->rigidbodies.second->getVitesse() + it->rigidbodies.second->getRotation() * r1;
+			speeddif = (ObjectSpeed0 & it->contactNormal) - (ObjectSpeed1 & it->contactNormal);
+			//std::cout << "speeddif\t" << speeddif << "\n";
+
+			if (speeddif > max)
+			{
+				max = speeddif;
+				tempcontact = *it;
+			}
+			it++;
+		}
+
+		if (max > 0)
+		{
+			CSV.SolveImpulsion(tempcontact);
+		}
+		else
+		{
+			loopindex = 10;
+		}
+
+		contacts = n.narrowPhase(listbodies);
+		contactdetected = contacts.size() > 0;
+		loopindex++;
+	}
+
+
 
 	/*
 	int loopindex = 0;
@@ -173,7 +288,7 @@ while (contactdetected && loopindex < 1)
 	//std::cout << "\n";
 
 
-	
+
 	int loopindex = 0;
 
 	bool contactdetected = _contactregistry.AddContacts(_physicobjects);
@@ -191,7 +306,7 @@ while (contactdetected && loopindex < 1)
 		//std::cout << "end integrade\n";
 		loopindex++;
 	}//std::cout << "end integrade\n";
-	
+
 	_contactregistry.ApplyAnchors();
 	*/
 }
@@ -323,3 +438,83 @@ RigidCylinder* PhysicEngine::GetRigidCylinder(std::string name)
 
 //ForceRegistry* PhysicEngine::GetForceRegistry() { return &_forceregistry; }
 ForceRegistryRigid* PhysicEngine::GetForceRegistryRB() { return &_forceregistryRB; }
+
+
+// ______________________
+
+
+std::list<std::pair<RigidBody*, RigidBody*>> PhysicEngine::BroadPhase(std::list<std::pair<RigidBody*, RigidBody*>> listbodies)
+{
+
+
+	std::list<std::pair<RigidBody*, RigidBody*>> listbodies2 = listbodies;
+
+	for (auto pairRB : listbodies)
+	{
+	
+		float distance = (pairRB.first->getPosition() - pairRB.second->getPosition()).getNorm();
+		//std::cout << "distance " << distance << "\n";
+
+		int r0 = 0;
+		int r1 = 0;
+
+		if (pairRB.first->getType() == TypeRigidBody::CUBOID)
+		{
+			if (pairRB.first->getIsStatic() == true)
+				r0 = 9999;
+			else if (pairRB.first->getIsStatic() == false)
+			{
+				RigidCuboid* RBC = ((RigidCuboid*)pairRB.first);
+
+				float x = RBC->getDX();
+				float y = RBC->getDY();
+				float z = RBC->getDZ();
+
+
+				r0 = sqrt(x*x + y*y + z*z);
+			}
+				
+		}
+		else if (pairRB.first->getType() == TypeRigidBody::SPHERE)
+		{
+			r0 = ((RigidSphere*)pairRB.first)->getRadius();
+		}
+
+
+		if (pairRB.second->getType() == TypeRigidBody::CUBOID)
+		{
+			if (pairRB.second->getIsStatic() == true)
+				r1 = 9999;
+			else if (pairRB.second->getIsStatic() == false)
+			{
+				RigidCuboid* RBC = ((RigidCuboid*)pairRB.second);
+
+				float x = RBC->getDX();
+				float y = RBC->getDY();
+				float z = RBC->getDZ();
+
+
+				r1 = sqrt(x * x + y * y + z * z);
+			}
+		}
+
+		else if (pairRB.second->getType() == TypeRigidBody::SPHERE)
+		{
+			r1 = ((RigidSphere*)pairRB.second)->getRadius();
+		}
+
+		//std::cout << "r0 " << r0 << "\n";
+		//std::cout << "r1 " << r1 << "\n";
+
+		if (distance > r0 + r1)
+		{
+			//std::cout << "removed\n";
+			listbodies2.remove(pairRB);
+		}
+	}
+
+
+
+
+	return listbodies2;
+}

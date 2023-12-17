@@ -113,25 +113,32 @@ private:
 		Vector3D normal;
 		// Check each axis, looking for the axis on which the
 			// penetration is least deep.
+		
 		float min_depth = x - abs(relPt.getX());
 		if (min_depth < 0) return 0;
 		normal = RBC->getAxis(0) * ((relPt.getX() < 0) ? -1 : 1);
 		
+		
+		//std::cout << "y "<< y << "relPT,y "<< abs(relPt.getY()) << "\n";
+
 		float depth = y - abs(relPt.getY());
 		if (depth < 0) return 0;
-		else if (depth < min_depth)
+		else if ((depth < min_depth && depth > 0) || min_depth == 0)
 		{
 			min_depth = depth;
 			normal = RBC->getAxis(1) * ((relPt.getY() < 0) ? -1 : 1);
 		}
 
+		
 		depth = z - abs(relPt.getZ());
 		if (depth < 0) return 0;
-		else if (depth < min_depth)
+		else if ((depth < min_depth && depth > 0) || min_depth == 0)
 		{
 			min_depth = depth;
 			normal = RBC->getAxis(2) * ((relPt.getZ() < 0) ? -1 : 1);
 		}
+
+		
 		// Compile the contact.
 		Contact* contact = new Contact();
 		contact->contactNormal = normal;
@@ -144,24 +151,30 @@ private:
 		// this value can be left, or filled in.
 		contact->rigidbodies.second = otherbox.body;
 		contact->restitution = 1;
-		contact->friction = 1;
+		contact->friction = 1; 
 
-		if (endabledisplay)
+		if (endabledisplay )
 		{
 			std::cout << "_______________________\n";
 
-			std::cout << "RBC->getAxis(0)\t" << RBC->getAxis(0).getX() << "\t" << RBC->getAxis(0).getY() << "\t" << RBC->getAxis(0).getZ() << "\n";
-			std::cout << "RBC->getAxis(1)\t" << RBC->getAxis(1).getX() << "\t" << RBC->getAxis(1).getY() << "\t" << RBC->getAxis(1).getZ() << "\n";
-			std::cout << "RBC->getAxis(2)\t" << RBC->getAxis(2).getX() << "\t" << RBC->getAxis(2).getY() << "\t" << RBC->getAxis(2).getZ() << "\n";
-			std::cout << "RBC0->getPosition()\t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
+			//std::cout << "RBC->getAxis(0)\t" << RBC->getAxis(0).getX() << "\t" << RBC->getAxis(0).getY() << "\t" << RBC->getAxis(0).getZ() << "\n";
+			//std::cout << "RBC->getAxis(1)\t" << RBC->getAxis(1).getX() << "\t" << RBC->getAxis(1).getY() << "\t" << RBC->getAxis(1).getZ() << "\n";
+			//std::cout << "RBC->getAxis(2)\t" << RBC->getAxis(2).getX() << "\t" << RBC->getAxis(2).getY() << "\t" << RBC->getAxis(2).getZ() << "\n";
+			//std::cout << "RBC0->getPosition()\t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
 			std::cout << "Box of point\t" << otherbox.body->getPosition().getX() << "\t" << otherbox.body->getPosition().getY() << "\t" << otherbox.body->getPosition().getZ() << "\n";
 			std::cout << "point\t" << point.getX() << "\t" << point.getY() << "\t" << point.getZ() << "\n";
+			std::cout << "penetration\t" << contact->penetration << "\n";
 
 			std::cout << "_______________________\n";
 
 		}
 
+		
+		
+		
 		contacts.push_back(*contact);
+		//std::cout << "contact";
+
 		return 1;
 	}
 

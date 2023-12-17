@@ -205,13 +205,13 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 		
 	for (int i = 0; i < 8; i++)
 	{
+
+
+
+
 		Vector3D positionOne = listpoints[i];//sphere.body->getPosition();
-
-
 		Vector3D PlaneNormal = ((RigidCuboid*)plane.body)->getNormal();
-
 		float offset = ((RigidCuboid*)plane.body)->getOffset();
-
 		positionOne = positionOne - Vector3D(0, offset, 0); // if gety > 0 work
 
 		if (PlaneNormal.getY() < 0)
@@ -221,11 +221,6 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 
 		//std::cout << "distance to axe\t" << (positionOne & PlaneNormal) << "\n";
 
-		if (i == 4)
-		{
-	//		std::cout << "distance to axe\t" << (positionOne & PlaneNormal) << "\n";
-		}
-
 		if (distancecentresphere < 0.0f)
 		{
 			//create the contact
@@ -234,12 +229,12 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 			contact->rigidbodies.first = plane.body;
 			contact->rigidbodies.second = box.body ;
 			contact->contactNormal = PlaneNormal;
-			contact->penetration = -distancecentresphere;
+			contact->penetration = -distancecentresphere ;
 			contact->restitution = 0;
 			contact->contactPoint = listpoints[i];
 
 		//	std::cout << "positionBox \t" << RBC->getPosition().getX() << "\t" << RBC->getPosition().getY() << "\t" << RBC->getPosition().getZ() << "\n";
-		//	std::cout << "positionOne \t" << listpoints[i].getX() << "\t" << listpoints[i].getY() << "\t" << listpoints[i].getZ() << "\n";
+		//std::cout << "positionOne \t" << listpoints[i].getX() << "\t" << listpoints[i].getY() << "\t" << listpoints[i].getZ() << "\n";
 
 		//	std::cout << "pen \t" << contact->penetration << "\n";
 		//	std::cout << "normal \t" << PlaneNormal.getX() << "\t" << PlaneNormal.getY() << "\t" << PlaneNormal.getZ() << "\n";
@@ -249,7 +244,8 @@ unsigned NarrowPhase::boxPlane(const Box& box, const Plane& plane)
 	}
 
 
-
+	//if (contacts.size() != 0)
+	//	std::cout <<"\n";
 
 	return 1;
 }
@@ -334,18 +330,27 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 		RBC->GettransformMatrix().getValues(4), RBC->GettransformMatrix().getValues(5), RBC->GettransformMatrix().getValues(6),
 		RBC->GettransformMatrix().getValues(8), RBC->GettransformMatrix().getValues(9), RBC->GettransformMatrix().getValues(10)
 	};
+
+	float newVal2[9]
+	{
+		RBC->GettransformMatrix().getValues(0), RBC->GettransformMatrix().getValues(1), RBC->GettransformMatrix().getValues(2),
+		RBC->GettransformMatrix().getValues(4), RBC->GettransformMatrix().getValues(5), RBC->GettransformMatrix().getValues(9),
+		RBC->GettransformMatrix().getValues(8), RBC->GettransformMatrix().getValues(6), RBC->GettransformMatrix().getValues(10)
+	};
+
 	Matrice33 m(newVal);
+	Matrice33 m2(newVal2);
 
 	Vector3D listpoints[8] =
 	{
-		m*(Vector3D(x , y, z)),
-		m*(Vector3D(x , y, -z)),
-		m*(Vector3D(x , -y, z)),
-		m*(Vector3D(x , -y, -z)),
-		m*(Vector3D(-x ,y , z)),
-		m*(Vector3D(-x ,y , -z)),
-		m*(Vector3D(-x ,-y , z)),
-		m*(Vector3D(-x ,-y , -z))
+		m2*(Vector3D(x , y, z)),
+		m2*(Vector3D(x , y, -z)),
+		m2*(Vector3D(x , -y, z)),
+		m2*(Vector3D(x , -y, -z)),
+		m2*(Vector3D(-x ,y , z)),
+		m2*(Vector3D(-x ,y , -z)),
+		m2*(Vector3D(-x ,-y , z)),
+		m2*(Vector3D(-x ,-y , -z))
 	};
 
 	Vector3D relCenter = m*(RBS->getPosition() - RBC->getPosition());
@@ -434,11 +439,13 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 
 	Vector3D RBCPos0 = RBC0->getPosition();
 
+
+	//6 and 9 inverted du to a change in coordinate beetwen graphic engine and physic engine
 	float newVal0[9]
 	{
-		RBC0->GettransformMatrix().getValues(0), RBC0->GettransformMatrix().getValues(1), RBC0->GettransformMatrix().getValues(2),
-		RBC0->GettransformMatrix().getValues(4), RBC0->GettransformMatrix().getValues(5), RBC0->GettransformMatrix().getValues(6),
-		RBC0->GettransformMatrix().getValues(8), RBC0->GettransformMatrix().getValues(9), RBC0->GettransformMatrix().getValues(10)
+		RBC0->GettransformMatrix().getValues(0), RBC0->GettransformMatrix().getValues(1), -RBC0->GettransformMatrix().getValues(2),
+		RBC0->GettransformMatrix().getValues(4), RBC0->GettransformMatrix().getValues(5), -RBC0->GettransformMatrix().getValues(9),
+		RBC0->GettransformMatrix().getValues(8), RBC0->GettransformMatrix().getValues(6), -RBC0->GettransformMatrix().getValues(10)
 	};
 	Matrice33 m0(newVal0);
 
@@ -467,30 +474,71 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 	float newVal1[9]
 	{
 		RBC1->GettransformMatrix().getValues(0), RBC1->GettransformMatrix().getValues(1), RBC1->GettransformMatrix().getValues(2),
+		RBC1->GettransformMatrix().getValues(4), RBC1->GettransformMatrix().getValues(5), RBC1->GettransformMatrix().getValues(9),
+		RBC1->GettransformMatrix().getValues(8), RBC1->GettransformMatrix().getValues(6), RBC1->GettransformMatrix().getValues(10)
+	};
+
+	/*
+			RBC1->GettransformMatrix().getValues(0), RBC1->GettransformMatrix().getValues(1), RBC1->GettransformMatrix().getValues(2),
 		RBC1->GettransformMatrix().getValues(4), RBC1->GettransformMatrix().getValues(5), RBC1->GettransformMatrix().getValues(6),
 		RBC1->GettransformMatrix().getValues(8), RBC1->GettransformMatrix().getValues(9), RBC1->GettransformMatrix().getValues(10)
-	};
+	*/
 	Matrice33 m1(newVal1);
+
+	//std::cout << m1.getValues(0) << "\t" << m1.getValues(1) << "\t" << m1.getValues(2) << "\n";
+	//std::cout << m1.getValues(3) << "\t" << m1.getValues(4) << "\t" << m1.getValues(5) << "\n";
+	//std::cout << m1.getValues(6) << "\t" << m1.getValues(7) << "\t" << m1.getValues(8) << "\n\n";
+
+
 
 	Vector3D listpoints1[8] =
 	{
-		(m1 * Vector3D(x , y, z) + RBCPos1),
-		(m1 * Vector3D(x , y, -z) + RBCPos1),
 
+		(m1 * Vector3D(x , y, z) + RBCPos1),
 		(m1 * Vector3D(x , -y, z) + RBCPos1),
+
+		(m1 * Vector3D(x , y, -z) + RBCPos1),
 		(m1 * Vector3D(x , -y, -z) + RBCPos1),
 
-
 		(m1 * Vector3D(-x ,y , z) + RBCPos1),
-		(m1 * Vector3D(-x ,y , -z) + RBCPos1),
-
 		(m1 * Vector3D(-x ,-y , z) + RBCPos1),
-		(m1 * Vector3D(-x ,-y , -z) + RBCPos1)
+
+		(m1 * Vector3D(-x ,y , -z) + RBCPos1),
+		(m1 * Vector3D(-x ,-y , -z) + RBCPos1),
+
+		/*
+		(m1 * Vector3D(x , y, z) + RBCPos1),
+		(m1 * Vector3D(x , -y, z) + RBCPos1),
+		
+		(m1 * Vector3D(-x ,y , z) + RBCPos1),
+		(m1 * Vector3D(-x ,-y , z) + RBCPos1),
+
+		(m1 * Vector3D(x , y, -z) + RBCPos1),
+		(m1 * Vector3D(x , -y, -z) + RBCPos1),
+
+		(m1 * Vector3D(-x ,y , -z) + RBCPos1),
+		(m1 * Vector3D(-x ,-y , -z) + RBCPos1),
+		*/
+		
+		/*
+		(m1 * Vector3D(x , y, z) + RBCPos1),
+		(m1 * Vector3D(-x ,y , z) + RBCPos1),
+		(m1 * Vector3D(x , y, -z) + RBCPos1),
+		(m1 * Vector3D(-x ,y , -z) + RBCPos1),
+		
+
+		(m1 * Vector3D(x , -y, z) + RBCPos1),
+		(m1 * Vector3D(-x ,-y , z) + RBCPos1),
+		(m1 * Vector3D(x , -y, -z) + RBCPos1),
+		(m1 * Vector3D(-x ,-y , -z) + RBCPos1),
+		*/
 	};
 
-
-
-
+	//std::cout << "\n";
+	for (int i = 0; i < 4; i++)
+	{
+	//	std::cout << "listpoints1\t" << listpoints1[i].getX() << "\t" << listpoints1[i].getY() << "\t" << listpoints1[i].getZ() << "\n";
+	}
 
 
 
@@ -528,6 +576,7 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 	}
 	//std::cout << "\n\n";
 
+	
 	int sum = 0;
 	for (int i = 0; i < 15; i++)
 	{
@@ -539,17 +588,19 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 	//Check SAT
 	if (sum == 0)
 		return 0;
-
-
+	
+	
 
 	//Check for Pont Face
 
+	//std::cout << "\t\tstart \n";
 	for (int i = 0; i < 8; i++)
 	{
 		//std::cout << "listpoints0\t" << listpoints0[i].getX() << "\t" << listpoints0[i].getY() << "\t" << listpoints0[i].getZ() << "\n";
 	boxAndPoint(secondBox, listpoints0[i], firstBox);
 	//std::cout << boxAndPoint(secondBox, listpoints0[i], firstBox) << "\n";
 	}
+	//std::cout << "\t\tmid\n";
 	//std::cout << "\n";
 	for (int i = 0; i < 8; i++)
 	{
@@ -558,7 +609,7 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 		boxAndPoint(firstBox, listpoints1[i], secondBox);
 	}
 
-
+	//std::cout << "\t\tend\n";
 
 
 

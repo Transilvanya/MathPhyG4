@@ -17,16 +17,29 @@ public:
 
 
 	static bool enableDisplay() {
-		return true;
+		return false;
 	}
 	
+	static bool enableDisplay2() {
+		return false;
+	}
+
+	static bool enableDisplay3() {
+		return false;
+	}
+
+
+	static bool enablePenRot() {
+		return true;
+	}
 
 	//fill Contacts for the Particules
 	static void SolvePenetration(Contact Contacts)
 	{
-		
+		//std::cout << "Solve Pen\n";
 		if (Contacts.penetration > 0.001)
 		{
+
 			if (enableDisplay())
 			{
 				std::cout << "\n";
@@ -43,14 +56,14 @@ public:
 			}
 			Vector3D contactpoint0 = Contacts.contactPoint - Contacts.rigidbodies.first->getPosition();
 			Vector3D contactpoint1 = Contacts.contactPoint - Contacts.rigidbodies.second->getPosition();
-			if (enableDisplay())
+			if (enableDisplay2())
 			{
-				std::cout << "Contacts.contactPoint : " << Contacts.contactPoint.getX() << " " << Contacts.contactPoint.getY() << " " << Contacts.contactPoint.getZ() << "\n";
+				std::cout << "contactPoint : " << Contacts.contactPoint.getX() << " " << Contacts.contactPoint.getY() << " " << Contacts.contactPoint.getZ() << "\n";
 				std::cout << "Pos 0 : " << Contacts.rigidbodies.first->getPosition().getX() << " " << Contacts.rigidbodies.first->getPosition().getY() << " " << Contacts.rigidbodies.first->getPosition().getZ() << "\n";
 				std::cout << "Pos 1 : " << Contacts.rigidbodies.second->getPosition().getX() << " " << Contacts.rigidbodies.second->getPosition().getY() << " " << Contacts.rigidbodies.second->getPosition().getZ() << "\n";
 				std::cout << "contactpointRelativePos0 : " << contactpoint0.getX() << " " << contactpoint0.getY() << " " << contactpoint0.getZ() << "\n";
 				std::cout << "contactpointRelativePos1 : " << contactpoint1.getX() << " " << contactpoint1.getY() << " " << contactpoint1.getZ() << "\n";
-				std::cout << "Contacts.contactNormal : " << Contacts.contactNormal.getX() << " " << Contacts.contactNormal.getY() << " " << Contacts.contactNormal.getZ() << "\n";
+				std::cout << "contactNormal : " << Contacts.contactNormal.getX() << " " << Contacts.contactNormal.getY() << " " << Contacts.contactNormal.getZ() << "\n";
 
 				std::cout << "\n";
 
@@ -122,10 +135,10 @@ public:
 			//________________ _________________________________ angular inertia
 
 
-			std::cout << "ANUGLAR INERTIA DISABLED\n";
+			//std::cout << "ANUGLAR INERTIA DISABLED\n";
 		
-					angularInertia0 = 0;
-					angularInertia1 = 0;
+				//	angularInertia0 = 0;
+				//	angularInertia1 = 0;
 				
 				if (Contacts.rigidbodies.first->getIsStatic())
 				{
@@ -138,9 +151,6 @@ public:
 					linearInertia1 = 0;
 					angularInertia1 = 0;
 				}
-
-
-
 
 				// Keep track of the total inertia from all components.
 				float totalInertia = linearInertia0 + linearInertia1 + angularInertia0 + angularInertia1;
@@ -155,16 +165,29 @@ public:
 
 				Vector3D temp0 = Contacts.contactNormal * linearWeigth0;
 				Vector3D temp1 = Contacts.contactNormal * linearWeigth1;
-				if (enableDisplay())
+				if (enableDisplay3())
 				{
 					std::cout << "penetration : " << Contacts.penetration << "\n";
 					std::cout << "temp 0 : " << temp0.getX() << " " << temp0.getY() << " " << temp0.getZ() << "\n";
 					std::cout << "temp 1 : " << temp1.getX() << " " << temp1.getY() << " " << temp1.getZ() << "\n";
+
+					Vector3D v0 = Contacts.rigidbodies.first->getPosition();
+					Vector3D v1 = Contacts.rigidbodies.second->getPosition();
+					Quaternion q0 = Contacts.rigidbodies.first->getOrientation();
+					Quaternion q1 = Contacts.rigidbodies.second->getOrientation();
+					std::cout << "Pos 0 : " << v0.getX() << " " << v0.getY() << " " << v0.getZ() << "\n";
+					std::cout << "Pos 1 : " << v1.getX() << " " << v1.getY() << " " << v1.getZ() << "\n";
+
+					std::cout << "Rot 0 : " << q0.getW() << " " << q0.getX() << " " << q0.getY() << " " << q0.getZ() << "\n";
+					std::cout << "Rot 1 : " << q1.getW() << " " << q1.getX() << " " << q1.getY() << " " << q1.getZ() << "\n";
 				}
+				
+
+				//std::cout << "LINEAR PEN DESACTIVATED !\n";
 				Contacts.rigidbodies.first->setPosition(Contacts.rigidbodies.first->getPosition() + temp0);
 				Contacts.rigidbodies.second->setPosition(Contacts.rigidbodies.second->getPosition() + temp1);
 
-
+				
 
 
 				// -----------------------------------------------------------------
@@ -176,8 +199,8 @@ public:
 				{
 					std::cout << "\n";
 				}
-				float angularWeigth0 = inverseInertia * -Contacts.penetration * angularInertia0;
-				float angularWeigth1 = inverseInertia * Contacts.penetration * angularInertia1;
+				float angularWeigth0 = inverseInertia * Contacts.penetration * angularInertia0;
+				float angularWeigth1 = inverseInertia * -Contacts.penetration * angularInertia1;
 				if (enableDisplay())
 				{
 					std::cout << "\tangularweigth\t" << angularWeigth0 << "\t" << angularWeigth1 << "\n";
@@ -193,7 +216,14 @@ public:
 
 				if (enableDisplay())
 				{
-					std::cout << "rotation0\t" << rotation0.getX() << " " << rotation0.getY() << " " << rotation0.getZ() << "\n";
+
+					std::cout << "contactpoint0 * Contacts.contactNormal\t" << impulsiveTorque0.getX() << " " << impulsiveTorque0.getY() << " " << impulsiveTorque0.getZ() << "\n";
+					std::cout << "Contacts.rigidbodies.first->GetInverseTenseur() * impulsiveTorque0\t" << impulsePerMove0.getX() << " " << impulsePerMove0.getY() << " " << impulsePerMove0.getZ() << "\n";
+					std::cout << "impulsePerMove0 * (1 / angularInertia0)\t" << rotPerMove0.getX() << " " << rotPerMove0.getY() << " " << rotPerMove0.getZ() << "\n";
+				}
+				if (enableDisplay3())
+				{
+					std::cout << "Rotation0 ( rotPerMove0 * angularWeigth0 )\t" << rotation0.getX() << " " << rotation0.getY() << " " << rotation0.getZ() << "\n";
 				}
 				Quaternion quat = Contacts.rigidbodies.first->getOrientation();
 				if (enableDisplay())
@@ -204,42 +234,86 @@ public:
 				if (enableDisplay())
 				{
 					std::cout << "quat0'\t" << quat.getW() << " " << quat.getX() << " " << quat.getY() << " " << quat.getZ() << "\n";
+					std::cout << "\n";
 				}
-				Contacts.rigidbodies.first->setOrientation(quat);
+				//Contacts.rigidbodies.first->setOrientation(quat);
 
 					Quaternion quat0 = Contacts.rigidbodies.first->getOrientation();
-					quat0.RotateByVector(rotation0);
-					//Contacts.rigidbodies.first->setOrientation(quat0);				
-			
+							
+					//quat0.RotateByVector(Vector3D(0,0,-0.1f));
+					
+					//
+					if(enablePenRot())
+						Contacts.rigidbodies.first->setOrientation(quat);				
+					else
+						std::cout << "PENETRATION ORIENTATTION\n";
+					
+
+
+					// *****************************
+					//
+					//
+					//
+					// *****************************
+
+
 
 
 				Vector3D impulsiveTorque1 = contactpoint1 * Contacts.contactNormal;
 				Vector3D impulsePerMove1 = Contacts.rigidbodies.second->GetInverseTenseur() * impulsiveTorque1;
 				Vector3D rotPerMove1 = impulsePerMove1 * (1 / angularInertia1);
-				if (angularInertia1 != 0)
+				if (angularInertia1 == 0)
 					rotPerMove1 = Vector3D(0, 0, 0);
 
-				Vector3D rotation1 = rotPerMove1 * angularWeigth1;
 				if (enableDisplay())
 				{
-					std::cout << "rotation1\t" << rotation1.getX() << " " << rotation1.getY() << " " << rotation1.getZ() << "\n";
+
+					std::cout << "contactpoint1 * Contacts.contactNormal\t" << impulsiveTorque1.getX() << " " << impulsiveTorque1.getY() << " " << impulsiveTorque1.getZ() << "\n";
+					std::cout << "Contacts.rigidbodies.second->GetInverseTenseur() * impulsiveTorque1\t" << impulsePerMove1.getX() << " " << impulsePerMove1.getY() << " " << impulsePerMove1.getZ() << "\n";
+					std::cout << "impulsePerMove1 * (1 / angularInertia1)\t" << rotPerMove1.getX() << " " << rotPerMove1.getY() << " " << rotPerMove1.getZ() << "\n";
+
+				}
+
+				Vector3D rotation1 = rotPerMove1 * angularWeigth1;
+				if (enableDisplay3())
+				{
+					std::cout << "Rotation ( rotPerMove1 * angularWeigth1 )\t" << rotation1.getX() << " " << rotation1.getY() << " " << rotation1.getZ() << "\n";
 				}
 				Quaternion quat1 = Contacts.rigidbodies.second->getOrientation();
 				if (enableDisplay())
 				{
-					std::cout << quat1.getW() << " " << quat1.getX() << " " << quat1.getY() << " " << quat1.getZ() << "\n";
+					std::cout << "quat1 " << quat1.getW() << " " << quat1.getX() << " " << quat1.getY() << " " << quat1.getZ() << "\n";
 				}
 				quat1.RotateByVector(rotation1);
 				if (enableDisplay())
 				{
-					std::cout << quat1.getW() << " " << quat1.getX() << " " << quat1.getY() << " " << quat1.getZ() << "\n";
+					std::cout << "quat1 ' " << quat1.getW() << " " << quat1.getX() << " " << quat1.getY() << " " << quat1.getZ() << "\n";
 				}
-				//Contacts.rigidbodies.second->setOrientation(quat1);
+
 				
+				//tempquat.RotateByVector(Vector3D(0,0,0.01f));
+
+				if(enablePenRot())
+					Contacts.rigidbodies.second->setOrientation(quat1);
+				
+
+				if (enableDisplay3())
+				{
+
+					Vector3D v0 = Contacts.rigidbodies.first->getPosition();
+					Vector3D v1 = Contacts.rigidbodies.second->getPosition();
+					Quaternion q0 = Contacts.rigidbodies.first->getOrientation();
+					Quaternion q1 = Contacts.rigidbodies.second->getOrientation();
+					std::cout << "Pos 0 : " << v0.getX() << " " << v0.getY() << " " << v0.getZ() << "\n";
+					std::cout << "Pos 1 : " << v1.getX() << " " << v1.getY() << " " << v1.getZ() << "\n";
+
+					std::cout << "Rot 0 : " << q0.getW() << " " << q0.getX() << " " << q0.getY() << " " << q0.getZ() << "\n";
+					std::cout << "Rot 1 : " << q1.getW() << " " << q1.getX() << " " << q1.getY() << " " << q1.getZ() << "\n";
+				}
 
 				if (enableDisplay())
 				{
-					std::cout << "end Conctact\n";
+					std::cout << "end Conctact _____________ \n";
 				}
 			}
 		
@@ -247,6 +321,8 @@ public:
 
 	static void SolveImpulsion(Contact Contacts)
 	{
+	//	std::cout << "Solve Imp\n";
+
 		if (enableDisplay())
 		{
 			std::cout << "\nStart Impulsion\n";

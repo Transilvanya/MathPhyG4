@@ -84,6 +84,10 @@ private:
 	ForceRegistry _forceregistry;
 	*/
 	ForceRegistryRigid _forceregistryRB;
+
+
+	std::list<std::pair<RigidBody*, RigidBody*>> BroadPhase(std::list<std::pair<RigidBody*, RigidBody*>> listbodies);
+	
 };
 
 #endif

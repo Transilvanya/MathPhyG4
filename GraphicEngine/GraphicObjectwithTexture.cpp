@@ -68,13 +68,20 @@ void GraphicObjectwithTexture::Draw(Camera camera)
 		0, 0, 1, 0.0f,
 		0, 0, 0, 1.0f);
 
+	
 	glm::mat4x4 mat2 = glm::mat4x4(
 		mtransform.getValues(0), mtransform.getValues(1), mtransform.getValues(2), 0,
 		mtransform.getValues(4), mtransform.getValues(5), mtransform.getValues(6), 0,
 		mtransform.getValues(8), mtransform.getValues(9), mtransform.getValues(10), 0,
 		0.0f, 0.0f, 0.0f, 1.0f);
-
-
+	
+	/*
+	glm::mat4x4 mat2 = glm::mat4x4(
+		-mtransform.getValues(0), mtransform.getValues(1), -mtransform.getValues(2), 0,
+		-mtransform.getValues(4), mtransform.getValues(5), -mtransform.getValues(6), 0,
+		-mtransform.getValues(8), mtransform.getValues(9), -mtransform.getValues(10), 0,
+		0.0f, 0.0f, 0.0f, 1.0f);
+	*/
 //	std::cout << mtransform.getValues(0) << " " << mtransform.getValues(1) << " " << mtransform.getValues(2) << " " << mtransform.getValues(3) << "\n";
 //	std::cout << mtransform.getValues(4) << " " << mtransform.getValues(5) << " " << mtransform.getValues(6) << " " << mtransform.getValues(7) << "\n";
 //	std::cout << mtransform.getValues(8) << " " << mtransform.getValues(9) << " " << mtransform.getValues(10) << " " << mtransform.getValues(11) << "\n\n";

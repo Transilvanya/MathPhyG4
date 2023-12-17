@@ -23,6 +23,13 @@ void main()
 	// Outputs the positions/coordinates of all vertices
 	vec4 temp = transform * vec4(aPos, 1.0);
 	
+	//temp.x = - temp.x;
+	//temp.z = - temp.z;
+
+
+	//temp.y = -temp.y;
+
+
 	gl_Position = camMatrix * temp;
 
 	// Assigns the colors from the Vertex Data to "color"
