@@ -7,6 +7,7 @@
 #include "PhysicEngine/PhysicEngine.h"
 #include "GraphicEngine/GraphicEngine.h"
 #include "PhysicEngine/Matrices/Matrice34.h"
+#include "PhysicEngine/BSP/BSP.h"
 
 
 /* -- static init -- */
@@ -187,8 +188,6 @@ void SetupObject4()//box sphere
 	PhysicEngine::GetInstance()->CreateRigidSphere(1, 1, Vector3D(2, 0, 1), Vector3D(-1, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
 
 	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 1, Vector3D(0, 2, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0.1f, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB", false);
-
-
 
 
 
