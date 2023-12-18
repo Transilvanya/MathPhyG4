@@ -15,7 +15,7 @@ public:
     void setLeftChild(Node* leftChild);
     void setRightChild(Node* rightChild);
     void addRigidBody(RigidBody* r);
-    void addRigidBodys(std::vector<RigidBody*> _bodys);
+    void addRigidBodys(std::vector<RigidBody *> _bodys);
 
     Node* parent;
     Node* right;

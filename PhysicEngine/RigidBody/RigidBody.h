@@ -127,6 +127,7 @@ protected:
 class RigidSphere : public RigidBody
 {
 public:
+	float Radius = 0;
 
 	virtual float GetVolume() { return Radius * Radius * Radius * 3.14 * 4/3; }
 
@@ -165,7 +166,7 @@ public:
 
 	float getRadius() { return Radius; }
 private:
-	float Radius = 0;
+	
 };
 
 

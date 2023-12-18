@@ -15,6 +15,15 @@ struct CollisionData
 	unsigned contactsLeft;
 };
 
+class Edge
+{
+public:
+	Edge(Vector3D _Axis, Vector3D _Origin, float _Length) { Axis = _Axis; Origin = _Origin; Length = _Length; }
+	Vector3D Axis;
+	Vector3D Origin;
+	float Length;
+};
+
 class NarrowPhase
 {
 private:
@@ -103,8 +112,8 @@ private:
 		float newVal[9]
 		{
 			box.body->GettransformMatrix().getValues(0), box.body->GettransformMatrix().getValues(1), box.body->GettransformMatrix().getValues(2),
-			box.body->GettransformMatrix().getValues(4), box.body->GettransformMatrix().getValues(5), box.body->GettransformMatrix().getValues(6),
-			box.body->GettransformMatrix().getValues(8), box.body->GettransformMatrix().getValues(9), box.body->GettransformMatrix().getValues(10)
+			box.body->GettransformMatrix().getValues(4), box.body->GettransformMatrix().getValues(5), box.body->GettransformMatrix().getValues(9),
+			box.body->GettransformMatrix().getValues(8), box.body->GettransformMatrix().getValues(6), box.body->GettransformMatrix().getValues(10)
 		};
 		Matrice33 rotm(newVal);
 
@@ -183,79 +192,113 @@ private:
 	unsigned EdgeAndEdge(
 		const Box& box,
 		const Box& otherbox,
-		Vector3D& point0,
-		Vector3D& point1,
-		Vector3D& axis0,
-		Vector3D& axis1
+		Edge edge0,
+		Edge edges[12]
 	)
 	{
-		RigidCuboid* RBC = (RigidCuboid*)box.body;
+		
 
+		Vector3D closestPoint = Vector3D(0, 0, 0);
 
-		float x = RBC->getDX();
-		float y = RBC->getDY();
-		float z = RBC->getDZ();
+		Vector3D normal = Vector3D(0,0,0);
 
+		float penetration = 99999;
+		
 
-
-
-		float newVal[9]
+		for (int i = 0; i < 12; i++)
 		{
-			box.body->GettransformMatrix().getValues(0), box.body->GettransformMatrix().getValues(1), box.body->GettransformMatrix().getValues(2),
-			box.body->GettransformMatrix().getValues(4), box.body->GettransformMatrix().getValues(5), box.body->GettransformMatrix().getValues(6),
-			box.body->GettransformMatrix().getValues(8), box.body->GettransformMatrix().getValues(9), box.body->GettransformMatrix().getValues(10)
-		};
-		Matrice33 rotm(newVal);
+			Edge edge1 = edges[i];
 
-		// Transform the point into box coordinates.
-		Vector3D relPt = rotm * (point0 - box.body->getPosition());
-		Vector3D normal;
-		// Check each axis, looking for the axis on which the
-			// penetration is least deep.
-
-		float min_depth = x - abs(relPt.getX());
-		if (min_depth < 0) return 0;
-		normal = RBC->getAxis(0) * ((relPt.getX() < 0) ? -1 : 1);
+			Vector3D n0 = edge0.Axis - edge1.Axis * ((edge0.Axis & edge1.Axis) / (edge1.Axis & edge1.Axis));
+			Vector3D n1 = edge1.Axis - edge0.Axis * ((edge0.Axis & edge1.Axis) / (edge0.Axis & edge0.Axis));
 
 
-		//std::cout << "y "<< y << "relPT,y "<< abs(relPt.getY()) << "\n";
+			Vector3D P0P1 = edge1.Origin - edge0.Origin;
 
-		float depth = y - abs(relPt.getY());
-		if (depth < 0) return 0;
-		else if ((depth < min_depth && depth > 0) || min_depth == 0)
-		{
-			min_depth = depth;
-			normal = RBC->getAxis(1) * ((relPt.getY() < 0) ? -1 : 1);
+			float lambda = (P0P1 & n0) / (edge0.Axis & n0);
+			float mu = -(P0P1 & n1) / (edge1.Axis & n1);
+
+
+
+			Vector3D closestPoint0 = edge0.Axis * lambda + edge0.Origin;
+			Vector3D closestPoint1 = edge1.Axis * mu + edge1.Origin;
+
+			Vector3D normal0 = edge0.Axis * edge1.Axis;
+			Vector3D normal1 = closestPoint1 - closestPoint0;
+
+			if (normal0.getX() == 0 && normal0.getY() == 0 && normal0.getZ() == 0)
+			{
+				//return 0;
+			}
+			else
+			{
+				float newpenetration = normal1 & normal0.getUnitVector();
+
+				Vector3D Dist0To0 = closestPoint0 - box.body->getPosition();
+				Vector3D Dist1To0 = closestPoint1 - box.body->getPosition();
+
+				Vector3D Dist0To1 = closestPoint0 - otherbox.body->getPosition();
+				Vector3D Dist1To1 = closestPoint1 - otherbox.body->getPosition();
+
+
+			//	std::cout << (Dist1To0.getNorm() < Dist0To0.getNorm()) << " " << (Dist1To1.getNorm() > Dist0To1.getNorm()) << "\n\n";
+
+				if (Dist1To1.getNorm() > Dist0To1.getNorm() && newpenetration > 0  && lambda > 0 && mu > 0 && lambda < edge0.Length && mu < edge1.Length)
+				{
+					if (abs(newpenetration) < abs(penetration))
+					{
+						/*
+						std::cout << "edge0.Origin \t" << edge0.Origin.getX() << "\t" << edge0.Origin.getY() << "\t" << edge0.Origin.getZ() << "\n";
+						std::cout << "edge1.Origin \t" << edge1.Origin.getX() << "\t" << edge1.Origin.getY() << "\t" << edge1.Origin.getZ() << "\n";
+
+						std::cout << "edge0.Axis \t" << edge0.Axis.getX() << "\t" << edge0.Axis.getY() << "\t" << edge0.Axis.getZ() << "\n";
+						std::cout << "edge1.Axis \t" << edge1.Axis.getX() << "\t" << edge1.Axis.getY() << "\t" << edge1.Axis.getZ() << "\n";
+
+						std::cout << "lambda\t" << lambda << " mu " << mu << "\n";
+
+						std::cout << "closestPoint0 \t" << closestPoint0.getX() << "\t" << closestPoint0.getY() << "\t" << closestPoint0.getZ() << "\n";
+						std::cout << "closestPoint1 \t" << closestPoint1.getX() << "\t" << closestPoint1.getY() << "\t" << closestPoint1.getZ() << "\n";
+									std::cout << "normal \t" << normal0.getX() << "\t" << normal0.getY() << "\t" << normal0.getZ() << "\n";
+									//std::cout << "normal1 \t" << normal1.getX() << "\t" << normal1.getY() << "\t" << normal1.getZ() << "\n";
+									std::cout << "penetration\t" << newpenetration << "\n";
+									std::cout << "\n";
+									*/
+						penetration = newpenetration;
+						closestPoint = closestPoint0;
+						normal = normal0;
+					}
+				}
+			}
+
 		}
+		//std::cout << "\n";
+		
+
+		if (penetration == 99999)
+			return 0;
 
 
-		depth = z - abs(relPt.getZ());
-		if (depth < 0) return 0;
-		else if ((depth < min_depth && depth > 0) || min_depth == 0)
-		{
-			min_depth = depth;
-			normal = RBC->getAxis(2) * ((relPt.getZ() < 0) ? -1 : 1);
-		}
 
-
+		
 		// Compile the contact.
 		Contact* contact = new Contact();
 		contact->contactNormal = normal;
-		contact->contactPoint = point0;
-		contact->penetration = min_depth;
+		contact->contactPoint = closestPoint;
+		contact->penetration = penetration;
 		// Write the appropriate data.
 		contact->rigidbodies.first = box.body;
-		// Note that we don’t know what rigid body the point
-		// belongs to, so we just use NULL. Where this is called
-		// this value can be left, or filled in.
 		contact->rigidbodies.second = otherbox.body;
 		contact->restitution = 1;
 		contact->friction = 1;
 
+	
+		std::cout << "closestPoint \t" << contact->contactPoint.getX() << "\t" << contact->contactPoint.getY() << "\t" << contact->contactPoint.getZ() << "\n";
+		std::cout << "normal \t" << contact->contactNormal.getX() << "\t" << contact->contactNormal.getY() << "\t" << contact->contactNormal.getZ() << "\n";
+		std::cout << "penetration\t" << contact->penetration << "\n";
+		std::cout << "\n";
 
 
 		contacts.push_back(*contact);
-		//std::cout << "contact";
 
 		return 1;
 	}

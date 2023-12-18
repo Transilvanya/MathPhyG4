@@ -1,10 +1,10 @@
 #include "Node.h"
 
-void Node::addRigidBody(RigidBody* r) {
+void Node::addRigidBody(RigidBody * r) {
     bodys.push_back(r);
 }
 
-void Node::addRigidBodys(std::vector<RigidBody*> _bodys)
+void Node::addRigidBodys(std::vector<RigidBody *> _bodys)
 {
     bodys.insert(bodys.end(), _bodys.begin(), _bodys.end());
 }

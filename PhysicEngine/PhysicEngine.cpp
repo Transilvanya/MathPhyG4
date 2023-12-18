@@ -59,19 +59,19 @@ void PhysicEngine::Integrade(float DTms)
 		itt++;
 		while(itt != _physicobjectsRB.end())
 		{
-			listbodies.push_back(std::pair(it->second, itt->second));
+			//listbodies.push_back(std::pair(it->second, itt->second));
 			itt++;
 		}
 		it++;
 	}
 
 	BSP bsp(bodies);
-	//listbodies = bsp.getPotentialCollision();
+	listbodies = bsp.getPotentialCollision();
 
 	//std::cout << "BSP DISABLED\n";
 
-	//fix until BSP is debugged
-	listbodies = BroadPhase(listbodies);
+	
+	//listbodies = BroadPhase(listbodies);
 
 	//std::cout << "_____________________ \n";
 

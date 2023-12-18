@@ -16,7 +16,35 @@ bool Plan::isPointOnPositiveSide(RigidBody* r) const {
     return distanceToPoint > 0.0;
 }
 
-Plan::Plan(RigidBody* r1, RigidBody* r2) {
+int Plan::isAreaOnPositiveSide(RigidBody* r) const {
+
+
+
+
+    double distanceToPoint = normalX * r->getPosition().getX() + normalY * r->getPosition().getY() + normalZ * r->getPosition().getZ() - distance;
+    double radius = 0;
+    /*
+    if (dynamic_cast<RigidCylinder*>(r)) {
+        RigidCylinder* c = (RigidCylinder*)r;
+        radius = sqrt(pow(sqrt(2 * pow(c->getRadius(), 2)), 2) + pow(c->getHeight(), 2));
+    }
+    else 
+        */
+        if (dynamic_cast<RigidCuboid*>(r)) {
+        RigidCuboid* c = (RigidCuboid*)r;
+        radius = sqrt(pow(c->getDX(), 2) + pow(c->getDY(), 2) + pow(c->getDY(), 2));
+    }
+    else if (dynamic_cast<RigidSphere*>(r)) {
+        RigidSphere* s = (RigidSphere*)r;
+        radius = s->Radius;
+    }
+    
+    if (abs(distanceToPoint) < radius)return 2;
+    else return distanceToPoint > 0.0;
+    
+}
+
+Plan::Plan(RigidBody* r1, RigidBody *r2) {
     // Calculer le vecteur normal en utilisant la différence entre les deux points
     normalX = r1->getPosition().getX() - r2->getPosition().getX();
     normalY = r1->getPosition().getY() - r2->getPosition().getY();

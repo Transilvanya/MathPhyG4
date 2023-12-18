@@ -11,14 +11,14 @@ public:
     // Constructeur
     Plan(double nx, double ny, double nz, double d) : normalX(nx), normalY(ny), normalZ(nz), distance(d) {}
 
-    Plan(RigidBody* r1, RigidBody* r2);
+    Plan(RigidBody* r1, RigidBody *r2);
 
 
     // Méthode pour générer un nouveau plan en fonction de l'ancien
     Plan generateNewPlan(double offset) const;
 
     bool isPointOnPositiveSide(RigidBody* p) const;
-
+    int isAreaOnPositiveSide(RigidBody* r) const;
 
     // Méthode pour afficher les propriétés du plan
     void display() const {

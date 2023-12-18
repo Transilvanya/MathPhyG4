@@ -9,7 +9,9 @@ BSP::BSP(vector<RigidBody*> bodys)
 	root.addRigidBodys(bodys);
 }
 
-Node* BSP::order(Node* root, int iteration)
+
+
+Node* BSP::orderByCenter(Node* root, int iteration)
 {
     iteration++;
     int maxDepth = 10;
@@ -23,23 +25,59 @@ Node* BSP::order(Node* root, int iteration)
     //recursion
     if (iteration < maxDepth && root->bodys.size() > 1) {
         std::vector<RigidBody*> fp = furthestPoints(points);
-        if (fp.size() >= 2)
-        {
-            Plan cuttingPlan(fp.at(0), fp.at(1));
-            for (auto point : points) {
-                if (cuttingPlan.isPointOnPositiveSide(point)) {
-                    pRight->addRigidBody(point);
-                }
-                else {
-                    pLeft->addRigidBody(point);
-                }
+        Plan cuttingPlan(fp.at(0), fp.at(1));
+        for (auto point : points) {
+            cuttingPlan.isAreaOnPositiveSide(point);
+            if (cuttingPlan.isPointOnPositiveSide(point)) {
+                pRight->addRigidBody(point);
             }
-            root->bodys.clear();
-            root->setRightChild(pRight);
-            root->setLeftChild(pLeft);
-            order(pRight, iteration);
-            order(pLeft, iteration);
+            else {
+                pLeft->addRigidBody(point);
+            }
         }
+        root->bodys.clear();
+        root->setRightChild(pRight);
+        root->setLeftChild(pLeft);
+        orderByCenter(pRight, iteration);
+        orderByCenter(pLeft, iteration);
+    }
+
+    //sortie
+    return root;
+}
+
+Node* BSP::orderByArea(Node* root, int iteration)
+{
+    iteration++;
+    int maxDepth = 10;
+
+    //init
+    Node* pRight = new Node(root);
+    Node* pLeft = new Node(root);
+
+    std::vector<RigidBody*> rigidBodies = vector<RigidBody*>(root->bodys); //liste de points à traité
+
+    //recursion
+    if (iteration < maxDepth && root->bodys.size() > 1) {
+        std::vector<RigidBody*> fp = furthestPoints(rigidBodies);
+        Plan cuttingPlan(fp.at(0), fp.at(1));
+        for (auto rigidBody : rigidBodies) {
+            if (cuttingPlan.isAreaOnPositiveSide(rigidBody)==2) {
+                pRight->addRigidBody(rigidBody);
+                pLeft->addRigidBody(rigidBody);
+            }
+            else if (cuttingPlan.isAreaOnPositiveSide(rigidBody)) {
+                pRight->addRigidBody(rigidBody);
+            }
+            else {
+                pLeft->addRigidBody(rigidBody);
+            }
+        }
+        root->bodys.clear();
+        root->setRightChild(pRight);
+        root->setLeftChild(pLeft);
+        orderByCenter(pRight, iteration);
+        orderByCenter(pLeft, iteration);
     }
 
     //sortie
@@ -48,7 +86,7 @@ Node* BSP::order(Node* root, int iteration)
 
 list<pair<RigidBody*,RigidBody*>> BSP::getPotentialCollision()
 {
-    order(&root, 0);
+    orderByArea(&root, 0);
     list<pair<RigidBody*, RigidBody*>> potentialCollision = list<pair<RigidBody*, RigidBody*>>();
     potentialCollision = parcoursPrefixe(&root);
     return potentialCollision;
@@ -81,7 +119,7 @@ std::vector<RigidBody*> BSP::furthestPoints(const std::vector<RigidBody*>& bodys
 	return furthestPoints;
 }
 
-float BSP::distance(RigidBody* r1, RigidBody* r2)
+float BSP::distance(RigidBody *r1, RigidBody* r2)
 {
     Vector3D position1 = r1->getPosition();
     Vector3D position2 = r2->getPosition();
@@ -111,7 +149,7 @@ list<RigidBody*> BSP::getSameAndLowerLevelChild(Node* child)
     // two case if empty continue get lower in tree than add bodys to childs
     if (bodys.size() == 0) {
 
-        for (RigidBody* body : getAllRigidBody(otherChild)) {
+        for (RigidBody * body : getAllRigidBody(otherChild)) {
             childs.push_back(body);
         }
 
@@ -132,7 +170,6 @@ list<RigidBody*> BSP::getAllRigidBody(Node* parent)
 
     Node* left = parent->left;
     Node* right = parent->right;
-    //left->Display();
     if (parent->bodys.size() != 0) {
         for (RigidBody* body : getAllRigidBody(left)) {
             childs.push_back(body);
@@ -162,12 +199,11 @@ list<RigidBody*> BSP::getAllRigidBody(Node* parent)
 list<pair<RigidBody*, RigidBody*>> BSP::parcoursPrefixe(Node* root) {
     list<pair<RigidBody*, RigidBody*>> returnValue = list<pair<RigidBody*, RigidBody*>>();
 
-    for (RigidBody* rootRigidBodies : root->bodys) {
-        for (RigidBody* pairRigidBodies : getSameAndLowerLevelChild(root)) {
-            RigidBody* rootPtr = rootRigidBodies;
-            RigidBody* pairPtr = pairRigidBodies;
+    for (RigidBody * rootRigidBodies : root->bodys) {
+        for (RigidBody * pairRigidBodies : getSameAndLowerLevelChild(root)) {
 
-            pair<RigidBody*, RigidBody*> pairs = pair<RigidBody*, RigidBody*>(rootPtr, pairPtr);
+            pair<RigidBody*, RigidBody*> pairs = pair<RigidBody*, RigidBody*>(rootRigidBodies, pairRigidBodies);
+
             returnValue.push_back(pairs);
         }
     }
@@ -177,7 +213,13 @@ list<pair<RigidBody*, RigidBody*>> BSP::parcoursPrefixe(Node* root) {
         list<pair<RigidBody*, RigidBody*>> leftValue = list<pair<RigidBody*, RigidBody*>>();
         leftValue = parcoursPrefixe(root->left);   // Parcours du sous-arbre gauche
         for (pair<RigidBody*, RigidBody*> p : leftValue) {
-            returnValue.push_back(p);
+            
+            
+            bool isPresent = false;
+            for (pair<RigidBody*, RigidBody*> r : returnValue) {
+                if ((p.second == r.second && p.first == r.first) || (p.first == r.second && p.second == r.first)) isPresent = true;
+            }
+            if (!isPresent)returnValue.push_back(p);
         }
     }
     if (root->right != nullptr) {
@@ -185,7 +227,11 @@ list<pair<RigidBody*, RigidBody*>> BSP::parcoursPrefixe(Node* root) {
         rightValue = parcoursPrefixe(root->right);  // Parcours du sous-arbre droit
 
         for (pair<RigidBody*, RigidBody*> p : rightValue) {
-            returnValue.push_back(p);
+            bool isPresent = false;
+            for (pair<RigidBody*, RigidBody*> r : returnValue) {
+                if ((p.second == r.second && p.first == r.first) || (p.first == r.second && p.second == r.first)) isPresent = true;
+            }
+            if (!isPresent)returnValue.push_back(p);
         }
 
 
