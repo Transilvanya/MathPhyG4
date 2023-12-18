@@ -532,8 +532,8 @@ public:
 
 		if (max > 0)
 		{
-			std::cout << "IMPULSION DISABLED\n";
-			//SolveImpulsion(*tempcontact);
+			//std::cout << "IMPULSION DISABLED\n";
+			SolveImpulsion(*tempcontact);
 			impulsecontacts.erase(tempcontact);
 		}
 		else

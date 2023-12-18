@@ -335,17 +335,29 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 
 	Vector3D listpoints[8] =
 	{
-		RotBox*(Vector3D(x , y, z)),
-		RotBox*(Vector3D(x , y, -z)),
-		RotBox*(Vector3D(x , -y, z)),
-		RotBox*(Vector3D(x , -y, -z)),
-		RotBox*(Vector3D(-x ,y , z)),
-		RotBox*(Vector3D(-x ,y , -z)),
-		RotBox*(Vector3D(-x ,-y , z)),
-		RotBox*(Vector3D(-x ,-y , -z))
+		(Vector3D(x , y, z)),
+		(Vector3D(x , y, -z)),
+		(Vector3D(x , -y, z)),
+		(Vector3D(x , -y, -z)),
+		(Vector3D(-x ,y , z)),
+		(Vector3D(-x ,y , -z)),
+		(Vector3D(-x ,-y , z)),
+		(Vector3D(-x ,-y , -z))
 	};
 
-	Vector3D relCenter = RotBox *(SphRB->getPosition() - BoxRB->getPosition());
+	Vector3D listpoints2[8] =
+	{
+		RotBox * (Vector3D(x , y, z)),
+		RotBox * (Vector3D(x , y, -z)),
+		RotBox * (Vector3D(x , -y, z)),
+		RotBox * (Vector3D(x , -y, -z)),
+		RotBox * (Vector3D(-x ,y , z)),
+		RotBox * (Vector3D(-x ,y , -z)),
+		RotBox * (Vector3D(-x ,-y , z)),
+		RotBox * (Vector3D(-x ,-y , -z))
+	};
+
+	Vector3D relCenter = RotBox * (SphRB->getPosition() - RBCPos);
 
 	
 	// Early-out check to see if we can exclude the contact.
@@ -374,7 +386,7 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 	if (dist < -z) dist = -z;
 	closestPt.setZ(dist);
 
-	x* x + y * y + z * z;
+	
 
 	Vector3D tempvect = (closestPt - relCenter);
 	// Check we’re in contact.
@@ -383,13 +395,35 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 	if (dist > SphRB->getRadius() * SphRB->getRadius()) return 0;
 
 	//Compile the contact.
-	Vector3D closestPtWorld = RotBox * closestPt + RBCPos;
+	Vector3D closestPtWorld = RotBox.Inverse() * closestPt + RBCPos;
 	Contact* contact = new Contact();
 
 	//contact->contactNormal = (RBS->getPosition() - closestPtWorld);
 	
 	Vector3D normal = SphRB->getPosition() - closestPtWorld;
 
+	
+	Vector3D normalRelat = relCenter - closestPt;
+
+
+	std::cout << "relCenter\t" << relCenter.getX() << " " << relCenter.getY() << " " << relCenter.getZ() << "\n";
+	std::cout << "Sph Position\t" << SphRB->getPosition().getX() << " " << SphRB->getPosition().getY() << " " << SphRB->getPosition().getZ() << "\n\n";
+
+	std::cout << "closestPt\t" << closestPt.getX() << " " << closestPt.getY() << " " << closestPt.getZ() << "\n";
+	std::cout << "closestPtWorld\t" << closestPtWorld.getX() << " " << closestPtWorld.getY() << " " << closestPtWorld.getZ() << "\n\n";
+
+	std::cout << "RBCPos\t" << RBCPos.getX() << " " << RBCPos.getY() << " " << RBCPos.getZ() << "\n";
+
+	
+	
+
+	std::cout << "\n";
+
+	std::cout << "normalRelat\t" << normalRelat.getX() << " " << normalRelat.getY() << " " << normalRelat.getZ() << "\n";
+	normalRelat = RotBox.Inverse() * normalRelat;
+	std::cout << "normalRelat\t" << normalRelat.getX() << " " << normalRelat.getY() << " " << normalRelat.getZ() << "\n";
+	std::cout << "normal\t" << normal.getX() << " " << normal.getY() << " " << normal.getZ() << "\n";
+	
 	
 
 	normal.setX(normal.getX() / normal.distance());

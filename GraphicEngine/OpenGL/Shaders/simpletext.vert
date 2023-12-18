@@ -29,6 +29,7 @@ void main()
 
 	//temp.y = -temp.y;
 
+	vec4 temp2 = camMatrix * temp;
 
 	gl_Position = camMatrix * temp;
 

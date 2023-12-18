@@ -68,8 +68,9 @@ void PhysicEngine::Integrade(float DTms)
 	BSP bsp(bodies);
 	//listbodies = bsp.getPotentialCollision();
 
-	std::cout << "BSP DISABLED\n";
+	//std::cout << "BSP DISABLED\n";
 
+	//fix until BSP is debugged
 	listbodies = BroadPhase(listbodies);
 
 	//std::cout << "_____________________ \n";
