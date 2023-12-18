@@ -670,7 +670,7 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 	{
 		EdgeAndEdge(firstBox, secondBox, edges0[i], edges1);
 	}
-	std::cout << "\t\t\tend edge\n";
+	//std::cout << "\t\t\tend edge\n";
 
 	return 1;
 }
