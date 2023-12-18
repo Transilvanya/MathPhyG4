@@ -36,7 +36,7 @@ public:
 	//fill Contacts for the Particules
 	static void SolvePenetration(Contact Contacts)
 	{
-		//std::cout << "Solve Pen\n";
+		std::cout << "Solve Pen\n";
 		if (Contacts.penetration > 0.001)
 		{
 
@@ -321,7 +321,7 @@ public:
 
 	static void SolveImpulsion(Contact Contacts)
 	{
-	//	std::cout << "Solve Imp\n";
+		std::cout << "Solve Imp\n";
 
 		if (enableDisplay())
 		{
@@ -439,6 +439,116 @@ public:
 
 	}
 
+
+
+	static void SolveContacts(std::vector<Contact> contacts)
+	{
+		
+
+	map<Contact*, int> penetrationcontacts;
+	map<Contact*, int> impulsecontacts;
+
+
+	std::vector<Contact>::iterator itc = contacts.begin();
+	while (itc != contacts.end())
+	{
+		
+		penetrationcontacts.emplace(&(*itc), itc->penetration);
+
+		Vector3D r0 = itc->contactPoint - itc->rigidbodies.first->getPosition();
+		Vector3D r1 = itc->contactPoint - itc->rigidbodies.second->getPosition();
+		Vector3D ObjectSpeed0 = itc->rigidbodies.first->getVitesse() + itc->rigidbodies.first->getRotation() * r0;
+		Vector3D ObjectSpeed1 = itc->rigidbodies.second->getVitesse() + itc->rigidbodies.second->getRotation() * r1;
+		float speeddif = (ObjectSpeed0 & itc->contactNormal) - (ObjectSpeed1 & itc->contactNormal);
+
+		impulsecontacts.emplace(&(*itc), speeddif);
+
+		itc++;
+	}
+
+
+
+	//std::cout << "pen size " << penetrationcontacts.size() << "\n";
+	//std::cout << "imp size " << impulsecontacts.size() << "\n";
+
+
+	int loopindex = 0;
+	bool contactdetected = penetrationcontacts.size() > 0;
+
+
+	while (contactdetected && loopindex < 10)
+	{
+
+		map<Contact*, int>::iterator itpen = penetrationcontacts.begin();
+		Contact* tempcontact = penetrationcontacts.begin()->first;
+		float maxpen = tempcontact->penetration;
+
+		while (itpen != penetrationcontacts.end())
+		{
+
+			if (itpen->second > maxpen)
+			{
+				maxpen = itpen->second;
+				tempcontact = itpen->first;
+			}
+			itpen++;
+		}
+
+
+		std::cout << "MAX PENETRATION = 0.01\n";
+		if(maxpen > 0.01f)
+			SolvePenetration(*tempcontact);
+		penetrationcontacts.erase(tempcontact);
+
+		contactdetected = penetrationcontacts.size() > 0;
+		loopindex++;
+	}
+
+
+
+
+	loopindex = 0;
+	contactdetected = impulsecontacts.size() > 0;
+
+
+	while (contactdetected && loopindex < 10)
+	{
+
+		map<Contact*, int>::iterator itimp = impulsecontacts.begin();
+		Contact* tempcontact = impulsecontacts.begin()->first;
+		float max = impulsecontacts.begin()->second;
+
+		while (itimp != impulsecontacts.end())
+		{
+
+			if (itimp->second > max)
+			{
+				max = itimp->second;
+				tempcontact = itimp->first;
+			}
+			itimp++;
+		}
+
+
+		if (max > 0)
+		{
+			SolveImpulsion(*tempcontact);
+			impulsecontacts.erase(tempcontact);
+		}
+		else
+		{
+			loopindex = 10;
+		}
+
+
+
+		contactdetected = impulsecontacts.size() > 0;
+		loopindex++;
+	}
+
+
+
+	}
 };
 
 

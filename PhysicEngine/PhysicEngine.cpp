@@ -1,6 +1,7 @@
 #include "PhysicEngine.h"
 #include "ContactRigid/NarrowPhase.h"
 #include "ContactRigid/ContactSolverRigid.h"
+#include "BSP/BSP.h"
 
 
 PhysicEngine::~PhysicEngine()
@@ -44,32 +45,28 @@ void PhysicEngine::Integrade(float DTms)
 
 	std::list<std::pair<RigidBody*, RigidBody*>> listbodies;
 
+	vector<RigidBody*> bodies;
+
 	std::map<std::string, RigidBody*>::iterator it = _physicobjectsRB.begin();
 
 	//std::cout << "_____________________ objects\n";
 
 	while (it != _physicobjectsRB.end())
 	{
-
-		//std::cout << it->second->getObjectName() << "\n";
-		//std::cout << "Position :\t" << it->second->getPosition().getX() << "\t" << it->second->getPosition().getY() << "\t" << it->second->getPosition().getZ() << "\n";
-		//std::cout << "Orientation :\t" << it->second->getOrientation().getW() << "\t" << it->second->getOrientation().getX() << "\t" << it->second->getOrientation().getY() << "\t" << it->second->getOrientation().getZ() << "\n";
-		//std::cout << "Vitesse :\t" << it->second->getVitesse().getX() << "\t" << it->second->getVitesse().getY() << "\t" << it->second->getVitesse().getZ() << "\n";
-		//std::cout << "Rotation :\t" << it->second->getRotation().getX() << "\t" << it->second->getRotation().getY() << "\t" << it->second->getRotation().getZ() << "\n";
-		//std::cout << "\n";
-
-
-		std::map<std::string, RigidBody*>::iterator it3 = it;
-		it3++;
-		while (it3 != _physicobjectsRB.end())
+		bodies.push_back((it->second));
+		
+		std::map<std::string, RigidBody*>::iterator itt = it;
+		itt++;
+		while(itt != _physicobjectsRB.end())
 		{
-
-
-			listbodies.push_back({ it->second, it3->second });
-			it3++;
+			listbodies.push_back(std::pair(it->second, itt->second));
+			itt++;
 		}
 		it++;
 	}
+
+	BSP bsp(bodies);
+	//listbodies = bsp.getPotentialCollision();
 
 	listbodies = BroadPhase(listbodies);
 
@@ -87,155 +84,170 @@ void PhysicEngine::Integrade(float DTms)
 
 	ContactSolverRigid CSV;
 
-	std::vector<Contact>::iterator itc = contacts.begin();
-	/*
-	if(contacts.size()!=0)
-		std::cout << "______\n";
-	while (itc != contacts.end())
+	if (true)
 	{
-
-		std::cout <<"contactpoint\t" << itc->contactPoint.getX() << " " << itc->contactPoint.getY() << " " << itc->contactPoint.getZ() << "\n";
-		std::cout <<"penetration\t" << itc->penetration << "\n";
-		std::cout << "contactNormal\t" << itc->contactNormal.getX() << " " << itc->contactNormal.getY() << " " << itc->contactNormal.getZ() << "\n";
-		std::cout << "\n";
-		itc++;
+		//new contact detector WIP
+		CSV.SolveContacts(contacts);
 	}
-	if (contacts.size() != 0)
-		std::cout << "______\n";
-	*/
-	/*
-	std::vector<Contact>::iterator it = Contacts.begin();
-	while (it != Contacts.end())
+	else
 	{
-		it++;
-	}
-	*/
-
-	int loopindex = 0;
-	bool contactdetected = contacts.size() > 0;
-
-	while (contactdetected && loopindex < 10)
-	{
-
-		std::vector<Contact>::iterator it = contacts.begin();
-		Contact tempcontact = contacts.front();
-		float maxpen = -1;
-
-		while (it != contacts.end())
+		std::vector<Contact>::iterator itc = contacts.begin();
+		/*
+		if(contacts.size()!=0)
+			std::cout << "______\n";
+		while (itc != contacts.end())
 		{
-			//std::cout << "pen " << it->penetration << " " << it->contactPoint.getX() << " " << it->contactPoint.getY() << " " << it->contactPoint.getZ() << "\n";
 
-			if (it->penetration > maxpen)
-			{
-				maxpen = it->penetration;
-				tempcontact = *it;
-			}
+			std::cout <<"contactpoint\t" << itc->contactPoint.getX() << " " << itc->contactPoint.getY() << " " << itc->contactPoint.getZ() << "\n";
+			std::cout <<"penetration\t" << itc->penetration << "\n";
+			std::cout << "contactNormal\t" << itc->contactNormal.getX() << " " << itc->contactNormal.getY() << " " << itc->contactNormal.getZ() << "\n";
+			std::cout << "\n";
+			itc++;
+		}
+		if (contacts.size() != 0)
+			std::cout << "______\n";
+		*/
+		/*
+		std::vector<Contact>::iterator it = Contacts.begin();
+		while (it != Contacts.end())
+		{
 			it++;
 		}
+		*/
 
-		if (maxpen > 0.01)
+		int loopindex = 0;
+		bool contactdetected = contacts.size() > 0;
+
+		while (contactdetected && loopindex < 10)
 		{
-			//std::cout << "\n" << loopindex << " pen " << maxpen << "\t" << tempcontact.contactPoint.getX() << "\t" << tempcontact.contactPoint.getY() << "\t" << tempcontact.contactPoint.getZ() << "\n\n";
-				
 
-			//std::cout << "positionOne \t" << tempcontact.rigidbodies.first->getPosition().getX() << "\t" << tempcontact.rigidbodies.first->getPosition().getY() << "\t" << tempcontact.rigidbodies.first->getPosition().getZ() << "\n";
-			//std::cout << "positionSecond \t" << tempcontact.rigidbodies.second->getPosition().getX() << "\t" << tempcontact.rigidbodies.second->getPosition().getY() << "\t" << tempcontact.rigidbodies.second->getPosition().getZ() << "\n";
-			CSV.SolvePenetration(tempcontact);
-			//std::cout << "positionOne \t" << tempcontact.rigidbodies.first->getPosition().getX() << "\t" << tempcontact.rigidbodies.first->getPosition().getY() << "\t" << tempcontact.rigidbodies.first->getPosition().getZ() << "\n";
-			//std::cout << "positionSecond \t" << tempcontact.rigidbodies.second->getPosition().getX() << "\t" << tempcontact.rigidbodies.second->getPosition().getY() << "\t" << tempcontact.rigidbodies.second->getPosition().getZ() << "\n";
+			std::vector<Contact>::iterator it = contacts.begin();
+			Contact tempcontact = contacts.front();
+			float maxpen = -1;
 
+			while (it != contacts.end())
+			{
+				//std::cout << "pen " << it->penetration << " " << it->contactPoint.getX() << " " << it->contactPoint.getY() << " " << it->contactPoint.getZ() << "\n";
+
+				if (it->penetration > maxpen)
+				{
+					maxpen = it->penetration;
+					tempcontact = *it;
+				}
+				it++;
+			}
+
+			if (maxpen > 0.01)
+			{
+				//std::cout << "\n" << loopindex << " pen " << maxpen << "\t" << tempcontact.contactPoint.getX() << "\t" << tempcontact.contactPoint.getY() << "\t" << tempcontact.contactPoint.getZ() << "\n\n";
+
+
+				//std::cout << "positionOne \t" << tempcontact.rigidbodies.first->getPosition().getX() << "\t" << tempcontact.rigidbodies.first->getPosition().getY() << "\t" << tempcontact.rigidbodies.first->getPosition().getZ() << "\n";
+				//std::cout << "positionSecond \t" << tempcontact.rigidbodies.second->getPosition().getX() << "\t" << tempcontact.rigidbodies.second->getPosition().getY() << "\t" << tempcontact.rigidbodies.second->getPosition().getZ() << "\n";
+				CSV.SolvePenetration(tempcontact);
+				//std::cout << "positionOne \t" << tempcontact.rigidbodies.first->getPosition().getX() << "\t" << tempcontact.rigidbodies.first->getPosition().getY() << "\t" << tempcontact.rigidbodies.first->getPosition().getZ() << "\n";
+				//std::cout << "positionSecond \t" << tempcontact.rigidbodies.second->getPosition().getX() << "\t" << tempcontact.rigidbodies.second->getPosition().getY() << "\t" << tempcontact.rigidbodies.second->getPosition().getZ() << "\n";
+
+			}
+			else
+			{
+				loopindex = 100;
+			}
+
+
+
+			contacts = n.narrowPhase(listbodies);
+			contactdetected = contacts.size() > 0;
+
+			//std::cout << contacts.size()<<"\n";
+
+			loopindex++;
 		}
-		else
-		{
-			loopindex = 100;
-		}
 
-
+		//if(loopindex!=0)
+			//std::cout << "\n";
 
 		contacts = n.narrowPhase(listbodies);
+
+		itc = contacts.begin();
+		/*
+		if(contacts.size()!=0)
+			std::cout << "______\n";
+		while (itc != contacts.end())
+		{
+
+			std::cout <<"contactpoint\t" << itc->contactPoint.getX() << " " << itc->contactPoint.getY() << " " << itc->contactPoint.getZ() << "\n";
+			std::cout <<"penetration\t" << itc->penetration << "\n";
+			std::cout << "contactNormal\t" << itc->contactNormal.getX() << " " << itc->contactNormal.getY() << " " << itc->contactNormal.getZ() << "\n";
+			std::cout << "\n";
+			itc++;
+		}
+		if (contacts.size() != 0)
+			std::cout << "______\n";
+		*/
+		/*
+		std::vector<Contact>::iterator it = Contacts.begin();
+		while (it != Contacts.end())
+		{
+			it++;
+		}
+		*/
+
+		loopindex = 0;
 		contactdetected = contacts.size() > 0;
 
-		//std::cout << contacts.size()<<"\n";
+		//std::cout << "IMPULSION OFF\n";
 
-		loopindex++;
+		//loopindex = 10:
+
+		while (contactdetected && loopindex < 10)
+		{
+
+			std::vector<Contact>::iterator it = contacts.begin();
+			Contact tempcontact = contacts.front();
+			Vector3D r0 = it->contactPoint - it->rigidbodies.first->getPosition();
+			Vector3D r1 = it->contactPoint - it->rigidbodies.second->getPosition();
+			Vector3D ObjectSpeed0 = it->rigidbodies.first->getVitesse() + it->rigidbodies.first->getRotation() * r0;
+			Vector3D ObjectSpeed1 = it->rigidbodies.second->getVitesse() + it->rigidbodies.second->getRotation() * r1;
+			float speeddif = (ObjectSpeed0 & it->contactNormal) - (ObjectSpeed1 & it->contactNormal);
+			float max = speeddif;
+
+			while (it != contacts.end())
+			{
+				r0 = it->contactPoint - it->rigidbodies.first->getPosition();
+				r1 = it->contactPoint - it->rigidbodies.second->getPosition();
+				ObjectSpeed0 = it->rigidbodies.first->getVitesse() + it->rigidbodies.first->getRotation() * r0;
+				ObjectSpeed1 = it->rigidbodies.second->getVitesse() + it->rigidbodies.second->getRotation() * r1;
+				speeddif = (ObjectSpeed0 & it->contactNormal) - (ObjectSpeed1 & it->contactNormal);
+				//std::cout << "speeddif\t" << speeddif << "\n";
+
+				if (speeddif > max)
+				{
+					max = speeddif;
+					tempcontact = *it;
+				}
+				it++;
+			}
+
+			if (max > 0)
+			{
+				CSV.SolveImpulsion(tempcontact);
+			}
+			else
+			{
+				loopindex = 10;
+			}
+
+			contacts = n.narrowPhase(listbodies);
+			contactdetected = contacts.size() > 0;
+			loopindex++;
+		}
+
+
 	}
 	
-	//if(loopindex!=0)
-		//std::cout << "\n";
 
-	contacts = n.narrowPhase(listbodies);
-
-	itc = contacts.begin();
-	/*
-	if(contacts.size()!=0)
-		std::cout << "______\n";
-	while (itc != contacts.end())
-	{
-
-		std::cout <<"contactpoint\t" << itc->contactPoint.getX() << " " << itc->contactPoint.getY() << " " << itc->contactPoint.getZ() << "\n";
-		std::cout <<"penetration\t" << itc->penetration << "\n";
-		std::cout << "contactNormal\t" << itc->contactNormal.getX() << " " << itc->contactNormal.getY() << " " << itc->contactNormal.getZ() << "\n";
-		std::cout << "\n";
-		itc++;
-	}
-	if (contacts.size() != 0)
-		std::cout << "______\n";
-	*/
-	/*
-	std::vector<Contact>::iterator it = Contacts.begin();
-	while (it != Contacts.end())
-	{
-		it++;
-	}
-	*/
-
-	loopindex = 0;
-	contactdetected = contacts.size() > 0;
-
-	while (contactdetected && loopindex < 10)
-	{
-
-		std::vector<Contact>::iterator it = contacts.begin();
-		Contact tempcontact = contacts.front();
-		Vector3D r0 = it->contactPoint - it->rigidbodies.first->getPosition();
-		Vector3D r1 = it->contactPoint - it->rigidbodies.second->getPosition();
-		Vector3D ObjectSpeed0 = it->rigidbodies.first->getVitesse() + it->rigidbodies.first->getRotation() * r0;
-		Vector3D ObjectSpeed1 = it->rigidbodies.second->getVitesse() + it->rigidbodies.second->getRotation() * r1;
-		float speeddif = (ObjectSpeed0 & it->contactNormal) - (ObjectSpeed1 & it->contactNormal);
-		float max = speeddif;
-
-		while (it != contacts.end())
-		{
-			r0 = it->contactPoint - it->rigidbodies.first->getPosition();
-			r1 = it->contactPoint - it->rigidbodies.second->getPosition();
-			ObjectSpeed0 = it->rigidbodies.first->getVitesse() + it->rigidbodies.first->getRotation() * r0;
-			ObjectSpeed1 = it->rigidbodies.second->getVitesse() + it->rigidbodies.second->getRotation() * r1;
-			speeddif = (ObjectSpeed0 & it->contactNormal) - (ObjectSpeed1 & it->contactNormal);
-			//std::cout << "speeddif\t" << speeddif << "\n";
-
-			if (speeddif > max)
-			{
-				max = speeddif;
-				tempcontact = *it;
-			}
-			it++;
-		}
-
-		if (max > 0)
-		{
-			CSV.SolveImpulsion(tempcontact);
-		}
-		else
-		{
-			loopindex = 10;
-		}
-
-		contacts = n.narrowPhase(listbodies);
-		contactdetected = contacts.size() > 0;
-		loopindex++;
-	}
-
-
+	
 
 	/*
 	int loopindex = 0;

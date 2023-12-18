@@ -60,6 +60,22 @@ public:
 
 	ForceRegistryRigid* GetForceRegistryRB();
 
+
+
+	void UpdateObjects()
+	{
+
+		std::map<std::string, RigidBody*>::iterator it2 = _physicobjectsRB.begin();
+
+		while (it2 != _physicobjectsRB.end())
+		{
+			it2->second->integrade(0);
+			++it2;
+		}
+
+	}
+
+
 	/*
 	// --------------------------------------------------------------------------------
 	void CreateParticule(Vector3D newPosition, Vector3D newVitesse, Vector3D newAcceleration, float masse, std::string name);

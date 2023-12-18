@@ -3,7 +3,7 @@
 
 
 
-BSP::BSP(vector<RigidBody> bodys)
+BSP::BSP(vector<RigidBody*> bodys)
 {
 	root = Node();
 	root.addRigidBodys(bodys);
@@ -18,25 +18,28 @@ Node* BSP::order(Node* root, int iteration)
     Node* pRight = new Node(root);
     Node* pLeft = new Node(root);
 
-    std::vector<RigidBody> points = vector<RigidBody>(root->bodys); //liste de points à traité
+    std::vector<RigidBody*> points = vector<RigidBody*>(root->bodys); //liste de points à traité
 
     //recursion
     if (iteration < maxDepth && root->bodys.size() > 1) {
-        std::vector<RigidBody> fp = furthestPoints(points);
-        Plan cuttingPlan(fp.at(0), fp.at(1));
-        for (auto point : points) {
-            if (cuttingPlan.isPointOnPositiveSide(point)) {
-                pRight->addRigidBody(point);
+        std::vector<RigidBody*> fp = furthestPoints(points);
+        if (fp.size() >= 2)
+        {
+            Plan cuttingPlan(fp.at(0), fp.at(1));
+            for (auto point : points) {
+                if (cuttingPlan.isPointOnPositiveSide(point)) {
+                    pRight->addRigidBody(point);
+                }
+                else {
+                    pLeft->addRigidBody(point);
+                }
             }
-            else {
-                pLeft->addRigidBody(point);
-            }
+            root->bodys.clear();
+            root->setRightChild(pRight);
+            root->setLeftChild(pLeft);
+            order(pRight, iteration);
+            order(pLeft, iteration);
         }
-        root->bodys.clear();
-        root->setRightChild(pRight);
-        root->setLeftChild(pLeft);
-        order(pRight, iteration);
-        order(pLeft, iteration);
     }
 
     //sortie
@@ -51,10 +54,10 @@ list<pair<RigidBody*,RigidBody*>> BSP::getPotentialCollision()
     return potentialCollision;
 }
 
-std::vector<RigidBody> BSP::furthestPoints(const std::vector<RigidBody>& bodys)
+std::vector<RigidBody*> BSP::furthestPoints(const std::vector<RigidBody*>& bodys)
 {
 
-    std::vector<RigidBody> furthestPoints;
+    std::vector<RigidBody*> furthestPoints;
 
     float max_distance = 0;
 
@@ -78,10 +81,10 @@ std::vector<RigidBody> BSP::furthestPoints(const std::vector<RigidBody>& bodys)
 	return furthestPoints;
 }
 
-float BSP::distance(RigidBody r1, RigidBody r2)
+float BSP::distance(RigidBody* r1, RigidBody* r2)
 {
-    Vector3D position1 = r1.getPosition();
-    Vector3D position2 = r2.getPosition();
+    Vector3D position1 = r1->getPosition();
+    Vector3D position2 = r2->getPosition();
 
 	return sqrt(pow((position1.getX() - position2.getX()), 2) + 
 		pow((position1.getY() - position2.getY()), 2) + 
@@ -90,10 +93,10 @@ float BSP::distance(RigidBody r1, RigidBody r2)
 	
 }
 
-list<RigidBody> BSP::getSameAndLowerLevelChild(Node* child)
+list<RigidBody*> BSP::getSameAndLowerLevelChild(Node* child)
 {
 
-    list<RigidBody> childs = list<RigidBody>();
+    list<RigidBody*> childs = list<RigidBody*>();
     
     if (child->parent == nullptr) return childs;
     
@@ -103,19 +106,19 @@ list<RigidBody> BSP::getSameAndLowerLevelChild(Node* child)
     if (parent->left == child) otherChild = parent->right;
     else otherChild = parent->left;
 
-    vector<RigidBody> bodys = otherChild->bodys; // get and RigidBody list
+    vector<RigidBody*> bodys = otherChild->bodys; // get and RigidBody list
   
     // two case if empty continue get lower in tree than add bodys to childs
     if (bodys.size() == 0) {
 
-        for (RigidBody body : getAllRigidBody(otherChild)) {
+        for (RigidBody* body : getAllRigidBody(otherChild)) {
             childs.push_back(body);
         }
 
 
     }
     else {
-        for (RigidBody body : bodys) {
+        for (RigidBody* body : bodys) {
             childs.push_back(body);
         }
     }
@@ -123,31 +126,31 @@ list<RigidBody> BSP::getSameAndLowerLevelChild(Node* child)
     return childs;
 }
 
-list<RigidBody> BSP::getAllRigidBody(Node* parent)
+list<RigidBody*> BSP::getAllRigidBody(Node* parent)
 {
-    list<RigidBody> childs = list<RigidBody>();
+    list<RigidBody*> childs = list<RigidBody*>();
 
     Node* left = parent->left;
     Node* right = parent->right;
-    left->Display();
+    //left->Display();
     if (parent->bodys.size() != 0) {
-        for (RigidBody body : getAllRigidBody(left)) {
+        for (RigidBody* body : getAllRigidBody(left)) {
             childs.push_back(body);
         }
     }
     else {
-        for (RigidBody body : left->bodys) {
+        for (RigidBody* body : left->bodys) {
             childs.push_back(body);
         }
     }
 
     if (right->bodys.size() == 0) {
-        for (RigidBody body : getAllRigidBody(right)) {
+        for (RigidBody* body : getAllRigidBody(right)) {
             childs.push_back(body);
         }
     }
     else {
-        for (RigidBody body : right->bodys) {
+        for (RigidBody* body : right->bodys) {
             childs.push_back(body);
         }
     }
@@ -159,10 +162,10 @@ list<RigidBody> BSP::getAllRigidBody(Node* parent)
 list<pair<RigidBody*, RigidBody*>> BSP::parcoursPrefixe(Node* root) {
     list<pair<RigidBody*, RigidBody*>> returnValue = list<pair<RigidBody*, RigidBody*>>();
 
-    for (RigidBody rootRigidBodies : root->bodys) {
-        for (RigidBody pairRigidBodies : getSameAndLowerLevelChild(root)) {
-            RigidBody* rootPtr = new RigidBody(rootRigidBodies);
-            RigidBody* pairPtr = new RigidBody(pairRigidBodies);
+    for (RigidBody* rootRigidBodies : root->bodys) {
+        for (RigidBody* pairRigidBodies : getSameAndLowerLevelChild(root)) {
+            RigidBody* rootPtr = rootRigidBodies;
+            RigidBody* pairPtr = pairRigidBodies;
 
             pair<RigidBody*, RigidBody*> pairs = pair<RigidBody*, RigidBody*>(rootPtr, pairPtr);
             returnValue.push_back(pairs);

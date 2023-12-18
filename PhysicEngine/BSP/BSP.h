@@ -12,17 +12,17 @@ class BSP
 {
 public :
 
-	BSP(vector<RigidBody> bodys);
+	BSP(vector<RigidBody*> bodys);
 	Node* order(Node* root, int iteration);
 	list<pair<RigidBody*, RigidBody*>> getPotentialCollision();
 
 private :
 
 	list<pair<RigidBody*, RigidBody*>> parcoursPrefixe(Node* root);
-	std::vector<RigidBody> furthestPoints(const std::vector<RigidBody>& bodys);
-	float distance(RigidBody r1, RigidBody r2);
-	list<RigidBody> getSameAndLowerLevelChild(Node* child);
-	list<RigidBody> getAllRigidBody(Node* parent);
+	std::vector<RigidBody*> furthestPoints(const std::vector<RigidBody*>& bodys);
+	float distance(RigidBody* r1, RigidBody* r2);
+	list<RigidBody*> getSameAndLowerLevelChild(Node* child);
+	list<RigidBody*> getAllRigidBody(Node* parent);
 	Node root;
 
 

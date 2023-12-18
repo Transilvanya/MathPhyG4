@@ -179,6 +179,91 @@ private:
 	}
 
 
+
+	unsigned EdgeAndEdge(
+		const Box& box,
+		const Box& otherbox,
+		Vector3D& point0,
+		Vector3D& point1,
+		Vector3D& axis0,
+		Vector3D& axis1
+	)
+	{
+		RigidCuboid* RBC = (RigidCuboid*)box.body;
+
+
+		float x = RBC->getDX();
+		float y = RBC->getDY();
+		float z = RBC->getDZ();
+
+
+
+
+		float newVal[9]
+		{
+			box.body->GettransformMatrix().getValues(0), box.body->GettransformMatrix().getValues(1), box.body->GettransformMatrix().getValues(2),
+			box.body->GettransformMatrix().getValues(4), box.body->GettransformMatrix().getValues(5), box.body->GettransformMatrix().getValues(6),
+			box.body->GettransformMatrix().getValues(8), box.body->GettransformMatrix().getValues(9), box.body->GettransformMatrix().getValues(10)
+		};
+		Matrice33 rotm(newVal);
+
+		// Transform the point into box coordinates.
+		Vector3D relPt = rotm * (point0 - box.body->getPosition());
+		Vector3D normal;
+		// Check each axis, looking for the axis on which the
+			// penetration is least deep.
+
+		float min_depth = x - abs(relPt.getX());
+		if (min_depth < 0) return 0;
+		normal = RBC->getAxis(0) * ((relPt.getX() < 0) ? -1 : 1);
+
+
+		//std::cout << "y "<< y << "relPT,y "<< abs(relPt.getY()) << "\n";
+
+		float depth = y - abs(relPt.getY());
+		if (depth < 0) return 0;
+		else if ((depth < min_depth && depth > 0) || min_depth == 0)
+		{
+			min_depth = depth;
+			normal = RBC->getAxis(1) * ((relPt.getY() < 0) ? -1 : 1);
+		}
+
+
+		depth = z - abs(relPt.getZ());
+		if (depth < 0) return 0;
+		else if ((depth < min_depth && depth > 0) || min_depth == 0)
+		{
+			min_depth = depth;
+			normal = RBC->getAxis(2) * ((relPt.getZ() < 0) ? -1 : 1);
+		}
+
+
+		// Compile the contact.
+		Contact* contact = new Contact();
+		contact->contactNormal = normal;
+		contact->contactPoint = point0;
+		contact->penetration = min_depth;
+		// Write the appropriate data.
+		contact->rigidbodies.first = box.body;
+		// Note that we don’t know what rigid body the point
+		// belongs to, so we just use NULL. Where this is called
+		// this value can be left, or filled in.
+		contact->rigidbodies.second = otherbox.body;
+		contact->restitution = 1;
+		contact->friction = 1;
+
+
+
+		contacts.push_back(*contact);
+		//std::cout << "contact";
+
+		return 1;
+	}
+
+
+
+
+
 public:
 
 

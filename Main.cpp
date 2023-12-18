@@ -108,16 +108,20 @@ void SetupObject() //sphere sphere
 	
 	GraphicEngine::GetInstance()->CreateSphereText("sphere0", "simpletext", "cattext", 0.6f);
 	GraphicEngine::GetInstance()->CreateSphereText("sphere1", "simpletext", "cattext", 0.6f);
+	GraphicEngine::GetInstance()->CreateSphereText("sphere2", "simpletext", "cattext", 0.6f);
 
 
 	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0),Quaternion(0,1,0,0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB0");
-	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(1, 5, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB1");
-
+	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB0");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0,3, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB1");
+	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(1, 6, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB1");
+	PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(0, 6, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB2");
 
 
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere0"), "entity0");
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB1"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere1"), "entity1");
+	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("sphereRB2"), GraphicEngine::GetInstance()->GetObjectwithTexture("sphere2"), "entity2");
 
 }
 
@@ -184,8 +188,9 @@ void SetupObject4()//box sphere
 	// V error
 	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 100, Vector3D(-2, 0, 0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 1, 0), Vector3D(0, 0, 0), "sphereRB");
 	
-	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 1, Vector3D(2, 0, 0), Vector3D(-1, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+	
 	PhysicEngine::GetInstance()->CreateRigidSphere(1, 1, Vector3D(2, 0, 1), Vector3D(-1, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
+	//PhysicEngine::GetInstance()->CreateRigidSphere(1, 1, Vector3D(1, 0 ,0), Vector3D(0, 1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "sphereRB");
 
 	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 1, Vector3D(0, 2, 0), Vector3D(0, 00, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0.1f, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB", false);
 
@@ -212,7 +217,7 @@ void SetupObject5() //box box
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 5, 1), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 2.5f, 1), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
 	
-	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 5, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
+	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(0, 5, 0), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0.4f), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(1, 5, 1), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
 
 	MainEngine::GetInstance()->CreateEntityRB(PhysicEngine::GetInstance()->GetRigidBody("cuboidRB0"), GraphicEngine::GetInstance()->GetObjectwithTexture("cuboid0"), "entity0");
@@ -237,7 +242,7 @@ void SetupObject6() //box box
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(3, 5, 1), Vector3D(0, -1, 0), Vector3D(0, 0, 0), Quaternion(0, 0, 1, 0), Vector3D(0, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
 	
 	PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(-1, 0, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
-	
+	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(1, 0, 0), Vector3D(0, 0, 0), "cuboidRB1", false);
 
 	//PhysicEngine::GetInstance()->CreateRigidCuboid(2, 1, 2, 100, Vector3D(2, 3, 2), Vector3D(0, 0, 0), Vector3D(0, 0, 0), Quaternion(0, 1, 0, 0), Vector3D(0, 1, 1), Vector3D(0, 0, 0), "cuboidRB1", false);
 
@@ -296,6 +301,9 @@ void DeleteObject()
 
 	GraphicEngine::GetInstance()->RemoveGraphicObject("sphere");
 	PhysicEngine::GetInstance()->RemoveRigidBody("sphereRB");
+
+	GraphicEngine::GetInstance()->RemoveGraphicObject("sphere2");
+	PhysicEngine::GetInstance()->RemoveRigidBody("sphereRB2");
 
 	MainEngine::GetInstance()->RemoveEntityRB("entity2");
 	GraphicEngine::GetInstance()->RemoveGraphicObject("cuboid");
@@ -420,7 +428,7 @@ int main()
 			{
 				SetupObject6();
 			}
-			PhysicEngine::GetInstance()->Integrade(0);
+			PhysicEngine::GetInstance()->UpdateObjects();
 
 			MainEngine::GetInstance()->UpdateEntityPostion();
 		}

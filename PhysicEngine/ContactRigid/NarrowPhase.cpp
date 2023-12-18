@@ -314,52 +314,44 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 
 
 
-	RigidCuboid* RBC = (RigidCuboid*)box.body;
-	RigidSphere* RBS = (RigidSphere*)sphere.body;
+	RigidCuboid* BoxRB = (RigidCuboid*)box.body;
+	RigidSphere* SphRB = (RigidSphere*)sphere.body;
 
-	float x = RBC->getDX();
-	float y = RBC->getDY();
-	float z = RBC->getDZ();
+	float x = BoxRB->getDX();
+	float y = BoxRB->getDY();
+	float z = BoxRB->getDZ();
 
-	Vector3D RBCPos = RBC->getPosition();
+	Vector3D RBCPos = BoxRB->getPosition();
 
-
+	//change 6 and 9 due to coordiante change
 	float newVal[9]
 	{
-		RBC->GettransformMatrix().getValues(0), RBC->GettransformMatrix().getValues(1), RBC->GettransformMatrix().getValues(2),
-		RBC->GettransformMatrix().getValues(4), RBC->GettransformMatrix().getValues(5), RBC->GettransformMatrix().getValues(6),
-		RBC->GettransformMatrix().getValues(8), RBC->GettransformMatrix().getValues(9), RBC->GettransformMatrix().getValues(10)
+		BoxRB->GettransformMatrix().getValues(0), BoxRB->GettransformMatrix().getValues(1), BoxRB->GettransformMatrix().getValues(2),
+		BoxRB->GettransformMatrix().getValues(4), BoxRB->GettransformMatrix().getValues(5), BoxRB->GettransformMatrix().getValues(9),
+		BoxRB->GettransformMatrix().getValues(8), BoxRB->GettransformMatrix().getValues(6), BoxRB->GettransformMatrix().getValues(10)
 	};
 
-	float newVal2[9]
-	{
-		RBC->GettransformMatrix().getValues(0), RBC->GettransformMatrix().getValues(1), RBC->GettransformMatrix().getValues(2),
-		RBC->GettransformMatrix().getValues(4), RBC->GettransformMatrix().getValues(5), RBC->GettransformMatrix().getValues(9),
-		RBC->GettransformMatrix().getValues(8), RBC->GettransformMatrix().getValues(6), RBC->GettransformMatrix().getValues(10)
-	};
-
-	Matrice33 m(newVal);
-	Matrice33 m2(newVal2);
+	Matrice33 RotBox(newVal);
 
 	Vector3D listpoints[8] =
 	{
-		m2*(Vector3D(x , y, z)),
-		m2*(Vector3D(x , y, -z)),
-		m2*(Vector3D(x , -y, z)),
-		m2*(Vector3D(x , -y, -z)),
-		m2*(Vector3D(-x ,y , z)),
-		m2*(Vector3D(-x ,y , -z)),
-		m2*(Vector3D(-x ,-y , z)),
-		m2*(Vector3D(-x ,-y , -z))
+		RotBox*(Vector3D(x , y, z)),
+		RotBox*(Vector3D(x , y, -z)),
+		RotBox*(Vector3D(x , -y, z)),
+		RotBox*(Vector3D(x , -y, -z)),
+		RotBox*(Vector3D(-x ,y , z)),
+		RotBox*(Vector3D(-x ,y , -z)),
+		RotBox*(Vector3D(-x ,-y , z)),
+		RotBox*(Vector3D(-x ,-y , -z))
 	};
 
-	Vector3D relCenter = m*(RBS->getPosition() - RBC->getPosition());
+	Vector3D relCenter = RotBox *(SphRB->getPosition() - BoxRB->getPosition());
 
 	
 	// Early-out check to see if we can exclude the contact.
-	if (abs(relCenter.getX()) - RBS->getRadius() > x ||
-		abs(relCenter.getY()) - RBS->getRadius() > y ||
-		abs(relCenter.getZ()) - RBS->getRadius() > z)
+	if (abs(relCenter.getX()) - SphRB->getRadius() > x ||
+		abs(relCenter.getY()) - SphRB->getRadius() > y ||
+		abs(relCenter.getZ()) - SphRB->getRadius() > z)
 	{
 		return 0;
 	}
@@ -388,15 +380,15 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 	// Check we’re in contact.
 	dist = tempvect.getX() * tempvect.getX() + tempvect.getY() * tempvect.getY() + tempvect.getZ() * tempvect.getZ();
 
-	if (dist > RBS->getRadius() * RBS->getRadius()) return 0;
+	if (dist > SphRB->getRadius() * SphRB->getRadius()) return 0;
 
 	//Compile the contact.
-	Vector3D closestPtWorld = closestPt + RBCPos;
+	Vector3D closestPtWorld = RotBox * closestPt + RBCPos;
 	Contact* contact = new Contact();
 
 	//contact->contactNormal = (RBS->getPosition() - closestPtWorld);
 	
-	Vector3D normal = RBS->getPosition() - closestPtWorld;
+	Vector3D normal = SphRB->getPosition() - closestPtWorld;
 
 	
 
@@ -406,7 +398,7 @@ unsigned NarrowPhase::boxAndSphere(const Box& box, const Sphere& sphere)
 	contact->contactNormal = normal;
 	
 	contact->contactPoint = closestPtWorld;
-	contact->penetration = RBS->getRadius() - sqrt(dist);
+	contact->penetration = SphRB->getRadius() - sqrt(dist);
 	// Write the appropriate data.
 	contact->rigidbodies.first = box.body;
 	contact->rigidbodies.second = sphere.body;
@@ -610,11 +602,13 @@ unsigned NarrowPhase::boxAndBox(const Box& firstBox, const Box& secondBox)
 	}
 
 	//std::cout << "\t\tend\n";
-
+	
 
 
 	//Check for Edge Edge
 
+	// normal contact is produit vection des deux axes a * b,
+	// interpenetration is distance entre 2 axe
 
 
 	return 1;

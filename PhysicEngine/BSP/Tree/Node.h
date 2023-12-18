@@ -14,13 +14,13 @@ public:
     void setParent(Node* _parent);
     void setLeftChild(Node* leftChild);
     void setRightChild(Node* rightChild);
-    void addRigidBody(RigidBody r);
-    void addRigidBodys(std::vector<RigidBody> _bodys);
+    void addRigidBody(RigidBody* r);
+    void addRigidBodys(std::vector<RigidBody*> _bodys);
 
     Node* parent;
     Node* right;
     Node* left;
-    std::vector<RigidBody> bodys;
+    std::vector<RigidBody*> bodys;
 
     void Display();
 };
