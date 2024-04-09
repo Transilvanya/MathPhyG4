@@ -1,5 +1,6 @@
 # MathPhyG4
  Travail du groupe g4 en mathématique et physique pour le jeux video
+ Objectif création d'un moteur phyisque dans le cadre d'un cours pour l'UQAC
 
 
  Inlude Directories : 
